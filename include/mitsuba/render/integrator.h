@@ -9,6 +9,7 @@
 #include <mitsuba/core/vector.h>
 #include <mitsuba/render/fwd.h>
 #include <mitsuba/render/imageblock.h>
+#include <mitsuba/render/histogram.h>
 #include <mitsuba/render/interaction.h>
 #include <mitsuba/render/records.h>
 #include <mitsuba/render/scene.h>
@@ -223,10 +224,10 @@ protected:
 };
 
 template <typename Float, typename Spectrum>
-class MTS_EXPORT_RENDER TimeDependentIntegrator : public Integrator<Float, Spectrum> {
+class MTS_EXPORT_RENDER TimeDependentIntegrator : public SamplingIntegrator<Float, Spectrum> {
 public:
-    MTS_IMPORT_BASE(Integrator)
-    MTS_IMPORT_TYPES(Scene, Sensor, Film, ImageBlock, Medium, Sampler)
+    MTS_IMPORT_BASE(SamplingIntegrator)
+    MTS_IMPORT_TYPES(Scene, Sensor, Film, Histogram, Medium, Sampler)
 
     bool render(Scene *scene, Sensor *sensor) override;
 
@@ -243,4 +244,5 @@ protected:
 MTS_EXTERN_CLASS_RENDER(Integrator)
 MTS_EXTERN_CLASS_RENDER(SamplingIntegrator)
 MTS_EXTERN_CLASS_RENDER(MonteCarloIntegrator)
+MTS_EXTERN_CLASS_RENDER(TimeDependentIntegrator)
 NAMESPACE_END(mitsuba)
