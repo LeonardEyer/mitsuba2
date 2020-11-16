@@ -19,6 +19,7 @@ foreach (MTS_VARIANT ${MTS_VARIANTS})
     film_v.cpp
     fresnel_v.cpp
     imageblock_v.cpp
+    histogram_v.cpp
     interaction_v.cpp
     integrator_v.cpp
     medium_v.cpp

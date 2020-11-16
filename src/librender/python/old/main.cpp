@@ -12,6 +12,7 @@ MTS_PY_DECLARE(Sensor);
 MTS_PY_DECLARE(BSDFSample);
 MTS_PY_DECLARE(BSDF);
 MTS_PY_DECLARE(ImageBlock);
+MTS_PY_DECLARE(Histogram);
 MTS_PY_DECLARE(Film);
 MTS_PY_DECLARE(Spiral);
 MTS_PY_DECLARE(Integrator);
@@ -44,6 +45,7 @@ PYBIND11_MODULE(mitsuba_render_ext, m_) {
     MTS_PY_IMPORT(BSDFSample);
     MTS_PY_IMPORT(BSDF);
     MTS_PY_IMPORT(ImageBlock);
+    MTS_PY_IMPORT(Histogram);
     MTS_PY_IMPORT(Film);
     MTS_PY_IMPORT(Spiral);
     MTS_PY_IMPORT(Integrator);
