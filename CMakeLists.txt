@@ -3,6 +3,8 @@ cmake_minimum_required (VERSION 3.9.0)
 project(mitsuba)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/resources")
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # ---------- Setup mitsuba.conf ----------
 
 if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/mitsuba.conf)
