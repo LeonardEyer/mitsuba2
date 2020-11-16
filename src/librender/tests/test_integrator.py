@@ -27,6 +27,7 @@ def make_integrator(kind, xml=""):
 
 scene_i = 0
 
+
 def _save(film, int_name, suffix=''):
     """Quick utility to save rendered scenes for debugging."""
     global scene_i
