@@ -222,6 +222,24 @@ protected:
     int m_rr_depth;
 };
 
+template <typename Float, typename Spectrum>
+class MTS_EXPORT_RENDER TimeDependentIntegrator : public Integrator<Float, Spectrum> {
+public:
+    MTS_IMPORT_BASE(Integrator)
+    MTS_IMPORT_TYPES(Scene, Sensor, Film, ImageBlock, Medium, Sampler)
+
+    bool render(Scene *scene, Sensor *sensor) override;
+
+protected:
+    TimeDependentIntegrator(const Properties &props);
+
+    virtual ~TimeDependentIntegrator();
+
+    MTS_DECLARE_CLASS()
+protected:
+    float m_max_time;
+};
+
 MTS_EXTERN_CLASS_RENDER(Integrator)
 MTS_EXTERN_CLASS_RENDER(SamplingIntegrator)
 MTS_EXTERN_CLASS_RENDER(MonteCarloIntegrator)

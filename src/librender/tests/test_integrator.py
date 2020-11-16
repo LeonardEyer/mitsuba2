@@ -16,6 +16,7 @@ integrators = [
     ]
 ]
 
+
 def make_integrator(kind, xml=""):
     from mitsuba.core.xml import load_string
     integrator = load_string("<integrator version='2.0.0' type='%s'>"
@@ -25,6 +26,7 @@ def make_integrator(kind, xml=""):
 
 
 scene_i = 0
+
 
 def _save(film, int_name, suffix=''):
     """Quick utility to save rendered scenes for debugging."""

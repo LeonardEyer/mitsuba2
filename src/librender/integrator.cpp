@@ -317,11 +317,115 @@ MTS_VARIANT MonteCarloIntegrator<Float, Spectrum>::MonteCarloIntegrator(const Pr
 
 MTS_VARIANT MonteCarloIntegrator<Float, Spectrum>::~MonteCarloIntegrator() { }
 
+// -----------------------------------------------------------------------------
+
+MTS_VARIANT TimeDependentIntegrator<Float, Spectrum>::TimeDependentIntegrator(const Properties &props)
+    : Base(props) {
+    m_max_time = props.float_("max_time", 1.0f);
+
+    if (m_max_time <= 0)
+        Throw("\"max_time\" must be set to a value greater than zero!");
+
+}
+
+MTS_VARIANT bool TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
+    ScopedPhase sp(ProfilerPhase::Render);
+
+    ref<Film> film           = sensor->film();
+    ScalarVector2i film_size = film->crop_size();
+
+    size_t total_spp = sensor->sampler()->sample_count();
+
+    std::vector<std::string> channels = aov_names();
+    bool has_aovs                     = !channels.empty();
+
+    // Insert default channels and set up the film
+    for (size_t i = 0; i < 5; ++i)
+        channels.insert(channels.begin() + i, std::string(1, "XYZAW"[i]));
+    film->prepare(channels);
+
+    m_render_timer.reset();
+    if constexpr (!is_cuda_array_v<Float>) {
+        /// Render on the CPU using a spiral pattern
+        size_t n_threads = __global_thread_count;
+        Log(Info, "Starting render job (%ix%i, %i sample%s,%s %i thread%s)",
+            film_size.x(), film_size.y(), total_spp, total_spp == 1 ? "" : "s",
+            n_passes > 1 ? tfm::format(" %d passes,", n_passes) : "", n_threads,
+            n_threads == 1 ? "" : "s");
+
+        if (m_timeout > 0.f)
+            Log(Info, "Timeout specified: %.2f seconds.", m_timeout);
+
+        // Find a good block size to use for splitting up the total workload.
+        if (m_block_size == 0) {
+            uint32_t block_size = MTS_BLOCK_SIZE;
+            while (true) {
+                if (block_size == 1 || hprod((film_size + block_size - 1) /
+                                             block_size) >= n_threads)
+                    break;
+                block_size /= 2;
+            }
+            m_block_size = block_size;
+        }
+
+        Spiral spiral(film, m_block_size, n_passes);
+
+        ThreadEnvironment env;
+        ref<ProgressReporter> progress = new ProgressReporter("Rendering");
+        std::mutex mutex;
+
+        // Total number of blocks to be handled, including multiple passes.
+        size_t total_blocks = spiral.block_count() * n_passes, blocks_done = 0;
+
+        tbb::parallel_for(
+            tbb::blocked_range<size_t>(0, total_blocks, 1),
+            [&](const tbb::blocked_range<size_t> &range) {
+                ScopedSetThreadEnvironment set_env(env);
+                ref<Sampler> sampler = sensor->sampler()->clone();
+                ref<ImageBlock> block =
+                    new ImageBlock(m_block_size, channels.size(),
+                                   film->reconstruction_filter(), !has_aovs);
+                scoped_flush_denormals flush_denormals(true);
+                std::unique_ptr<Float[]> aovs(new Float[channels.size()]);
+
+                // For each block
+                for (auto i = range.begin(); i != range.end() && !should_stop();
+                     ++i) {
+                    auto [offset, size, block_id] = spiral.next_block();
+                    Assert(hprod(size) != 0);
+                    block->set_size(size);
+                    block->set_offset(offset);
+
+                    render_block(scene, sensor, sampler, block, aovs.get(),
+                                 samples_per_pass, block_id);
+
+                    film->put(block);
+
+                    /* Critical section: update progress bar */ {
+                        std::lock_guard<std::mutex> lock(mutex);
+                        blocks_done++;
+                        progress->update(blocks_done /
+                                         (ScalarFloat) total_blocks);
+                    }
+                }
+            });
+
+        if (!m_stop)
+            Log(Info, "Rendering finished. (took %s)",
+                util::time_string(m_render_timer.value(), true));
+
+        return !m_stop;
+    }
+}
+
+
 MTS_IMPLEMENT_CLASS_VARIANT(Integrator, Object, "integrator")
 MTS_IMPLEMENT_CLASS_VARIANT(SamplingIntegrator, Integrator)
 MTS_IMPLEMENT_CLASS_VARIANT(MonteCarloIntegrator, SamplingIntegrator)
+MTS_IMPLEMENT_CLASS_VARIANT(TimeDependentIntegrator, Integrator)
 
 MTS_INSTANTIATE_CLASS(Integrator)
 MTS_INSTANTIATE_CLASS(SamplingIntegrator)
 MTS_INSTANTIATE_CLASS(MonteCarloIntegrator)
+MTS_INSTANTIATE_CLASS(TimeDependentIntegrator)
 NAMESPACE_END(mitsuba)
