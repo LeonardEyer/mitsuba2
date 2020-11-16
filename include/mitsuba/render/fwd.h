@@ -150,7 +150,7 @@ template <typename Float_, typename Spectrum_> struct RenderAliases {
     using PhaseFunction          = typename RenderAliases::PhaseFunction;                          \
     using Film                   = typename RenderAliases::Film;                                   \
     using ImageBlock             = typename RenderAliases::ImageBlock;                             \
-    using Histogram              = typename RenderAliases::Histogram;                              \                                                                                               \
+    using Histogram              = typename RenderAliases::Histogram;                              \
     using ReconstructionFilter   = typename RenderAliases::ReconstructionFilter;                   \
     using Texture                = typename RenderAliases::Texture;                                \
     using Volume                 = typename RenderAliases::Volume;                                 \
