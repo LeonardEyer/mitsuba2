@@ -2783,6 +2783,9 @@ static const char *__doc_mitsuba_ImageBlock_warn_negative = R"doc(Warn when writ
 
 static const char *__doc_mitsuba_ImageBlock_width = R"doc(Return the bitmap's width in pixels)doc";
 
+static const char *__doc_mitsuba_Histogram =
+    R"doc(TODO: HISTOGRAM DOCSTRING)doc";
+
 static const char *__doc_mitsuba_Integrator =
 R"doc(Abstract integrator base class, which does not make any assumptions
 with regards to how radiance is computed.
