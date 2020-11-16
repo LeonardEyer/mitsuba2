@@ -10,6 +10,8 @@ NAMESPACE_BEGIN(mitsuba)
 template <typename Float, typename Spectrum>
 class MTS_EXPORT_RENDER Histogram : public Object {
 public:
+    Histogram();
+
     std::string to_string() const override;
 
     MTS_DECLARE_CLASS()

@@ -2,6 +2,10 @@
 
 NAMESPACE_BEGIN(mitsuba)
 
+MTS_VARIANT Histogram<Float, Spectrum>::Histogram() {}
+
+MTS_VARIANT Histogram<Float, Spectrum>::~Histogram() { }
+
 MTS_VARIANT std::string Histogram<Float, Spectrum>::to_string() const {
     std::ostringstream oss;
     oss << "Histogram[" << std::endl
