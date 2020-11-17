@@ -140,6 +140,11 @@
         "spectrum": "Spectrum<Float, 4>"
     },
 
+    "scalar_spectral8": {
+            "float": "float",
+            "spectrum": "Spectrum<Float, 8>"
+    },
+
     "scalar_spectral_double": {
         "float": "double",
         "spectrum": "Spectrum<Float, 4>"
