@@ -46,6 +46,12 @@ public:
     /// Return the count of recordable time steps
     int time_step_count() { return m_time_step_count; }
 
+    /// Return the underlying spectrum buffer
+    DynamicBuffer<Float> &data() { return m_data; }
+
+    /// Return the underlying spectrum buffer (const version)
+    const DynamicBuffer<Float> &data() const { return m_data; }
+
     //! @}
     // =============================================================
 
@@ -59,7 +65,7 @@ protected:
 protected:
     int m_channel_count;
     int m_time_step_count;
-    DynamicBuffer<Spectrum> m_data;
+    DynamicBuffer<Float> m_data;
 };
 
 MTS_EXTERN_CLASS_RENDER(Histogram)
