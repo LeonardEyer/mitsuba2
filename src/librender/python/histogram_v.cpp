@@ -11,5 +11,6 @@ MTS_PY_EXPORT(Histogram) {
         .def_method(Histogram, clear)
         .def_method(Histogram, channel_count)
         .def_method(Histogram, time_step_count)
+        .def("data", py::overload_cast<>(&Histogram::data, py::const_), D(Histogram, data));
         ;
 }
