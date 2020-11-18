@@ -2789,6 +2789,10 @@ static const char *__doc_mitsuba_Histogram_put = R"doc(TODO: HISTOGRAM 'PUT' DOC
 
 static const char *__doc_mitsuba_Histogram_clear = R"doc(Clear everything to zero.)doc";
 
+static const char *__doc_mitsuba_Histogram_data = R"doc(Return the underlying spectrum buffer)doc";
+
+static const char *__doc_mitsuba_Histogram_data_2 = R"doc(Return the underlying spectrum buffer (const version))doc";
+
 static const char *__doc_mitsuba_Histogram_channel_count = R"doc(Return the number of channels stored)doc";
 
 static const char *__doc_mitsuba_Histogram_time_step_count = R"doc(Return the count of recordable time steps)doc";
