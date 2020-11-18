@@ -64,7 +64,27 @@ def test02_put_values_basic(variant_scalar_spectral):
     check_value(hist, spectrum)
 
 
-def test03_put_values_basic_accumulate(variant_scalar_spectral):
+def test03_put_values_basic_masked(variant_scalar_spectral):
+    from mitsuba.render import Histogram
+    from mitsuba.core import Mask, Spectrum
+
+    hist = Histogram(channel_count=4, time_step_count=10)
+
+    spectrum = np.random.uniform(size=(10, 4))
+
+    mask = np.random.uniform(size=(10,)) > 0.3
+
+    hist.clear()
+
+    for i in range(10):
+        hist.put(i, spectrum[i], not mask[i])
+
+    spectrum[mask] = 0.
+
+    check_value(hist, spectrum)
+
+
+def test04_put_values_basic_accumulate(variant_scalar_spectral):
     from mitsuba.render import Histogram
     from mitsuba.core import Mask, Spectrum
 
@@ -86,7 +106,7 @@ def test03_put_values_basic_accumulate(variant_scalar_spectral):
     check_value(hist, spectrum_accum)
 
 
-def test04_put_8d_values_basic(variant_scalar_spectral8):
+def test05_put_8d_values_basic(variant_scalar_spectral8):
     from mitsuba.render import Histogram
     from mitsuba.core import Mask
 
@@ -98,5 +118,20 @@ def test04_put_8d_values_basic(variant_scalar_spectral8):
 
     for i in range(10):
         hist.put(i, spectrum[i])
+
+    check_value(hist, spectrum)
+
+
+def test06_put_packets_basic(variant_packet_spectral):
+    from mitsuba.render import Histogram
+    from mitsuba.core import Mask
+
+    hist = Histogram(channel_count=4, time_step_count=10)
+
+    spectrum = np.random.uniform(size=(10, 4))
+
+    hist.clear()
+
+    hist.put(np.arange(10), spectrum)
 
     check_value(hist, spectrum)
