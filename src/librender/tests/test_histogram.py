@@ -157,7 +157,7 @@ def test04_put_values_basic_accumulate(variant_scalar_spectral):
     check_value(hist, time, wavelength, spectrum)
 
 
-def test06_put_packets_basic(variant_packet_spectral):
+def test05_put_packets_basic(variant_packet_spectral):
     from mitsuba.render import Histogram
 
     hist = Histogram(bin_count=4, time_step_count=10, wav_range=[0, 10], time_range=[0, 10])
