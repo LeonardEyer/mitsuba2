@@ -1,17 +1,19 @@
 #include <mitsuba/render/histogram.h>
 
-
 NAMESPACE_BEGIN(mitsuba)
 
 MTS_VARIANT Histogram<Float, Spectrum>::Histogram(size_t channel_count,
-                                                  size_t time_step_count, ScalarPoint2f range)
-    : m_bin_count(channel_count), m_time_step_count(time_step_count), m_range(range) {
+                                                  size_t time_step_count,
+                                                  ScalarPoint2f wav_range,
+                                                  ScalarPoint2f time_range)
+    : m_bin_count(channel_count), m_time_step_count(time_step_count),
+      m_wav_range(wav_range), m_time_range(time_range) {
 
-    if (range.y() < range.x()) {
+    if (wav_range.y() < wav_range.x() or time_range.y() < time_range.x()) {
         Throw("Histogram: lower bound of range must be smaller than upper");
     }
-    if (any(range < 0.f)) {
-        Throw("Histogram: only positive wavelength range allowed");
+    if (any(wav_range < 0.f) or any(time_range < 0.f)) {
+        Throw("Histogram: only positive wavelength/time range allowed");
     }
 
     // Allocate empty buffer
@@ -19,37 +21,25 @@ MTS_VARIANT Histogram<Float, Spectrum>::Histogram(size_t channel_count,
 }
 
 MTS_VARIANT typename Histogram<Float, Spectrum>::Mask
-Histogram<Float, Spectrum>::put(const UInt32 &time_step,
+Histogram<Float, Spectrum>::put(const Float &time_step,
                                 const Wavelength &wavelengths,
                                 const Spectrum &value, Mask active) {
     size_t max = m_time_step_count;
-    UInt32 offset = (time_step * m_bin_count);
-    Mask enabled = active && all(time_step >= 0u && time_step < max);
+    UInt32 discrete_time_step =
+        discretize(time_step, m_time_range, m_time_step_count);
+    UInt32 offset = (discrete_time_step * m_bin_count);
+
+    Mask enabled = active && all(time_step >= m_time_range[0] &&
+                                 time_step < m_time_range[1]);
 
     for (size_t i = 0; i < value.size(); ++i) {
         Float lambda = wavelengths[i];
-        UInt32 bidx = bin_index(lambda);
+        UInt32 bidx  = discretize(lambda, m_wav_range, m_bin_count);
         scatter_add(m_data, value[i], offset + bidx, enabled);
     }
 
     return enabled;
 }
-
-
-/*MTS_VARIANT typename Histogram<Float, Spectrum>::Mask
-Histogram<Float, Spectrum>::put(const UInt32 &time_step, const Spectrum &value,
-                                Mask active) {
-
-    size_t max = m_time_step_count;
-    UInt32 offset = (time_step * m_channel_count);
-    Mask enabled = active && all(time_step >= 0u && time_step < max);
-
-    for (size_t i = 0; i < m_channel_count; ++i) {
-        scatter_add(m_data, value[i], offset + i, enabled);
-    }
-
-    return enabled;
-}*/
 
 MTS_VARIANT void Histogram<Float, Spectrum>::clear() {
     size_t size = m_time_step_count * m_bin_count;
@@ -64,8 +54,10 @@ MTS_VARIANT Histogram<Float, Spectrum>::~Histogram() {}
 MTS_VARIANT std::string Histogram<Float, Spectrum>::to_string() const {
     std::ostringstream oss;
     oss << "Histogram[" << std::endl
-        << "  channel_count = " << m_bin_count << "," << std::endl
+        << "  bin_count = " << m_bin_count << "," << std::endl
         << "  time_step_count = " << m_time_step_count << "," << std::endl
+        << "  wav_range = " << m_wav_range << "," << std::endl
+        << "  time_range = " << m_time_range << "," << std::endl
         << "]";
     return oss.str();
 }
