@@ -2722,9 +2722,33 @@ static const char *__doc_mitsuba_ImageBlock_warn_negative = R"doc(Warn when writ
 
 static const char *__doc_mitsuba_ImageBlock_width = R"doc(Return the bitmap's width in pixels)doc";
 
-static const char *__doc_mitsuba_Histogram = R"doc(TODO: HISTOGRAM DOCSTRING)doc";
+static const char *__doc_mitsuba_Histogram = R"doc(Construct a new histogram for the logging of wavelengths over time
 
-static const char *__doc_mitsuba_Histogram_put = R"doc(TODO: HISTOGRAM 'PUT' DOCSTRING)doc";
+Parameter ``bin_count``:
+    discretize wavelengths into this many bins
+
+Parameter ``time_step_count``:
+    discretize time into this many bins
+
+Parameter ``wav_range``:
+    the wavelength range to be recorded
+
+Parameter ``time_range``:
+    the time range to be recorded)doc";
+
+static const char *__doc_mitsuba_Histogram_put = R"doc(Insert Wavelength samples with corresponding time indices
+
+Parameter ``time_step``:
+    Recorded time of this sample
+
+Parameter ``wavelength``:
+    The sampled wavelengths
+
+Parameter ``value``:
+    Intensity value for this wavelength
+
+Returns:
+    ``False`` if the sample was invalid. E.g not in range or NaN.)doc";
 
 static const char *__doc_mitsuba_Histogram_clear = R"doc(Clear everything to zero.)doc";
 
@@ -2732,9 +2756,13 @@ static const char *__doc_mitsuba_Histogram_data = R"doc(Return the underlying sp
 
 static const char *__doc_mitsuba_Histogram_data_2 = R"doc(Return the underlying spectrum buffer (const version))doc";
 
-static const char *__doc_mitsuba_Histogram_channel_count = R"doc(Return the number of channels stored)doc";
+static const char *__doc_mitsuba_Histogram_bin_count = R"doc(Return the number of stored bins)doc";
 
 static const char *__doc_mitsuba_Histogram_time_step_count = R"doc(Return the count of recordable time steps)doc";
+
+static const char *__doc_mitsuba_Histogram_wav_range = R"doc(Return the wavelength range this histogram is recording)doc";
+
+static const char *__doc_mitsuba_Histogram_time_range = R"doc(Return the time range this histogram is recording)doc";
 
 static const char *__doc_mitsuba_Histogram_to_string = R"doc(//! @})doc";
 
