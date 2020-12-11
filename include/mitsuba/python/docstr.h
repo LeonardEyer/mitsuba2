@@ -2797,6 +2797,17 @@ Parameter ``wav_range``:
 Parameter ``time_range``:
     the time range to be recorded)doc";
 
+static const char *__doc_mitsuba_Histogram_2 = R"doc(Construct a new histogram for the logging of wavelengths over time using predefined wavelength bins
+
+Parameter ``time_step_count``:
+    discretize time into this many bins
+
+Parameter ``time_range``:
+    the time range to be recorded
+
+Parameter ``wavelength_bins``:
+    array of bins we want to log the wavelengths in)doc";
+
 static const char *__doc_mitsuba_Histogram_put = R"doc(Insert Wavelength samples with corresponding time indices
 
 Parameter ``time_step``:
@@ -2824,6 +2835,8 @@ static const char *__doc_mitsuba_Histogram_time_step_count = R"doc(Return the co
 static const char *__doc_mitsuba_Histogram_wav_range = R"doc(Return the wavelength range this histogram is recording)doc";
 
 static const char *__doc_mitsuba_Histogram_time_range = R"doc(Return the time range this histogram is recording)doc";
+
+static const char *__doc_mitsuba_Histogram_wavelength_bins = R"doc(// Return the predefined wavelength bins )doc";
 
 static const char *__doc_mitsuba_Histogram_to_string = R"doc(//! @})doc";
 
