@@ -12,7 +12,7 @@ def get_vals(hist):
     return np.array(hist.data(), copy=False).reshape([hist.time_step_count(), hist.bin_count()])
 
 
-def put_check(hist, time, wav, spec):
+def put_check(hist, time, wav, spec, bins=None):
     """
     The expected method we want in c++
     """
@@ -27,8 +27,10 @@ def put_check(hist, time, wav, spec):
     h_nbins = hist.bin_count()
     h_ntime = hist.time_step_count()
 
-    # Define the bins and calculate indices
-    bins = [i * (h_wav_size / h_nbins) + h_wav_range[0] for i in range(h_nbins)]
+    if bins is None:
+        # Define the bins and calculate indices
+        bins = [i * (h_wav_size / h_nbins) + h_wav_range[0] for i in range(h_nbins)]
+
     bin_ids = np.digitize(wav, bins).astype(int)
 
     time_bins = [i * (h_time_size / h_ntime) + h_time_range[0] for i in range(h_ntime)]
@@ -39,16 +41,25 @@ def put_check(hist, time, wav, spec):
     for i, t in enumerate(time):
         row = bin_ids[i]
         time_idx = time_bin_ids[i]
-        for j, b in enumerate(row):
-            total[time_idx - 1][b - 1] += spec[i, j]
+
+        # Skip invalid time/bin
+        if np.logical_or(time_idx <= 0, time_idx > h_ntime).any() \
+                or np.logical_or(row <= 0, row > h_nbins).any():
+            continue
+        for j, bin_idx in enumerate(row):
+            total[time_idx - 1][bin_idx - 1] += spec[i, j]
 
     return total
 
 
-def check_value(hist, time, wav, spec, atol=1e-9):
+def check_value(hist, time, wav, spec, bins=None, atol=1e-9):
     vals = get_vals(hist)
-    check = put_check(hist, time, wav, spec)
+    check = put_check(hist, time, wav, spec, bins)
 
+    print(vals)
+    print(check)
+
+    # Correct structure
     assert np.allclose(vals, check, atol=atol)
 
 
@@ -72,6 +83,7 @@ def test01_construct(variant_scalar_rgb):
     assert hist.time_step_count() == 1000
     assert hist.wav_range() == [0, 10]
     assert hist.time_range() == [3, 15]
+    assert hist.wavelength_bins() == []
 
     hist = Histogram(bin_count=45, time_step_count=2, wav_range=[12, 300], time_range=[0, 4])
 
@@ -79,6 +91,13 @@ def test01_construct(variant_scalar_rgb):
     assert hist.time_step_count() == 2
     assert hist.wav_range() == [12, 300]
     assert hist.time_range() == [0, 4]
+    assert hist.wavelength_bins() == []
+
+    hist = Histogram(time_step_count=2, time_range=[0, 4], wavelength_bins=[100, 200, 300])
+
+    assert hist.wavelength_bins() == [100, 200, 300]
+    assert hist.wav_range() == [100, 300]
+    assert hist.bin_count() == 2
 
     # Test invalid construction parameters
     with pytest.raises(RuntimeError):
@@ -171,3 +190,56 @@ def test05_put_packets_basic(variant_packet_spectral):
     hist.put(time, wavelengths, spectrum)
 
     check_value(hist, time, wavelengths, spectrum)
+
+
+def test06_put_values_preset_bins(variant_scalar_spectral):
+    from mitsuba.render import Histogram
+
+    hist = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=[0, 5, 10])
+
+    spectrum = np.ones(shape=(5, 4))
+    wavelength = np.linspace(0, 10, 20).reshape(5, 4)
+    time = np.arange(4)
+
+    hist.clear()
+
+    for i in time:
+        hist.put(i, wavelength[i], spectrum[i])
+
+    check_value(hist, time, wavelength, spectrum, bins=[0, 5, 10])
+
+
+def test07_put_packet_preset_bins(variant_packet_spectral):
+    from mitsuba.render import Histogram
+
+    hist = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=[0, 5, 10])
+
+    spectrum = np.random.uniform(size=(10, 4))
+    wavelength = np.random.uniform(0, 10, size=(10, 4))
+    time = np.random.uniform(0, 10, size=(10,))
+
+    hist.clear()
+
+    hist.put(time, wavelength, spectrum)
+
+    check_value(hist, time, wavelength, spectrum, bins=[0, 5, 10])
+
+
+def test08_put_values_invalid_preset_bins(variant_scalar_spectral):
+    from mitsuba.render import Histogram
+
+    hist = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=[0, 5, 10])
+
+    spectrum = np.ones(shape=(10, 4))
+    wavelength = np.linspace(0, 20, 40).reshape(10, 4)  # Not within wavelength range
+    time = np.arange(-5, 5)  # Not within time range
+
+    hist.clear()
+
+    for i, t in enumerate(time):
+        enabled = hist.put(t, wavelength[i], spectrum[i])
+
+        if t not in range(5) or np.logical_or(wavelength[i] < 0, wavelength[i] < 10).any():
+            assert not enabled
+
+    check_value(hist, time, wavelength, spectrum, bins=[0, 5, 10])
