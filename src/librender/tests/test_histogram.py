@@ -243,3 +243,42 @@ def test08_put_values_invalid_preset_bins(variant_scalar_spectral):
             assert not enabled
 
     check_value(hist, time, wavelength, spectrum, bins=[0, 5, 10])
+
+
+def test09_put_histogram_basic(variant_scalar_spectral):
+    from mitsuba.render import Histogram
+
+    hist = Histogram(bin_count=4, time_step_count=10, wav_range=[0, 10], time_range=[0, 10])
+    hist2 = Histogram(bin_count=4, time_step_count=10, wav_range=[0, 10], time_range=[0, 10])
+
+    spectrum = np.random.uniform(size=(10, 4))
+    wavelength = np.random.uniform(0, 10, size=(10, 4))
+
+    hist.clear()
+    hist2.clear()
+
+    for i in range(10):
+        hist.put(i, wavelength[i], spectrum[i])
+
+    hist2.put(hist)
+
+    check_value(hist2, np.arange(10), wavelength, spectrum)
+
+
+def test09_put_packet_histogram_basic(variant_packet_spectral):
+    from mitsuba.render import Histogram
+
+    hist = Histogram(bin_count=4, time_step_count=10, wav_range=[0, 10], time_range=[0, 10])
+    hist2 = Histogram(bin_count=4, time_step_count=10, wav_range=[0, 10], time_range=[0, 10])
+
+    spectrum = np.random.uniform(size=(10, 4))
+    wavelength = np.random.uniform(0, 10, size=(10, 4))
+    time = np.arange(10)
+
+    hist.clear()
+    hist2.clear()
+
+    hist.put(time, wavelength, spectrum)
+    hist2.put(hist)
+
+    check_value(hist2, time, wavelength, spectrum)

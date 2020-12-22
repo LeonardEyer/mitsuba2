@@ -1,4 +1,5 @@
 #include <mitsuba/render/histogram.h>
+#include <mitsuba/core/profiler.h>
 
 NAMESPACE_BEGIN(mitsuba)
 
@@ -35,6 +36,8 @@ MTS_VARIANT typename Histogram<Float, Spectrum>::Mask
 Histogram<Float, Spectrum>::put(const Float &time_step,
                                 const Wavelength &wavelengths,
                                 const Spectrum &value, Mask active) {
+    ScopedPhase sp(ProfilerPhase::HistogramPut);
+
     UInt32 discrete_time_step =
         discretize(time_step, m_time_range, m_time_step_count);
     UInt32 offset = (discrete_time_step * m_bin_count);
@@ -58,6 +61,17 @@ Histogram<Float, Spectrum>::put(const Float &time_step,
 
     return enabled;
 }
+
+MTS_VARIANT void Histogram<Float, Spectrum>::put(const Histogram *hist) {
+    ScopedPhase sp(ProfilerPhase::HistogramPut);
+
+    /*if (likely(hist->bin_count() != bin_count())) {
+        return;
+    }*/
+    m_data = hist->data();
+
+}
+
 
 MTS_VARIANT void Histogram<Float, Spectrum>::clear() {
     size_t size = m_time_step_count * m_bin_count;
