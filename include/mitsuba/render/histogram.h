@@ -67,6 +67,12 @@ public:
     Mask put(const Float &time_step, const Wavelength &wavelength,
              const Spectrum &value, Mask active = true);
 
+    /**
+     * For now we simply overwrite the storage
+     * In the future it could be beneficial to be able to merge histograms
+     */
+    void put(const Histogram * hist);
+
     /// Clear everything to zero.
     void clear();
 
