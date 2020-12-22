@@ -322,16 +322,82 @@ MTS_VARIANT MonteCarloIntegrator<Float, Spectrum>::~MonteCarloIntegrator() { }
 MTS_VARIANT TimeDependentIntegrator<Float, Spectrum>::TimeDependentIntegrator(const Properties &props)
     : Base(props) {
     m_max_time = props.float_("max_time", 1.0f);
+    m_time_steps = props.int_("time_steps", 1);
 
     if (m_max_time <= 0)
         Throw("\"max_time\" must be set to a value greater than zero!");
+
+    if (m_time_steps <= 0)
+        Throw("\"time_steps\" must be set to a value greater than zero!");
+
+    std::vector<std::string> wavelengths_str =
+        string::tokenize(props.string("wavelength_bins"), " ,");
+
+    m_wavelength_bins.reserve(wavelengths_str.size());
+
+    for (auto &o: wavelengths_str){
+        try {
+            ScalarFloat wav = std::stod(o);
+            m_wavelength_bins.push_back(wav);
+        } catch (...) {
+            Throw("Could not parse floating point value '%s'", o);
+        }
+    }
 
 }
 
 MTS_VARIANT TimeDependentIntegrator<Float, Spectrum>::~TimeDependentIntegrator() { }
 
+MTS_VARIANT std::pair<Spectrum, typename TimeDependentIntegrator<Float, Spectrum>::Mask>
+TimeDependentIntegrator<Float, Spectrum>::sample(const Scene * /* scene */,
+                                            Sampler * /* sampler */,
+                                            const RayDifferential3f & /* ray */,
+                                            const Medium * /* medium */,
+                                            Float * /* aovs */,
+                                            Mask /* active */) const {
+    NotImplementedError("sample");
+}
+
 MTS_VARIANT bool TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
-    Throw("\"render\" not implemented");
+    ScopedPhase sp(ProfilerPhase::Render);
+
+    ref<Sampler> sampler = sensor->sampler()->clone();
+
+    size_t total_spp        = sensor->sampler()->sample_count();
+    size_t samples_per_pass = (m_samples_per_pass == (size_t) -1)
+                              ? total_spp : std::min((size_t) m_samples_per_pass, total_spp);
+    if ((total_spp % samples_per_pass) != 0)
+        Throw("sample_count (%d) must be a multiple of samples_per_pass (%d).",
+              total_spp, samples_per_pass);
+
+    size_t n_passes = (total_spp + samples_per_pass - 1) / samples_per_pass;
+
+    ref<Histogram> hist = new Histogram(m_time_steps, {0, m_max_time}, m_wavelength_bins);
+    hist->clear();
+
+    Mask active = true;
+
+    for (size_t i = 0; i < n_passes; ++i) {
+        Vector2f position_sample = sampler->next_2d(active);
+
+        Point2f aperture_sample(.5f);
+        if (sensor->needs_aperture_sample())
+            aperture_sample = sampler->next_2d(active);
+
+        Float time = sensor->shutter_open();
+        if (sensor->shutter_open_time() > 0.f)
+            time += sampler->next_1d(active) * sensor->shutter_open_time();
+
+        Float wavelength_sample = sampler->next_1d(active);
+
+        auto [ray, ray_weight] = sensor->sample_ray_differential(time, wavelength_sample, position_sample, aperture_sample);
+
+        std::pair<Spectrum, Mask> result = sample(scene, sampler, ray, nullptr, nullptr, active);
+
+        hist->put(ray.time, ray.wavelengths, result.first, result.second);
+    }
+
+    return true;
 }
 
 

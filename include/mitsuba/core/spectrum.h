@@ -20,6 +20,18 @@ NAMESPACE_BEGIN(mitsuba)
 #  define MTS_WAVELENGTH_MAX 830.f
 #endif
 
+#if !defined(MTS_AUDIBLE_WAVELENGTH_MIN)
+#  define MTS_AUDIBLE_WAVELENGTH_MIN 0.017
+#endif
+
+#if !defined(AUDIBLE_WAVELENGTH_MAX)
+#  define MTS_AUDIBLE_WAVELENGTH_MAX 17
+#endif
+
+#if !defined(MTS_SOUND_SPEED)
+#  define MTS_SOUND_SPEED 343
+#endif
+
 // =======================================================================
 //! @{ \name Data types for RGB data
 // =======================================================================

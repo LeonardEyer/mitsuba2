@@ -224,13 +224,19 @@ protected:
 };
 
 template <typename Float, typename Spectrum>
-class MTS_EXPORT_RENDER TimeDependentIntegrator : public SamplingIntegrator<Float, Spectrum> {
+class MTS_EXPORT_RENDER TimeDependentIntegrator : public MonteCarloIntegrator<Float, Spectrum> {
 public:
-    MTS_IMPORT_BASE(SamplingIntegrator)
+    MTS_IMPORT_BASE(MonteCarloIntegrator, m_max_depth, m_rr_depth, m_samples_per_pass)
     MTS_IMPORT_TYPES(Scene, Sensor, Film, Histogram, Medium, Sampler)
 
     bool render(Scene *scene, Sensor *sensor) override;
 
+    virtual std::pair<Spectrum, Mask> sample(const Scene *scene,
+                                             Sampler *sampler,
+                                             const RayDifferential3f &ray,
+                                             const Medium *medium = nullptr,
+                                             Float *aovs = nullptr,
+                                             Mask active = true) const;
 protected:
     TimeDependentIntegrator(const Properties &props);
 
@@ -239,6 +245,8 @@ protected:
     MTS_DECLARE_CLASS()
 protected:
     float m_max_time;
+    size_t m_time_steps;
+    std::vector<ScalarFloat> m_wavelength_bins;
 };
 
 MTS_EXTERN_CLASS_RENDER(Integrator)
