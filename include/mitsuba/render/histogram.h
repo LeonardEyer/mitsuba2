@@ -16,8 +16,8 @@ NAMESPACE_BEGIN(mitsuba)
  */
 template <typename Float, typename Spectrum>
 class MTS_EXPORT_RENDER Histogram : public Object {
-    MTS_IMPORT_TYPES()
 public:
+    MTS_IMPORT_TYPES()
     /**
      * Construct a new histogram for the logging of wavelengths over time
      *
@@ -66,6 +66,12 @@ public:
      */
     Mask put(const Float &time_step, const Wavelength &wavelength,
              const Spectrum &value, Mask active = true);
+
+    /**
+     * For now we simply overwrite the storage
+     * In the future it could be beneficial to be able to merge histograms
+     */
+    void put(const Histogram * hist);
 
     /// Clear everything to zero.
     void clear();

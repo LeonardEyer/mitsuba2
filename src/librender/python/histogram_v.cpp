@@ -15,8 +15,9 @@ MTS_PY_EXPORT(Histogram) {
              vectorize(py::overload_cast<const Float &, const Wavelength &,
                                          const Spectrum &, mask_t<Float>>(
                  &Histogram::put)),
-             "time_step"_a, "wavelengths"_a, "value"_a, "active"_a = true,
-             D(Histogram, put))
+             "time_step"_a, "wavelengths"_a, "value"_a, "active"_a = true)
+        .def("put", py::overload_cast<const Histogram *>(&Histogram::put),
+             "hist"_a)
         .def_method(Histogram, clear)
         .def_method(Histogram, bin_count)
         .def_method(Histogram, time_step_count)

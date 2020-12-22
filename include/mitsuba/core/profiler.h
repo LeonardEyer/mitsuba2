@@ -28,6 +28,7 @@ enum class ProfilerPhase : int {
     RayIntersect,               /* Scene::ray_intersect() */
     CreateSurfaceInteraction,   /* KDTree::create_surface_interaction() */
     ImageBlockPut,              /* ImageBlock::put() */
+    HistogramPut,               /* Histogram::put() */
     BSDFEvaluate,               /* BSDF::eval() and BSDF::pdf() */
     BSDFSample,                 /* BSDF::sample() */
     PhaseFunctionEvaluate,      /* PhaseFunction::eval() and PhaseFunction::pdf() */
@@ -57,6 +58,7 @@ constexpr const char
         "Scene::ray_intersect()",
         "KDTree::create_surface_interaction()",
         "ImageBlock::put()",
+        "Histogram::put()",
         "BSDF::eval(), pdf()",
         "BSDF::sample()",
         "PhaseFunction::eval(), pdf()",
