@@ -362,6 +362,8 @@ MTS_VARIANT bool TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, 
     ScopedPhase sp(ProfilerPhase::Render);
 
     ref<Sampler> sampler = sensor->sampler()->clone();
+    ref<Film> film = sensor->film();
+    ScalarVector2i film_size = film->crop_size();
 
     size_t total_spp        = sensor->sampler()->sample_count();
     size_t samples_per_pass = (m_samples_per_pass == (size_t) -1)
@@ -396,6 +398,10 @@ MTS_VARIANT bool TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, 
 
         hist->put(ray.time, ray.wavelengths, result.first, result.second);
     }
+
+    std::vector<std::string> channels;
+    film->prepare(channels);
+    //film->put(hist);
 
     return true;
 }
