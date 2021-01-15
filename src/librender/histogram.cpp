@@ -39,7 +39,7 @@ Histogram<Float, Spectrum>::put(const Float &time_step,
     ScopedPhase sp(ProfilerPhase::HistogramPut);
 
     UInt32 discrete_time_step =
-        discretize(time_step, m_time_range, m_time_step_count);
+        discretize_linear(time_step, m_time_range, m_time_step_count);
     UInt32 offset = (discrete_time_step * m_bin_count);
 
     Mask enabled =
@@ -52,9 +52,7 @@ Histogram<Float, Spectrum>::put(const Float &time_step,
         Float val    = value[i];
         UInt32 bidx;
 
-        bidx = m_wavelength_bins.empty()
-                   ? discretize(lambda, m_wav_range, m_bin_count)
-                   : discretize_preset_bins(lambda, m_wavelength_bins);
+        bidx = discretize_preset_bins(lambda, m_wavelength_bins);
 
         scatter_add(m_data, val, offset + bidx, enabled);
     }

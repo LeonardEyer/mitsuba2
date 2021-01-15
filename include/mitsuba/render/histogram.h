@@ -18,21 +18,6 @@ template <typename Float, typename Spectrum>
 class MTS_EXPORT_RENDER Histogram : public Object {
 public:
     MTS_IMPORT_TYPES()
-    /**
-     * Construct a new histogram for the logging of wavelengths over time
-     *
-     * \param bin_count
-     *    discretize wavelengths into this many bins
-     * \param time_step_count
-     *    discretize time into this many bins
-     * \param wav_range
-     *    the wavelength range to be recorded
-     * \param time_range
-     *    the time range to be recorded
-     *
-     */
-    Histogram(size_t bin_count, size_t time_step_count,
-              const ScalarPoint2f &wav_range, const ScalarPoint2f &time_range);
 
     /**
      * Construct a new histogram for the logging of wavelengths over time
@@ -107,19 +92,37 @@ public:
     std::string to_string() const override;
 
     MTS_DECLARE_CLASS()
+private:
+    /**
+     * Delegate constructor.
+     * Construct a new histogram for the logging of wavelengths over time
+     *
+     * \param bin_count
+     *    discretize wavelengths into this many bins
+     * \param time_step_count
+     *    discretize time into this many bins
+     * \param wav_range
+     *    the wavelength range to be recorded
+     * \param time_range
+     *    the time range to be recorded
+     *
+     */
+    Histogram(size_t bin_count, size_t time_step_count,
+              const ScalarPoint2f &wav_range, const ScalarPoint2f &time_range);
+
 protected:
     /// Virtual destructor
     virtual ~Histogram();
 
     /**
-     * Compute the bin index of this value. This is needed for the
-     * discretization of the different wavelength and time bins
+     * Compute the bin index of this value after linear discretization.
+     * This is needed for the binning of time.
      *
      * \param value
      *    The value to be discretizied
      *
      */
-    UInt32 discretize(const Float value, const ScalarPoint2f range,
+    UInt32 discretize_linear(const Float value, const ScalarPoint2f range,
                       ssize_t n_steps) {
         const float bin_size    = range.y() - range.x();
         const float discretizer = bin_size / n_steps;
@@ -128,7 +131,7 @@ protected:
     }
 
     /**
-     * Compute the bin index of this value given an array of preset bins
+     * Compute the bin index of this value given an array of preset bins.
      * \param value
      *      The value to be discretized
      * \param preset_bins

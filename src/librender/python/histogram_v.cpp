@@ -4,9 +4,6 @@
 MTS_PY_EXPORT(Histogram) {
     MTS_PY_IMPORT_TYPES(Histogram)
     MTS_PY_CLASS(Histogram, Object)
-        .def(py::init<size_t, size_t, const ScalarPoint2f &,
-                      const ScalarPoint2f &>(),
-             "bin_count"_a, "time_step_count"_a, "wav_range"_a, "time_range"_a)
         .def(py::init<size_t, const ScalarPoint2f &,
                       const std::vector<float> &>(),
              "time_step_count"_a, "time_range"_a, "wavelength_bins"_a,

@@ -624,3 +624,24 @@ if (MITSUBA_COPIED_CONFIG_FILE)
           "file. You will probably want to edit this file to specify the "
           "desired configurations before starting to compile.${ColorReset}")
 endif()
+
+find_program(DOT_EXE "dot")
+if(DOT_EXE)
+  message(STATUS "dot found: ${DOT_EXE}")
+else()
+  message(STATUS "dot not found!")
+endif()
+
+if(DOT_EXE)
+  add_custom_target(dependency-graph
+          COMMAND ${CMAKE_COMMAND} ${CMAKE_SOURCE_DIR} --graphviz=${CMAKE_BINARY_DIR}/graphviz/${PROJECT_NAME}.dot
+          COMMAND ${DOT_EXE} -Tpng ${CMAKE_BINARY_DIR}/graphviz/${PROJECT_NAME}.dot -o ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.png
+          )
+
+  add_custom_command(
+          TARGET dependency-graph POST_BUILD
+          COMMAND ;
+          COMMENT
+          "Dependency graph generated and located at ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.png"
+  )
+endif()
