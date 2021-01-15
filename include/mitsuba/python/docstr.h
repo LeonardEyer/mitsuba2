@@ -2244,6 +2244,8 @@ static const char *__doc_mitsuba_Film_Film = R"doc(Create a film)doc";
 
 static const char *__doc_mitsuba_Film_bitmap = R"doc(Return a bitmap object storing the developed contents of the film)doc";
 
+static const char *__doc_mitsuba_Film_raw = R"doc(Return the underlying raw buffer)doc";
+
 static const char *__doc_mitsuba_Film_class = R"doc()doc";
 
 static const char *__doc_mitsuba_Film_crop_offset = R"doc(Return the offset of the crop window)doc";
@@ -2285,6 +2287,9 @@ static const char *__doc_mitsuba_Film_m_size = R"doc()doc";
 static const char *__doc_mitsuba_Film_prepare = R"doc(Configure the film for rendering a specified set of channels)doc";
 
 static const char *__doc_mitsuba_Film_put = R"doc(Merge an image block into the film)doc";
+
+static const char *__doc_mitsuba_Film_put_2 =
+    R"doc(Merge an histogram into the film.)doc";
 
 static const char *__doc_mitsuba_Film_reconstruction_filter = R"doc(Return the image reconstruction filter (const version))doc";
 
@@ -2722,21 +2727,7 @@ static const char *__doc_mitsuba_ImageBlock_warn_negative = R"doc(Warn when writ
 
 static const char *__doc_mitsuba_ImageBlock_width = R"doc(Return the bitmap's width in pixels)doc";
 
-static const char *__doc_mitsuba_Histogram = R"doc(Construct a new histogram for the logging of wavelengths over time
-
-Parameter ``bin_count``:
-    discretize wavelengths into this many bins
-
-Parameter ``time_step_count``:
-    discretize time into this many bins
-
-Parameter ``wav_range``:
-    the wavelength range to be recorded
-
-Parameter ``time_range``:
-    the time range to be recorded)doc";
-
-static const char *__doc_mitsuba_Histogram_2 = R"doc(Construct a new histogram for the logging of wavelengths over time using predefined wavelength bins
+static const char *__doc_mitsuba_Histogram = R"doc(Construct a new histogram for the logging of wavelengths over time using predefined wavelength bins
 
 Parameter ``time_step_count``:
     discretize time into this many bins

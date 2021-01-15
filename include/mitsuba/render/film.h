@@ -20,13 +20,16 @@ NAMESPACE_BEGIN(mitsuba)
 template <typename Float, typename Spectrum>
 class MTS_EXPORT_RENDER Film : public Object {
 public:
-    MTS_IMPORT_TYPES(ImageBlock, ReconstructionFilter)
+    MTS_IMPORT_TYPES(ImageBlock, Histogram, ReconstructionFilter)
 
     /// Configure the film for rendering a specified set of channels
     virtual void prepare(const std::vector<std::string> &channels) = 0;
 
     /// Merge an image block into the film. This methods should be thread-safe.
     virtual void put(const ImageBlock *block) = 0;
+
+    /// Merge an histogram into the film.
+    virtual void put(const Histogram *hist) = 0;
 
     /// Develop the film and write the result to the previously specified filename
     virtual void develop() = 0;
@@ -48,6 +51,9 @@ public:
 
     /// Return a bitmap object storing the developed contents of the film
     virtual ref<Bitmap> bitmap(bool raw = false) = 0;
+
+    /// Return the underlying raw buffer
+    virtual DynamicBuffer<Float> &raw() = 0;
 
     /// Set the target filename (with or without extension)
     virtual void set_destination_file(const fs::path &filename) = 0;

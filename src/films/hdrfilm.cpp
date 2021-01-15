@@ -6,6 +6,7 @@
 #include <mitsuba/render/film.h>
 #include <mitsuba/render/fwd.h>
 #include <mitsuba/render/imageblock.h>
+#include <mitsuba/render/histogram.h>
 
 #include <mutex>
 
@@ -95,7 +96,7 @@ template <typename Float, typename Spectrum>
 class HDRFilm final : public Film<Float, Spectrum> {
 public:
     MTS_IMPORT_BASE(Film, m_size, m_crop_size, m_crop_offset, m_high_quality_edges, m_filter)
-    MTS_IMPORT_TYPES(ImageBlock)
+    MTS_IMPORT_TYPES(ImageBlock, Histogram)
 
     HDRFilm(const Properties &props) : Base(props) {
         std::string file_format = string::to_lower(
@@ -208,6 +209,10 @@ public:
         m_storage->put(block);
     }
 
+    void put(const Histogram *hist) override {
+        return;
+    }
+
     bool develop(const ScalarPoint2i  &source_offset,
                  const ScalarVector2i &size,
                  const ScalarPoint2i  &target_offset,
@@ -318,6 +323,10 @@ public:
 
         return target;
      };
+
+  virtual DynamicBuffer<Float> &raw() override {
+      return m_storage->data();
+  }
 
     void develop() override {
         if (m_dest_file.empty())

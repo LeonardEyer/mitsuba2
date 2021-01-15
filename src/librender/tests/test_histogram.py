@@ -77,21 +77,21 @@ def test01_construct(variant_scalar_rgb):
     from mitsuba.core.xml import load_string
     from mitsuba.render import Histogram
 
-    hist = Histogram(bin_count=10, time_step_count=1000, wav_range=[0, 10], time_range=[3, 15])
+    hist = Histogram(time_step_count=1000, time_range=[3, 15], wavelength_bins=np.linspace(0, 10, 10))
 
-    assert hist.bin_count() == 10
+    assert hist.bin_count() == 9
     assert hist.time_step_count() == 1000
     assert hist.wav_range() == [0, 10]
     assert hist.time_range() == [3, 15]
-    assert hist.wavelength_bins() == []
+    assert np.allclose(hist.wavelength_bins(), np.linspace(0, 10, 10))
 
-    hist = Histogram(bin_count=45, time_step_count=2, wav_range=[12, 300], time_range=[0, 4])
+    hist = Histogram(time_step_count=2, time_range=[0, 4], wavelength_bins=np.linspace(12, 300, 45))
 
-    assert hist.bin_count() == 45
+    assert hist.bin_count() == 44
     assert hist.time_step_count() == 2
     assert hist.wav_range() == [12, 300]
     assert hist.time_range() == [0, 4]
-    assert hist.wavelength_bins() == []
+    assert np.allclose(hist.wavelength_bins(), np.linspace(12, 300, 45))
 
     hist = Histogram(time_step_count=2, time_range=[0, 4], wavelength_bins=[100, 200, 300])
 
@@ -101,22 +101,22 @@ def test01_construct(variant_scalar_rgb):
 
     # Test invalid construction parameters
     with pytest.raises(RuntimeError):
-        Histogram(bin_count=45, time_step_count=2, wav_range=[300, 10], time_range=[0, 4])
+        Histogram(time_step_count=2, time_range=[0, 4], wavelength_bins=[1, 0])
 
     with pytest.raises(RuntimeError):
-        Histogram(bin_count=45, time_step_count=2, wav_range=[-300, 10], time_range=[0, 4])
+        Histogram(time_step_count=2, time_range=[0, 4], wavelength_bins=[-300, 10])
 
     with pytest.raises(RuntimeError):
-        Histogram(bin_count=45, time_step_count=2, wav_range=[300, 10], time_range=[6, 4])
+        Histogram(time_step_count=2, time_range=[6, 4], wavelength_bins=[0, 1])
 
     with pytest.raises(RuntimeError):
-        Histogram(bin_count=45, time_step_count=2, wav_range=[-300, 10], time_range=[-1, 4])
+        Histogram(time_step_count=2, time_range=[-1, 4], wavelength_bins=[0, 1])
 
 
 def test02_put_values_basic(variant_scalar_spectral):
     from mitsuba.render import Histogram
 
-    hist = Histogram(bin_count=5, time_step_count=10, wav_range=[5, 15], time_range=[0, 10])
+    hist = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=np.linspace(5, 15, 5))
 
     # Sample wavelengths from centered gaussian
     wavelength = np.random.normal(loc=10, scale=2, size=(10, 4))
@@ -141,7 +141,7 @@ def test02_put_values_basic(variant_scalar_spectral):
 def test03_put_values_basic_masked(variant_scalar_spectral):
     from mitsuba.render import Histogram
 
-    hist = Histogram(bin_count=4, time_step_count=10, wav_range=[0, 10], time_range=[0, 10])
+    hist = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=np.linspace(0, 10, 5))
 
     spectrum = np.random.uniform(size=(10, 4))
     wavelength = np.random.uniform(0, 10, size=(10, 4))
@@ -161,7 +161,7 @@ def test03_put_values_basic_masked(variant_scalar_spectral):
 def test04_put_values_basic_accumulate(variant_scalar_spectral):
     from mitsuba.render import Histogram
 
-    hist = Histogram(bin_count=4, time_step_count=5, wav_range=[0, 10], time_range=[0, 5])
+    hist = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=np.linspace(0, 10, 5))
 
     spectrum = np.random.uniform(size=(20, 4))
     wavelength = np.random.uniform(0, 10, size=(20, 4))
@@ -179,7 +179,7 @@ def test04_put_values_basic_accumulate(variant_scalar_spectral):
 def test05_put_packets_basic(variant_packet_spectral):
     from mitsuba.render import Histogram
 
-    hist = Histogram(bin_count=4, time_step_count=10, wav_range=[0, 10], time_range=[0, 10])
+    hist = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=np.linspace(0, 10, 5))
 
     spectrum = np.random.uniform(size=(10, 4))
     wavelengths = np.random.uniform(0, 10, size=(10, 4))
@@ -248,8 +248,8 @@ def test08_put_values_invalid_preset_bins(variant_scalar_spectral):
 def test09_put_histogram_basic(variant_scalar_spectral):
     from mitsuba.render import Histogram
 
-    hist = Histogram(bin_count=4, time_step_count=10, wav_range=[0, 10], time_range=[0, 10])
-    hist2 = Histogram(bin_count=4, time_step_count=10, wav_range=[0, 10], time_range=[0, 10])
+    hist = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=[0, 10, 5])
+    hist2 = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=[0, 10, 5])
 
     spectrum = np.random.uniform(size=(10, 4))
     wavelength = np.random.uniform(0, 10, size=(10, 4))
