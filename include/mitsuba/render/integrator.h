@@ -230,9 +230,14 @@ public:
 
     bool render(Scene *scene, Sensor *sensor) override;
 
+    /**
+     * Not that this method overloads sample such that ray is no longer
+     * const. We need this so we can access the updated time property of a ray
+     * when storing the result.
+     */
     virtual std::pair<Spectrum, Mask> sample(const Scene *scene,
                                              Sampler *sampler,
-                                             const RayDifferential3f &ray,
+                                             RayDifferential3f &ray,
                                              const Medium *medium = nullptr,
                                              Float *aovs = nullptr,
                                              Mask active = true) const;
@@ -240,6 +245,13 @@ protected:
     TimeDependentIntegrator(const Properties &props);
 
     virtual ~TimeDependentIntegrator();
+
+    void render_sample(const Scene *scene,
+                       const Sensor *sensor,
+                       Sampler *sampler,
+                       Histogram *hist,
+                       ScalarFloat diff_scale_factor,
+                       Mask active = true) const;
 
     MTS_DECLARE_CLASS()
 protected:

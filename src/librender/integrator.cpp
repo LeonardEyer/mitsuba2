@@ -332,11 +332,11 @@ MTS_VARIANT TimeDependentIntegrator<Float, Spectrum>::~TimeDependentIntegrator()
 
 MTS_VARIANT std::pair<Spectrum, typename TimeDependentIntegrator<Float, Spectrum>::Mask>
 TimeDependentIntegrator<Float, Spectrum>::sample(const Scene * /* scene */,
-                                            Sampler * /* sampler */,
-                                            const RayDifferential3f & /* ray */,
-                                            const Medium * /* medium */,
-                                            Float * /* aovs */,
-                                            Mask /* active */) const {
+                                                 Sampler * /* sampler */,
+                                                 RayDifferential3f & /* ray */,
+                                                 const Medium * /* medium */,
+                                                 Float * /* aovs */,
+                                                 Mask /* active */) const {
     NotImplementedError("sample");
 }
 
@@ -347,45 +347,57 @@ MTS_VARIANT bool TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, 
     ref<Film> film = sensor->film();
     ScalarVector2i film_size = film->crop_size();
 
-    size_t total_spp        = sensor->sampler()->sample_count();
-    size_t samples_per_pass = (m_samples_per_pass == (size_t) -1)
-                              ? total_spp : std::min((size_t) m_samples_per_pass, total_spp);
-    if ((total_spp % samples_per_pass) != 0)
-        Throw("sample_count (%d) must be a multiple of samples_per_pass (%d).",
-              total_spp, samples_per_pass);
-
-    size_t n_passes = (total_spp + samples_per_pass - 1) / samples_per_pass;
+    size_t spp = sensor->sampler()->sample_count();
+    size_t bin_count = m_wavelength_bins.size();
 
     ref<Histogram> hist = new Histogram(m_time_steps, {0, m_max_time}, m_wavelength_bins);
     hist->clear();
 
     Mask active = true;
 
-    for (size_t i = 0; i < n_passes; ++i) {
-        Vector2f position_sample = sampler->next_2d(active);
+    ScalarFloat diff_scale_factor = rsqrt((ScalarFloat) sampler->sample_count());
 
-        Point2f aperture_sample(.5f);
-        if (sensor->needs_aperture_sample())
-            aperture_sample = sampler->next_2d(active);
-
-        Float time = sensor->shutter_open();
-        if (sensor->shutter_open_time() > 0.f)
-            time += sampler->next_1d(active) * sensor->shutter_open_time();
-
-        Float wavelength_sample = sampler->next_1d(active);
-
-        auto [ray, ray_weight] = sensor->sample_ray_differential(time, wavelength_sample, position_sample, aperture_sample);
-
-        std::pair<Spectrum, Mask> result = sample(scene, sampler, ray, nullptr, nullptr, active);
-
-        hist->put(ray.time, ray.wavelengths, result.first, result.second);
+    // Simulate each frequency band and time step times spp
+    for (size_t i = 0; i < m_time_steps * bin_count; ++i) {
+        sampler->seed(i);
+        for (size_t j = 0; j < spp ; ++j) {
+            render_sample(scene, sensor, sampler, hist, diff_scale_factor, active);
+        }
     }
 
     std::vector<std::string> channels;
     film->prepare(channels);
-    //film->put(hist);
+    film->put(hist);
 
     return true;
+}
+
+MTS_VARIANT void
+TimeDependentIntegrator<Float, Spectrum>::render_sample(const Scene *scene,
+                                                   const Sensor *sensor,
+                                                   Sampler *sampler,
+                                                   Histogram *hist,
+                                                   ScalarFloat diff_scale_factor,
+                                                   Mask active) const {
+
+    Vector2f position_sample = sampler->next_2d(active);
+
+    Point2f aperture_sample(.5f);
+    if (sensor->needs_aperture_sample())
+        aperture_sample = sampler->next_2d(active);
+
+    Float time = sensor->shutter_open();
+    if (sensor->shutter_open_time() > 0.f)
+        time += sampler->next_1d(active) * sensor->shutter_open_time();
+
+    Float wavelength_sample = sampler->next_1d(active);
+
+    auto [ray, ray_weight] = sensor->sample_ray_differential(time, wavelength_sample, position_sample, aperture_sample);
+
+    std::pair<Spectrum, Mask> result = sample(scene, sampler, ray, nullptr, nullptr, active);
+
+    hist->put(ray.time, ray.wavelengths, result.first, result.second);
+    sampler->advance();
 }
 
 
