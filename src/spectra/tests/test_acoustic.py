@@ -4,6 +4,7 @@ import mitsuba
 import pytest
 import enoki as ek
 import numpy as np
+import matplotlib.pyplot as plt
 
 MTS_SOUND_SPEED = 343
 
@@ -47,5 +48,7 @@ def test02_sample_fractional_oct(variant_scalar_spectral):
 
     si = SurfaceInteraction3f()
 
-    assert ek.allclose(obj.sample_spectrum(si, 0)[0], 0.01532125)
-    assert ek.allclose(obj.sample_spectrum(si, 1)[0], 15.32124721)
+    assert ek.allclose(obj.sample_spectrum(si, 0.0)[0], 0.01532125)
+    assert ek.allclose(obj.sample_spectrum(si, 0.5)[0], 0.4845)
+    assert ek.allclose(obj.sample_spectrum(si, 1.0)[0], 15.32124721)
+
