@@ -116,7 +116,8 @@ public:
             std::transform(m_values.begin(), m_values.end(), m_values.begin(),
                            [norm](auto &&x) {
                                return std::divides()(
-                                   norm, std::forward<decltype(x)>(x));
+                                   std::forward<decltype(x)>(x),
+                                   norm);
                            });
         }
         // ********************************************************************
