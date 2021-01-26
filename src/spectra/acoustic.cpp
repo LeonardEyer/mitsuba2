@@ -53,6 +53,9 @@ public:
         bool has_wavs = props.has_property("wavelengths");
         auto str      = has_wavs ? "wavelengths" : "frequencies";
 
+        // Are the supplied values for absorption or reflectance?
+        bool absorption = props.bool_("absorption", true);
+
         if (props.has_property(str)) {
 
             std::vector<std::string> wavelengths_str =
@@ -81,7 +84,9 @@ public:
                           wavelengths_str[i]);
                 }
                 try {
-                    m_values.push_back((ScalarFloat) std::stod(values_str[i]));
+                    auto v = (ScalarFloat) std::stod(values_str[i]);
+                    v = absorption ? 1 - v : v;
+                    m_values.push_back(v);
                 } catch (...) {
                     Throw("Could not parse floating point value '%s'",
                           values_str[i]);
