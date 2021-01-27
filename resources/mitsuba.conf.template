@@ -137,6 +137,11 @@
         "spectrum": "Spectrum<Float, 4>"
     },
 
+    "scalar_acoustic": {
+            "float": "float",
+            "spectrum": "Spectrum<Float, 1>"
+    },
+
     "scalar_spectral8": {
             "float": "float",
             "spectrum": "Spectrum<Float, 8>"
