@@ -13,11 +13,13 @@
 NAMESPACE_BEGIN(mitsuba)
 
 #if !defined(MTS_WAVELENGTH_MIN)
-#  define MTS_WAVELENGTH_MIN 360.f
+#  define MTS_WAVELENGTH_MIN 0.017f
+//#  define MTS_WAVELENGTH_MIN 360.f
 #endif
 
 #if !defined(MTS_WAVELENGTH_MAX)
-#  define MTS_WAVELENGTH_MAX 830.f
+#  define MTS_WAVELENGTH_MAX 17.f
+//#  define MTS_WAVELENGTH_MAX 830.f
 #endif
 
 #if !defined(MTS_AUDIBLE_WAVELENGTH_MIN)
