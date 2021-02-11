@@ -231,9 +231,10 @@ public:
     bool render(Scene *scene, Sensor *sensor) override;
 
     /**
-     * Not that this method overloads sample such that ray is no longer
+     * NOTE: that this method overloads sample such that ray is no longer
      * const. We need this so we can access the updated time property of a ray
      * when storing the result.
+     * TODO: It would probably be better to use AOVs for that
      */
     virtual std::pair<Spectrum, Mask> sample(const Scene *scene,
                                              Sampler *sampler,
@@ -246,17 +247,24 @@ protected:
 
     virtual ~TimeDependentIntegrator();
 
+    void render_band(const Scene *scene,
+                const Sensor *sensor,
+                Sampler *sampler,
+                Histogram *hist,
+                size_t sample_count_,
+                size_t band_id) const;
+
     void render_sample(const Scene *scene,
                        const Sensor *sensor,
                        Sampler *sampler,
                        Histogram *hist,
                        ScalarFloat diff_scale_factor,
+                       const Wavelength &wav = -1.f,
                        Mask active = true) const;
 
     MTS_DECLARE_CLASS()
 protected:
     float m_max_time;
-    size_t m_time_steps;
     std::vector<ScalarFloat> m_wavelength_bins;
 };
 
