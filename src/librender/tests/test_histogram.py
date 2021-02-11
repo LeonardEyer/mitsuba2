@@ -40,11 +40,17 @@ def put_check(hist, time, wav, spec, bins=None):
     total = np.zeros(shape=(h_ntime, h_nbins))
     for i, t in enumerate(time):
         row = bin_ids[i]
+
         time_idx = time_bin_ids[i]
 
         # Skip invalid time/bin
         if np.logical_or(time_idx <= 0, time_idx > h_ntime).any() \
                 or np.logical_or(row <= 0, row > h_nbins).any():
+            continue
+
+            # Safety for mono variant
+        if not isinstance(row, list):
+            total[time_idx - 1][row - 1] += spec[i]
             continue
         for j, bin_idx in enumerate(row):
             total[time_idx - 1][bin_idx - 1] += spec[i, j]
@@ -56,8 +62,8 @@ def check_value(hist, time, wav, spec, bins=None, atol=1e-9):
     vals = get_vals(hist)
     check = put_check(hist, time, wav, spec, bins)
 
-    print(vals)
-    print(check)
+    print("What we got:\n", vals)
+    print("What we want:\n", check)
 
     # Correct structure
     assert np.allclose(vals, check, atol=atol)
@@ -73,7 +79,7 @@ def plot_hist(hist):
     plt.show()
 
 
-def test01_construct(variant_scalar_rgb):
+def test01_construct(variant_scalar_acoustic):
     from mitsuba.core.xml import load_string
     from mitsuba.render import Histogram
 
@@ -113,20 +119,20 @@ def test01_construct(variant_scalar_rgb):
         Histogram(time_step_count=2, time_range=[-1, 4], wavelength_bins=[0, 1])
 
 
-def test02_put_values_basic(variant_scalar_spectral):
+def test02_put_values_basic(variant_scalar_acoustic):
     from mitsuba.render import Histogram
 
     hist = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=np.linspace(5, 15, 5))
 
     # Sample wavelengths from centered gaussian
-    wavelength = np.random.normal(loc=10, scale=2, size=(10, 4))
+    wavelength = np.random.normal(loc=10, scale=2, size=10)
 
     # Cut off bottom and top
     wavelength[wavelength < 5] = 5
     wavelength[wavelength > 14] = 14
 
-    # Generate some decreasing rows
-    spectrum = (np.tile(np.arange(10, 0, -1), (4, 1)) * np.arange(1, 5)[np.newaxis].transpose()).transpose()
+    # Generate a decreasing row
+    spectrum = np.arange(10, 0, -1)
 
     # Setup histogram
     hist.clear()
@@ -138,13 +144,13 @@ def test02_put_values_basic(variant_scalar_spectral):
     check_value(hist, np.arange(10), wavelength, spectrum)
 
 
-def test03_put_values_basic_masked(variant_scalar_spectral):
+def test03_put_values_basic_masked(variant_scalar_acoustic):
     from mitsuba.render import Histogram
 
     hist = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=np.linspace(0, 10, 5))
 
-    spectrum = np.random.uniform(size=(10, 4))
-    wavelength = np.random.uniform(0, 10, size=(10, 4))
+    spectrum = np.random.uniform(size=(10,))
+    wavelength = np.random.uniform(0, 10, size=(10,))
 
     mask = np.random.uniform(size=(10,)) > 0.3
 
@@ -158,13 +164,13 @@ def test03_put_values_basic_masked(variant_scalar_spectral):
     check_value(hist, np.arange(10), wavelength, spectrum)
 
 
-def test04_put_values_basic_accumulate(variant_scalar_spectral):
+def test04_put_values_basic_accumulate(variant_scalar_acoustic):
     from mitsuba.render import Histogram
 
     hist = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=np.linspace(0, 10, 5))
 
-    spectrum = np.random.uniform(size=(20, 4))
-    wavelength = np.random.uniform(0, 10, size=(20, 4))
+    spectrum = np.random.uniform(size=(20, ))
+    wavelength = np.random.uniform(0, 10, size=(20, ))
     time = np.random.uniform(0, 5, size=(20,))
 
     hist.clear()
@@ -192,13 +198,13 @@ def test05_put_packets_basic(variant_packet_spectral):
     check_value(hist, time, wavelengths, spectrum)
 
 
-def test06_put_values_preset_bins(variant_scalar_spectral):
+def test06_put_values_preset_bins(variant_scalar_acoustic):
     from mitsuba.render import Histogram
 
     hist = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=[0, 5, 10])
 
-    spectrum = np.ones(shape=(5, 4))
-    wavelength = np.linspace(0, 10, 20).reshape(5, 4)
+    spectrum = np.ones(shape=(5, ))
+    wavelength = np.linspace(0, 10, 5).reshape(5,)
     time = np.arange(4)
 
     hist.clear()
@@ -225,13 +231,13 @@ def test07_put_packet_preset_bins(variant_packet_spectral):
     check_value(hist, time, wavelength, spectrum, bins=[0, 5, 10])
 
 
-def test08_put_values_invalid_preset_bins(variant_scalar_spectral):
+def test08_put_values_invalid_preset_bins(variant_scalar_acoustic):
     from mitsuba.render import Histogram
 
     hist = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=[0, 5, 10])
 
-    spectrum = np.ones(shape=(10, 4))
-    wavelength = np.linspace(0, 20, 40).reshape(10, 4)  # Not within wavelength range
+    spectrum = np.ones(shape=(10,))
+    wavelength = np.linspace(0, 20, 10)  # Not within wavelength range
     time = np.arange(-5, 5)  # Not within time range
 
     hist.clear()
@@ -245,24 +251,26 @@ def test08_put_values_invalid_preset_bins(variant_scalar_spectral):
     check_value(hist, time, wavelength, spectrum, bins=[0, 5, 10])
 
 
-def test09_put_histogram_basic(variant_scalar_spectral):
+def test09_put_histogram_basic(variant_scalar_acoustic):
     from mitsuba.render import Histogram
 
-    hist = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=[0, 10, 5])
-    hist2 = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=[0, 10, 5])
+    hist = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=[0, 2, 5, 10])
+    hist2 = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=[0, 2, 5, 10])
 
-    spectrum = np.random.uniform(size=(10, 4))
-    wavelength = np.random.uniform(0, 10, size=(10, 4))
+    spectrum = np.ones(shape=(10,))
+    wavelength = np.random.uniform(0, 10, size=(10,))
+    time = np.arange(10)
 
     hist.clear()
     hist2.clear()
 
-    for i in range(10):
-        hist.put(i, wavelength[i], spectrum[i])
+    for t in time:
+        hist2.put(t, wavelength[t], spectrum[t])
+        hist.put(t, wavelength[t], spectrum[t])
 
     hist2.put(hist)
 
-    check_value(hist2, np.arange(10), wavelength, spectrum)
+    check_value(hist2, time, wavelength, spectrum * 2, bins=[0, 2, 5, 10])
 
 
 def test09_put_packet_histogram_basic(variant_packet_spectral):
