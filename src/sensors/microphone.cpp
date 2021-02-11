@@ -1,0 +1,112 @@
+//
+// Created by Leonard Eyer on 21.12.20.
+//
+#include <mitsuba/core/fwd.h>
+#include <mitsuba/core/properties.h>
+#include <mitsuba/core/transform.h>
+#include <mitsuba/core/warp.h>
+#include <mitsuba/render/fwd.h>
+#include <mitsuba/render/sensor.h>
+#include <mitsuba/render/texture.h>
+
+NAMESPACE_BEGIN(mitsuba)
+
+MTS_VARIANT class Microphone final : public Sensor<Float, Spectrum> {
+public:
+    MTS_IMPORT_BASE(Sensor, m_film, m_world_transform, m_shape)
+    MTS_IMPORT_TYPES(Shape, Texture)
+
+    Microphone(const Properties &props) : Base(props), m_srf(nullptr) {
+        if (props.has_property("srf")) {
+            if constexpr (is_spectral_v<Spectrum>) {
+                m_srf = props.texture<Texture>("srf", 1.f);
+            } else {
+                Log(Warn, "Ignoring spectral response function "
+                          "(not supported for non-spectral variants)");
+            }
+        }
+
+        if (props.has_property("to_world"))
+            Throw("Found a 'to_world' transformation -- this is not allowed. "
+                  "The irradiance meter inherits this transformation from its "
+                  "parent "
+                  "shape.");
+
+        /*if (m_film->size() != ScalarPoint2i(1, 1))
+            Throw("This sensor only supports films of size 1x1 Pixels!");*/
+
+        /*if (m_film->reconstruction_filter()->radius() >
+            0.5f + math::RayEpsilon<Float>)
+            Log(Warn,
+                "This sensor should only be used with a reconstruction filter"
+                "of radius 0.5 or lower(e.g. default box)");*/
+    }
+
+    std::pair<RayDifferential3f, Spectrum>
+    sample_ray_differential(Float time, Float wavelength_sample,
+                            const Point2f &sample2, const Point2f &sample3,
+                            Mask active) const override {
+
+        MTS_MASKED_FUNCTION(ProfilerPhase::EndpointSampleRay, active);
+
+        // 1. Sample spatial component
+        PositionSample3f ps = m_shape->sample_position(time, sample2, active);
+
+        // 2. Sample directional component
+        Vector3f local = warp::square_to_cosine_hemisphere(sample3);
+
+        // 3. Sample spectrum
+        Wavelength wavelengths;
+        Spectrum wav_weight;
+
+        if (m_srf == nullptr) {
+            std::tie(wavelengths, wav_weight) =
+                sample_wavelength<Float, Spectrum>(wavelength_sample);
+        } else {
+            std::tie(wavelengths, wav_weight) = m_srf->sample_spectrum(
+                zero<SurfaceInteraction3f>(),
+                math::sample_shifted<Wavelength>(wavelength_sample));
+        }
+
+        return std::make_pair(
+            RayDifferential3f(ps.p, Frame3f(ps.n).to_world(local), time,
+                              wavelengths),
+            unpolarized<Spectrum>(wav_weight) * math::Pi<ScalarFloat>);
+    }
+
+    std::pair<DirectionSample3f, Spectrum>
+    sample_direction(const Interaction3f &it, const Point2f &sample,
+                     Mask active) const override {
+        return std::make_pair(m_shape->sample_direction(it, sample, active),
+                              math::Pi<ScalarFloat>);
+    }
+
+    Float pdf_direction(const Interaction3f &it, const DirectionSample3f &ds,
+                        Mask active) const override {
+        return m_shape->pdf_direction(it, ds, active);
+    }
+
+    Spectrum eval(const SurfaceInteraction3f & /*si*/,
+                  Mask /*active*/) const override {
+        return math::Pi<ScalarFloat> / m_shape->surface_area();
+    }
+
+    ScalarBoundingBox3f bbox() const override { return m_shape->bbox(); }
+
+    std::string to_string() const override {
+        std::ostringstream oss;
+        oss << "Microphone[" << std::endl
+            << "  shape = " << m_shape << "," << std::endl
+            << "  film = " << m_film << "," << std::endl
+            << "]";
+        return oss.str();
+    }
+
+    MTS_DECLARE_CLASS()
+private:
+    ref<Texture> m_srf;
+};
+
+MTS_IMPLEMENT_CLASS_VARIANT(Microphone, Sensor)
+MTS_EXPORT_PLUGIN(Microphone, "Microphone");
+NAMESPACE_END(mitsuba)
