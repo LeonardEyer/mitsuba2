@@ -25,6 +25,9 @@ public:
     /// Configure the film for rendering a specified set of channels
     virtual void prepare(const std::vector<std::string> &channels) = 0;
 
+    /// Configure the film for rendering a specified set of wavelength bins
+    virtual void prepare(const std::vector<ScalarFloat> &channels) = 0;
+
     /// Merge an image block into the film. This methods should be thread-safe.
     virtual void put(const ImageBlock *block) = 0;
 
