@@ -55,21 +55,28 @@ def sphere_room_scene(spp):
 """
 
 
-def box_room_scene(spp):
+def box_room_scene(max_time, time_steps, spp, scattering=0.0):
     return f"""
 <scene version="2.0.0">
-
-    <bsdf type="conductor" id="specular">
+    <bsdf type="conductor" id="blens2"/>
+    
+    <bsdf type="blendbsdf" id="blens">
+        <spectrum name="weight" value="0.0"/>
+        <bsdf type="conductor"/>
+        <bsdf type="diffuse">
+            <spectrum name="reflectance" type="acoustic">
+                <string name="wavelengths" value="0.017, 17"/>
+                <string name="values" value="0.1, 0.1"/>
+             </spectrum>
+        </bsdf>
     </bsdf>
     
-    <bsdf type="diffuse" id="diffuse">
-        <spectrum name="reflectance" value="0.017:0.9, 17:0.9"/>
-    </bsdf>
-    
-    <bsdf type="blendbsdf" id="blend">
-        <float name="weight" value="0.1"/>
-        <ref id="diffuse"/>
-        <ref id="specular"/>
+    <bsdf type="acousticbsdf" id="blend">
+        <spectrum name="scattering" value="{scattering}"/>
+        <spectrum name="absorption" type="acoustic">
+            <string name="wavelengths" value="0.017, 17"/>
+            <string name="values" value="0.1, 0.1"/>
+         </spectrum>
     </bsdf>
 
     <shape type="sphere" id="emitter">
@@ -83,7 +90,7 @@ def box_room_scene(spp):
     <shape type="sphere" id="sensor">
         <point name="center" x="-3" y="3" z="2.5"/>
         <float name="radius" value="1"/>
-        <sensor type="irradiancemeter">
+        <sensor type="microphone">
             <spectrum name="srf" type="acoustic">
                 <float name="lambda_min" value="0.017"/>
                 <float name="lambda_max" value="17"/>
@@ -96,8 +103,8 @@ def box_room_scene(spp):
             </sampler>
             
             <film type="tape">
-                <integer name="width" value="1"/>
-                <integer name="height" value="1"/>
+                <float name="max_time" value="{max_time}"/>
+                <integer name="time_steps" value="{time_steps}"/>
                 <rfilter type="box"/>
             </film>
         </sensor>
@@ -168,42 +175,41 @@ def get_vals(data, time_steps, bin_count):
     return np.array(data, copy=False).reshape([time_steps, bin_count])
 
 
-def make_integrator(bins, time_steps, max_depth=2, max_time=1.):
+def make_integrator(bins, max_time=1.):
+    str_bins = list(map(str, bins))
     from mitsuba.core.xml import load_string
     integrator = load_string(f"""
     <integrator version='2.0.0' type='acousticpath'>
-        <string name='wavelength_bins' value='{','.join(bins)}'/>
-        <integer name='time_steps' value='{time_steps}'/>
-        <integer name='max_depth' value='{max_depth}'/>
         <float name='max_time' value='{max_time}'/>
+        <string name='wavelength_bins' value='{','.join(str_bins)}'/>
     </integrator>
     """)
     assert integrator is not None
     return integrator
 
 
-def test01_create(variant_scalar_spectral):
+def test01_create(variant_scalar_acoustic):
     from mitsuba.core.xml import load_string
-    bins = list(map(str, [20, 40, 80, 16000]))
-    integrator = make_integrator(bins, 1, 1)
+    bins = [20, 40, 80, 16000]
+    integrator = make_integrator(bins, 1)
     print(integrator)
 
 
-def test02_render(variant_scalar_spectral):
+def test02_render_specular_single(variant_scalar_acoustic):
     from mitsuba.core.xml import load_string
-    bins = list(map(str, fractional_octave_1_bins))
-    integrator = make_integrator(bins=bins, time_steps=4, max_depth=40, max_time=1)
+    integrator = make_integrator(bins=[0.017, 17], max_time=1)
 
-    scene = load_string(box_room_scene(spp=100))
+    scene = load_string(box_room_scene(max_time=1, time_steps=100, spp=100, scattering=0.0))
     sensor = scene.sensors()[0]
 
     status = integrator.render(scene, sensor)
+    assert status
 
     film = sensor.film()
     raw = film.raw()
-    vals = get_vals(raw, 4, len(bins) - 1)
-    with np.printoptions(precision=3, suppress=True):
-        print(vals)
-        print(np.sum(vals))
+    vals = get_vals(raw, 100, 2 - 1)
 
-    assert status
+    print("sum:", sum(raw))
+
+    plt.plot(vals)
+    plt.show()
