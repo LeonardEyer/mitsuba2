@@ -1,4 +1,5 @@
 #include <mitsuba/render/histogram.h>
+#include <mitsuba/core/bitmap.h>
 #include <mitsuba/core/profiler.h>
 
 NAMESPACE_BEGIN(mitsuba)
@@ -63,11 +64,30 @@ Histogram<Float, Spectrum>::put(const Float &time_step,
 MTS_VARIANT void Histogram<Float, Spectrum>::put(const Histogram *hist) {
     ScopedPhase sp(ProfilerPhase::HistogramPut);
 
-    /*if (likely(hist->bin_count() != bin_count())) {
-        return;
-    }*/
-    m_data = hist->data();
+    size_t time_steps = time_step_count();
+    size_t n_bins = bin_count();
 
+    if (time_steps != hist->time_step_count() || n_bins != hist->bin_count()) {
+        Throw("Time steps or bin mismatch");
+    }
+
+    if constexpr (is_cuda_array_v<Float> || is_diff_array_v<Float>) {
+        NotImplementedError("Not implemented for GPU");
+
+        /* Possible implementation?
+        Int32 index = arange<Int32>(time_steps * n_bins);
+        scatter(
+            data(),
+            gather<Float>(hist->data(), index) + gather<Float>(data(), index),
+            index
+        );*/
+
+    } else {
+        DynamicBuffer<Float> source = hist->data();
+        for (size_t i = 0; i < packets(source); ++i) {
+            packet(m_data, i) += packet(source, i);
+        }
+    }
 }
 
 
