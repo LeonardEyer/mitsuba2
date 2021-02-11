@@ -66,19 +66,19 @@ public:
     // =============================================================
 
     /// Return the number of stored bins
-    size_t bin_count() { return m_bin_count; }
+    size_t bin_count() const { return m_bin_count; }
 
     /// Return the count of recordable time steps
-    size_t time_step_count() { return m_time_step_count; }
+    size_t time_step_count() const { return m_time_step_count; }
 
     // Return the wavelength range this histogram is recording
-    ScalarPoint2f wav_range() { return m_wav_range; }
+    ScalarPoint2f wav_range() const { return m_wav_range; }
 
     // Return the time range this histogram is recording
-    ScalarPoint2f time_range() { return m_time_range; }
+    ScalarPoint2f time_range() const { return m_time_range; }
 
     // Return the predefined wavelength bins
-    std::vector<float> wavelength_bins() { return m_wavelength_bins; }
+    std::vector<float> wavelength_bins() const { return m_wavelength_bins; }
 
     /// Return the underlying spectrum buffer
     DynamicBuffer<Float> &data() { return m_data; }
