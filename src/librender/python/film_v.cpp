@@ -11,8 +11,9 @@
 MTS_PY_EXPORT(Film) {
     MTS_PY_IMPORT_TYPES(Film)
     MTS_PY_CLASS(Film, Object)
-        .def_method(Film, prepare, "channels"_a)
         .def_method(Film, set_destination_file, "filename"_a)
+        .def("prepare", py::overload_cast<const std::vector<std::string> &>(&Film::prepare), "channels"_a)
+        .def("prepare", py::overload_cast<const std::vector<ScalarFloat> &>(&Film::prepare), "channels"_a)
         .def("put", py::overload_cast<const ImageBlock *>(&Film::put), "block"_a)
         .def("put", py::overload_cast<const Histogram *>(&Film::put), "hist"_a)
         .def("develop", py::overload_cast<>(&Film::develop))
