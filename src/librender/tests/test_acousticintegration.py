@@ -197,7 +197,10 @@ def test01_create(variant_scalar_acoustic):
 
 def test02_render_specular_single(variant_scalar_acoustic):
     from mitsuba.core.xml import load_string
-    integrator = make_integrator(bins=[0.017, 17], max_time=1)
+
+    bins = [1, 2]
+
+    integrator = make_integrator(bins=bins, max_time=1)
 
     scene = load_string(box_room_scene(max_time=1, time_steps=100, spp=100, scattering=0.0))
     sensor = scene.sensors()[0]
@@ -207,7 +210,7 @@ def test02_render_specular_single(variant_scalar_acoustic):
 
     film = sensor.film()
     raw = film.raw()
-    vals = get_vals(raw, 100, 2 - 1)
+    vals = get_vals(raw, 100, len(bins) - 1)
 
     print("sum:", sum(raw))
 
