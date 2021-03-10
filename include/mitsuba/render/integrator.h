@@ -232,14 +232,13 @@ public:
     bool render(Scene *scene, Sensor *sensor) override;
 
     /**
-     * NOTE: that this method overloads sample such that ray is no longer
-     * const. We need this so we can access the updated time property of a ray
-     * when storing the result.
-     * TODO: It would probably be better to use AOVs for that
+     * NOTE: that this method overloads sample such that a reference to histogram
+     * is passed so that we can record at any time
      */
     virtual std::pair<Spectrum, Mask> sample(const Scene *scene,
                                              Sampler *sampler,
-                                             RayDifferential3f &ray,
+                                             const RayDifferential3f &ray,
+                                             Histogram *hist,
                                              const Medium *medium = nullptr,
                                              Float *aovs = nullptr,
                                              Mask active = true) const;

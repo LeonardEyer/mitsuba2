@@ -13,14 +13,15 @@ template <typename Float, typename Spectrum>
 class AcousticPathIntegrator : public TimeDependentIntegrator<Float, Spectrum> {
 public:
     MTS_IMPORT_BASE(TimeDependentIntegrator, m_stop,
-                    m_max_time, m_wavelength_bins)
+                    m_max_time, m_wavelength_bins, m_time_step_count)
     MTS_IMPORT_TYPES(Scene, Sensor, Sampler, Medium, Emitter, EmitterPtr, BSDF,
-                     BSDFPtr)
+                     BSDFPtr, Histogram)
 
     AcousticPathIntegrator(const Properties &props) : Base(props) {}
 
     std::pair<Spectrum, Mask> sample(const Scene *scene, Sampler *sampler,
-                                     RayDifferential3f &ray_,
+                                     const RayDifferential3f &ray_,
+                                     Histogram * hist,
                                      const Medium * /* medium */,
                                      Float * /* aovs */,
                                      Mask active) const override {
@@ -49,10 +50,18 @@ public:
            // Update traveled time
            time += select(si.is_valid(), si.t / MTS_SOUND_SPEED, math::Infinity<Float>);
 
-            // ---------------- Intersection with emitters ----------------
-            if (any_or<true>(neq(emitter, nullptr)))
-                result[active] +=
-                    emission_weight * throughput * emitter->eval(si, active);
+            // time bin id
+            UInt32 time_bin_id = 0; //time / m_time_step_count;
+
+            // medium absorption operator
+            //throughput *= enoki::exp( - 0.1151f * alpha * si.t);
+
+            // ---------------- Intersection with sensors ----------------
+            if (any_or<true>(neq(emitter, nullptr))) {
+                result[active] += emission_weight * throughput * emitter->eval(si, active);
+                // Logging the result
+                hist->put(time, ray.wavelengths, result, active);
+            }
 
             active &= si.is_valid();
 
@@ -84,7 +93,13 @@ public:
                 Float bsdf_pdf = bsdf->pdf(ctx, si, wo, active_e);
 
                 Float mis = select(ds.delta, 1.f, mis_weight(ds.pdf, bsdf_pdf));
+
                 result[active_e] += mis * throughput * bsdf_val * emitter_val;
+
+                // Logging the result
+                Float expected_time = (ds.dist / MTS_SOUND_SPEED) + time;
+                hist->put(expected_time, ray.wavelengths, result, active_e);
+
             }
 
             // ----------------------- BSDF sampling ----------------------
@@ -124,7 +139,7 @@ public:
         }
 
         // Store time in original ray
-        ray_.time = time;
+        //ray_.time = time;
 
         return { result, valid_ray };
     }
