@@ -9,7 +9,7 @@ Histogram<Float, Spectrum>::Histogram(size_t bin_count, size_t time_step_count,
                                       const ScalarPoint2f &wav_range,
                                       const ScalarPoint2f &time_range)
     : m_bin_count(bin_count), m_time_step_count(time_step_count),
-      m_wav_range(wav_range), m_time_range(time_range) {
+      m_wav_range(wav_range), m_time_range(time_range), m_offset(0) {
 
     if (wav_range.y() < wav_range.x() or time_range.y() < time_range.x()) {
         Throw("Histogram: lower bound of range must be smaller than upper");
@@ -55,7 +55,7 @@ Histogram<Float, Spectrum>::put(const Float &time_step,
 
         bidx = discretize_preset_bins(lambda, m_wavelength_bins);
 
-        scatter_add(m_data, val, offset + bidx, enabled);
+        scatter_add(m_data, val, offset + bidx - 1, enabled);
     }
 
     return enabled;
@@ -67,27 +67,42 @@ MTS_VARIANT void Histogram<Float, Spectrum>::put(const Histogram *hist) {
     size_t time_steps = time_step_count();
     size_t n_bins = bin_count();
 
-    if (time_steps != hist->time_step_count() || n_bins != hist->bin_count()) {
+    /*if (time_steps != hist->time_step_count() || n_bins != hist->bin_count()) {
         Throw("Time steps or bin mismatch");
-    }
+    }*/
+
+    ScalarVector2i source_size = { hist->bin_count(), hist->time_step_count() },
+                   target_size = { n_bins, time_steps };
+
+    ScalarPoint2i source_offset = hist->offset(), target_offset = offset();
 
     if constexpr (is_cuda_array_v<Float> || is_diff_array_v<Float>) {
-        NotImplementedError("Not implemented for GPU");
-
-        /* Possible implementation?
-        Int32 index = arange<Int32>(time_steps * n_bins);
-        scatter(
-            data(),
-            gather<Float>(hist->data(), index) + gather<Float>(data(), index),
-            index
-        );*/
-
+        accumulate_2d<Float &, const Float &>(
+            hist->data(), source_size, data(), target_size, ScalarVector2i(0),
+            source_offset - target_offset, source_size, 1);
     } else {
-        DynamicBuffer<Float> source = hist->data();
-        for (size_t i = 0; i < packets(source); ++i) {
-            packet(m_data, i) += packet(source, i);
-        }
+        accumulate_2d(hist->data().data(), source_size, data().data(),
+                      target_size, ScalarVector2i(0),
+                      source_offset - target_offset, source_size, 1);
     }
+
+    //    if constexpr (is_cuda_array_v<Float> || is_diff_array_v<Float>) {
+//        NotImplementedError("Not implemented for GPU");
+//
+//        /* Possible implementation?
+//        Int32 index = arange<Int32>(time_steps * n_bins);
+//        scatter(
+//            data(),
+//            gather<Float>(hist->data(), index) + gather<Float>(data(), index),
+//            index
+//        );*/
+//
+//    } else {
+//        DynamicBuffer<Float> source = hist->data();
+//        for (size_t i = 0; i < packets(source); ++i) {
+//            packet(m_data, i) += packet(source, i);
+//        }
+//    }
 }
 
 

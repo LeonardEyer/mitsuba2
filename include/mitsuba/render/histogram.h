@@ -65,6 +65,9 @@ public:
     //! @{ \name Accesors
     // =============================================================
 
+    /// Set the current hist offset.
+    void set_offset(const ScalarPoint2i &offset) { m_offset = offset; }
+
     /// Return the number of stored bins
     size_t bin_count() const { return m_bin_count; }
 
@@ -72,10 +75,13 @@ public:
     size_t time_step_count() const { return m_time_step_count; }
 
     // Return the wavelength range this histogram is recording
-    ScalarPoint2f wav_range() const { return m_wav_range; }
+    const ScalarPoint2f &wav_range() const { return m_wav_range; }
 
     // Return the time range this histogram is recording
-    ScalarPoint2f time_range() const { return m_time_range; }
+    const ScalarPoint2f &time_range() const { return m_time_range; }
+
+    /// Return the current hist offset
+    const ScalarPoint2i &offset() const { return m_offset; }
 
     // Return the predefined wavelength bins
     std::vector<float> wavelength_bins() const { return m_wavelength_bins; }
@@ -149,7 +155,7 @@ protected:
             Mask mask =
                 preset_bins.at(i - 1) <= value && value < preset_bins.at(i);
 
-            masked(index, mask) = (i - 1);
+            masked(index, mask) = i;
         }
         return index;
     }
@@ -159,6 +165,7 @@ protected:
     size_t m_time_step_count;
     ScalarPoint2f m_wav_range;
     ScalarPoint2f m_time_range;
+    ScalarPoint2i m_offset;
     std::vector<float> m_wavelength_bins;
     DynamicBuffer<Float> m_data;
 };
