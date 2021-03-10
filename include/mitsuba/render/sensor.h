@@ -120,6 +120,7 @@ public:
         m_resolution = ScalarVector2f(m_film->crop_size());
     }
 
+    ENOKI_CALL_SUPPORT_FRIEND()
     MTS_DECLARE_CLASS()
 protected:
     Sensor(const Properties &props);
@@ -236,3 +237,19 @@ perspective_projection(const Vector<int, 2> &film_size,
 MTS_EXTERN_CLASS_RENDER(Sensor)
 MTS_EXTERN_CLASS_RENDER(ProjectiveCamera)
 NAMESPACE_END(mitsuba)
+
+
+// -----------------------------------------------------------------------
+//! @{ \name Enoki support for vectorized function calls
+// -----------------------------------------------------------------------
+
+// Enable usage of array pointers for our types
+ENOKI_CALL_SUPPORT_TEMPLATE_BEGIN(mitsuba::Sensor)
+    ENOKI_CALL_SUPPORT_METHOD(sample_ray)
+    ENOKI_CALL_SUPPORT_METHOD(eval)
+    ENOKI_CALL_SUPPORT_METHOD(sample_direction)
+    ENOKI_CALL_SUPPORT_METHOD(pdf_direction)
+ENOKI_CALL_SUPPORT_TEMPLATE_END(mitsuba::Emitter)
+
+//! @}
+// -----------------------------------------------------------------------

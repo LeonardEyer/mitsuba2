@@ -2830,6 +2830,10 @@ static const char *__doc_mitsuba_Histogram_wav_range = R"doc(Return the waveleng
 
 static const char *__doc_mitsuba_Histogram_time_range = R"doc(Return the time range this histogram is recording)doc";
 
+static const char *__doc_mitsuba_Histogram_offset = R"doc(Return the current histogram offset)doc";
+
+static const char *__doc_mitsuba_Histogram_set_offset = R"doc(Set the current hist offset.)doc";
+
 static const char *__doc_mitsuba_Histogram_wavelength_bins = R"doc(// Return the predefined wavelength bins )doc";
 
 static const char *__doc_mitsuba_Histogram_to_string = R"doc(//! @})doc";
