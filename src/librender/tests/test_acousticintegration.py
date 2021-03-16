@@ -55,7 +55,7 @@ def sphere_room_scene(spp):
 """
 
 
-def box_room_scene(max_time, time_steps, spp, scattering=0.0):
+def box_room_scene(max_time, time_steps, spp, wavs, scattering=0.0):
     return f"""
 <scene version="2.0.0">
     <bsdf type="conductor" id="blens2"/>
@@ -91,11 +91,7 @@ def box_room_scene(max_time, time_steps, spp, scattering=0.0):
         <point name="center" x="-3" y="3" z="2.5"/>
         <float name="radius" value="1"/>
         <sensor type="microphone">
-            <spectrum name="srf" type="acoustic">
-                <float name="lambda_min" value="0.017"/>
-                <float name="lambda_max" value="17"/>
-                <integer name="octave_step_width" value="1"/>
-            </spectrum>
+            <string name="wavelengths" value="{','.join(str(x) for x in wavs)}"/>
             
             <sampler type="independent">
                 <integer name="sample_count" value="{spp}"/>
@@ -202,7 +198,7 @@ def test02_render_specular_single(variant_scalar_acoustic):
 
     integrator = make_integrator(bins=bins, max_time=1)
 
-    scene = load_string(box_room_scene(max_time=1, time_steps=100, spp=100, scattering=0.0))
+    scene = load_string(box_room_scene(max_time=1, time_steps=100, spp=100, wavs=bins[:-1], scattering=0.0))
     sensor = scene.sensors()[0]
 
     status = integrator.render(scene, sensor)

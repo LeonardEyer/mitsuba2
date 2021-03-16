@@ -374,8 +374,9 @@ MTS_VARIANT bool TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, 
 
     // Simulate each frequency band and time step times spp
     for (size_t i = 0; i < bin_count - 1; ++i) {
-
-        ref<Histogram> hist = new Histogram(time_steps, {0, m_max_time}, m_wavelength_bins);
+        auto single_wav_bin = std::vector<ScalarFloat>(m_wavelength_bins.begin() + i, m_wavelength_bins.begin() + i + 2);
+        ref<Histogram> hist = new Histogram(time_steps, {0, m_max_time}, single_wav_bin);
+        hist->set_offset({i, 0});
         hist->clear();
         render_band(scene, sensor, sampler, hist, spp, i);
         progress->update((i+1) / (ScalarFloat) time_steps * bin_count);
