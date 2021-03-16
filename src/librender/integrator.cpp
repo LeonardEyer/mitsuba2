@@ -435,7 +435,7 @@ TimeDependentIntegrator<Float, Spectrum>::render_sample(const Scene *scene,
 
     ray.scale_differential(diff_scale_factor);
 
-    if (all(wav >= 0)) {
+    if (any_or<true>(all(wav >= 0))) {
         ray.wavelengths = wav;
     }
 
