@@ -13,16 +13,24 @@ NAMESPACE_BEGIN(mitsuba)
 
 MTS_VARIANT class Microphone final : public Sensor<Float, Spectrum> {
 public:
-    MTS_IMPORT_BASE(Sensor, m_film, m_world_transform, m_shape)
+    MTS_IMPORT_BASE(Sensor, m_world_transform, m_shape)
     MTS_IMPORT_TYPES(Shape, Texture)
 
-    Microphone(const Properties &props) : Base(props), m_srf(nullptr) {
-        if (props.has_property("srf")) {
-            if constexpr (is_spectral_v<Spectrum>) {
-                m_srf = props.texture<Texture>("srf", 1.f);
-            } else {
-                Log(Warn, "Ignoring spectral response function "
-                          "(not supported for non-spectral variants)");
+    Microphone(const Properties &props) : Base(props) {
+        std::vector<std::string> wavelengths_str =
+                string::tokenize(props.string("wavelengths"), " ,");
+
+        // Allocate space
+        m_wavelengths = zero<DynamicBuffer<Float>>(wavelengths_str.size());
+
+        // Copy and convert to wavelengths
+        for (size_t i = 0; i < wavelengths_str.size(); ++i) {
+            try {
+                Float wav = std::stod(wavelengths_str[i]);
+                scatter(m_wavelengths, wav, UInt32(i));
+            } catch (...) {
+                Throw("Could not parse floating point value '%s'",
+                      wavelengths_str[i]);
             }
         }
 
@@ -31,15 +39,6 @@ public:
                   "The irradiance meter inherits this transformation from its "
                   "parent "
                   "shape.");
-
-        /*if (m_film->size() != ScalarPoint2i(1, 1))
-            Throw("This sensor only supports films of size 1x1 Pixels!");*/
-
-        /*if (m_film->reconstruction_filter()->radius() >
-            0.5f + math::RayEpsilon<Float>)
-            Log(Warn,
-                "This sensor should only be used with a reconstruction filter"
-                "of radius 0.5 or lower(e.g. default box)");*/
     }
 
     std::pair<RayDifferential3f, Spectrum>
@@ -55,18 +54,11 @@ public:
         // 2. Sample directional component
         Vector3f local = warp::square_to_cosine_hemisphere(sample3);
 
-        // 3. Sample spectrum
-        Wavelength wavelengths;
-        Spectrum wav_weight;
+        UInt32 index = enoki::ceil(wavelength_sample * (m_wavelengths.size() - 1));
 
-        if (m_srf == nullptr) {
-            std::tie(wavelengths, wav_weight) =
-                sample_wavelength<Float, Spectrum>(wavelength_sample);
-        } else {
-            std::tie(wavelengths, wav_weight) = m_srf->sample_spectrum(
-                zero<SurfaceInteraction3f>(),
-                math::sample_shifted<Wavelength>(wavelength_sample));
-        }
+        // 3. Sample spectrum
+        Wavelength wavelengths = gather<Float>(m_wavelengths, index, active);
+        Spectrum wav_weight = 1.f;
 
         return std::make_pair(
             RayDifferential3f(ps.p, Frame3f(ps.n).to_world(local), time,
@@ -97,14 +89,14 @@ public:
         std::ostringstream oss;
         oss << "Microphone[" << std::endl
             << "  shape = " << m_shape << "," << std::endl
-            << "  film = " << m_film << "," << std::endl
+            //<< "  wavelengths = " << m_wavelengths << "," << std::endl
             << "]";
         return oss.str();
     }
 
     MTS_DECLARE_CLASS()
 private:
-    ref<Texture> m_srf;
+    DynamicBuffer<Float> m_wavelengths;
 };
 
 MTS_IMPLEMENT_CLASS_VARIANT(Microphone, Sensor)
