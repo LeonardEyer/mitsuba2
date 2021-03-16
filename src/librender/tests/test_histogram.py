@@ -251,6 +251,7 @@ def test08_put_values_invalid_preset_bins(variant_scalar_acoustic):
         enabled = hist.put(t, wavelength[i], spectrum[i])
 
         if t not in range(5) or np.logical_or(wavelength[i] < 0, wavelength[i] < 10).any():
+            print(t, wavelength[i])
             assert not enabled
 
     check_value(hist, time, wavelength, spectrum, bins=[0, 5, 10])
