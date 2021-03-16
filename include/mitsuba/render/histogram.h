@@ -52,6 +52,8 @@ public:
     Mask put(const Float &time_step, const Wavelength &wavelength,
              const Spectrum &value, Mask active = true);
 
+    Mask put(const Point2u &pos, const Float *value, Mask active = true);
+
     /**
      * For now we simply overwrite the storage
      * In the future it could be beneficial to be able to merge histograms
@@ -163,6 +165,8 @@ protected:
 protected:
     size_t m_bin_count;
     size_t m_time_step_count;
+    size_t m_channel_count;
+    ScalarPoint2i m_size;
     ScalarPoint2f m_wav_range;
     ScalarPoint2f m_time_range;
     ScalarPoint2i m_offset;
