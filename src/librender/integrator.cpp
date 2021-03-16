@@ -330,7 +330,8 @@ MTS_VARIANT TimeDependentIntegrator<Float, Spectrum>::~TimeDependentIntegrator()
 MTS_VARIANT std::pair<Spectrum, typename TimeDependentIntegrator<Float, Spectrum>::Mask>
 TimeDependentIntegrator<Float, Spectrum>::sample(const Scene * /* scene */,
                                                  Sampler * /* sampler */,
-                                                 RayDifferential3f & /* ray */,
+                                                 const RayDifferential3f & /* ray */,
+                                                 Histogram * /*hist*/,
                                                  const Medium * /* medium */,
                                                  Float * /* aovs */,
                                                  Mask /* active */) const {
@@ -342,7 +343,7 @@ MTS_VARIANT bool TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, 
 
     ref<Sampler> sampler = sensor->sampler()->clone();
     ref<Film> film = sensor->film();
-    ScalarFloat time_steps = film->size().x();
+    m_time_step_count = film->size().x();
 
     // Prepare the film
     film->prepare(m_wavelength_bins);
@@ -384,8 +385,8 @@ MTS_VARIANT void TimeDependentIntegrator<Float, Spectrum>::render_band(const Sce
     Wavelength wav = m_wavelength_bins.at(band_id);
 
     if constexpr (!is_array_v<Float>) {
-        for (uint32_t i = 0; i < time_step_count; ++i) {
-            sampler->seed(band_id * time_step_count + i);
+        for (uint32_t i = 0; i < m_time_step_count; ++i) {
+            sampler->seed(band_id * m_time_step_count + i);
             for (uint32_t j = 0; j < sample_count; ++j) {
                 render_sample(scene, sensor, sampler, hist, diff_scale_factor, band_id);
             }
@@ -394,14 +395,13 @@ MTS_VARIANT void TimeDependentIntegrator<Float, Spectrum>::render_band(const Sce
         // Ensure that the sample generation is fully deterministic
         sampler->seed(band_id);
 
-        for (auto [index, active] : range<UInt32>(time_step_count * sample_count)) {
-            render_sample(scene, sensor, sampler, hist, diff_scale_factor, band_id);
+        for (auto [index, active] : range<UInt32>(m_time_step_count * sample_count)) {
+            render_sample(scene, sensor, sampler, hist, diff_scale_factor, wav);
         }
     } else {
         ENOKI_MARK_USED(scene);
         ENOKI_MARK_USED(sensor);
         ENOKI_MARK_USED(diff_scale_factor);
-        ENOKI_MARK_USED(time_step_count);
         ENOKI_MARK_USED(sample_count);
         ENOKI_MARK_USED(wav);
         Throw("Not implemented for CUDA arrays.");
@@ -419,26 +419,16 @@ TimeDependentIntegrator<Float, Spectrum>::render_sample(const Scene *scene,
                                                         Mask active) const {
 
     Vector2f position_sample = sampler->next_2d(active);
-
-    // Directional sample
-    Point2f aperture_sample(.5f);
-    if (sensor->needs_aperture_sample())
-        aperture_sample = sampler->next_2d(active);
-
-    Float time = sensor->shutter_open();
-    if (sensor->shutter_open_time() > 0.f)
-        time += sampler->next_1d(active) * sensor->shutter_open_time();
-
+    Point2f direction_sample = sampler->next_2d(active);
     Float wavelength_sample = band_id / (m_wavelength_bins.size() - 1);
 
     auto [ray, ray_weight] = sensor->sample_ray_differential(time, wavelength_sample, position_sample, aperture_sample);
 
-    ray.scale_differential(diff_scale_factor);
+    std::pair<Spectrum, Mask> result = sample(scene, sampler, ray, hist, nullptr, nullptr, active);
 
-    std::pair<Spectrum, Mask> result = sample(scene, sampler, ray, nullptr, nullptr, active);
-    result.first = ray_weight * result.first;
+    //result.first = ray_weight * result.first;
 
-    hist->put(ray.time, ray.wavelengths, result.first, result.second);
+    //hist->put(ray.time, ray.wavelengths, result.first, result.second);
 }
 
 
