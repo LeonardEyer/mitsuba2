@@ -12,7 +12,7 @@ np.random.seed(0)
 
 
 def get_vals(hist):
-    return np.array(hist.data(), copy=False).reshape([hist.time_step_count(), hist.bin_count()])
+    return np.array(hist.data(), copy=False).reshape([hist.height(), hist.width()])
 
 
 def put_check(hist, time, wav, spec, bins=None):
@@ -97,6 +97,9 @@ def test01_construct(variant_scalar_acoustic):
     assert hist.time_step_count() == 1000
     assert hist.wav_range() == [0, 10]
     assert hist.time_range() == [3, 15]
+    assert hist.width() == 9
+    assert hist.height() == 1000
+    assert hist.size() == [9, 1000]
     assert np.allclose(hist.wavelength_bins(), np.linspace(0, 10, 10))
 
     hist = Histogram(time_step_count=2, time_range=[0, 4], wavelength_bins=np.linspace(12, 300, 45))
@@ -105,6 +108,9 @@ def test01_construct(variant_scalar_acoustic):
     assert hist.time_step_count() == 2
     assert hist.wav_range() == [12, 300]
     assert hist.time_range() == [0, 4]
+    assert hist.width() == 44
+    assert hist.height() == 2
+    assert hist.size() == [44, 2]
     assert np.allclose(hist.wavelength_bins(), np.linspace(12, 300, 45))
 
     hist = Histogram(time_step_count=2, time_range=[0, 4], wavelength_bins=[100, 200, 300])
@@ -112,6 +118,10 @@ def test01_construct(variant_scalar_acoustic):
     assert hist.wavelength_bins() == [100, 200, 300]
     assert hist.wav_range() == [100, 300]
     assert hist.bin_count() == 2
+    assert hist.time_step_count() == 2
+    assert hist.width() == hist.bin_count()
+    assert hist.height() == hist.time_step_count()
+    assert hist.size() == [2, 2]
 
     # Test invalid construction parameters
     with pytest.raises(RuntimeError):

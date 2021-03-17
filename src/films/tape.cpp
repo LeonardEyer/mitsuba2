@@ -1,10 +1,12 @@
-#include <mitsuba/core/properties.h>
+#include <mitsuba/core/bitmap.h>
+#include <mitsuba/core/filesystem.h>
+#include <mitsuba/core/fstream.h>
 #include <mitsuba/core/spectrum.h>
 #include <mitsuba/core/string.h>
 #include <mitsuba/render/film.h>
 #include <mitsuba/render/fwd.h>
-#include <mitsuba/render/histogram.h>
 #include <mitsuba/render/imageblock.h>
+#include <mitsuba/render/histogram.h>
 
 NAMESPACE_BEGIN(mitsuba)
 
@@ -54,10 +56,23 @@ public:
     }
 
     ref<Bitmap> bitmap(bool raw = false) override {
-        NotImplementedError("bitmap");
+
+        if constexpr (is_cuda_array_v<Float>) {
+            cuda_eval();
+            cuda_sync();
+        }
+
+        ref<Bitmap> source = new Bitmap(Bitmap::PixelFormat::Y,
+                                        struct_type_v<ScalarFloat>, m_storage->size(), 1,
+                                        (uint8_t *) m_storage->data().managed().data());
+
+        //if (raw)
+        return source;
     }
 
-    DynamicBuffer<Float> &raw() override { return m_storage->data(); }
+    DynamicBuffer<Float> &raw() override {
+        return m_storage->data();
+    }
 
     void set_destination_file(const fs::path &filename) override {
         NotImplementedError("set_destination_file");
