@@ -184,17 +184,17 @@ def ISM_room_scene(max_time, time_steps, spp, wavs, scattering):
          </spectrum>
     </bsdf>
     
-    <shape type="ply">
+    <shape type="ply" id="cube">
         <string name="filename" value="resources/data/scenes/acoustic/meshes/Cube.ply"/>
         <ref id="blend"/>
     </shape>
-    <shape type="ply">
+    <shape type="ply" id="emitter">
         <string name="filename" value="resources/data/scenes/acoustic/meshes/Emitter.ply"/>
         <emitter type="area">
-            <spectrum name="radiance" value="0.017:1.0, 17:1.0"/>
+            <spectrum name="radiance" type="uniform"/>
         </emitter>
     </shape>
-    <shape type="ply">
+    <shape type="ply" id="receiver">
         <string name="filename" value="resources/data/scenes/acoustic/meshes/Receiver.ply"/>
         <sensor type="microphone">
             <string name="wavelengths" value="{','.join(str(x) for x in wavs)}"/>
@@ -243,10 +243,12 @@ def test02_render_specular_single(variant_scalar_acoustic):
     from mitsuba.core.xml import load_string
 
     bins = [1, 2]
+    max_time = 1
+    time_steps = 100
 
-    integrator = make_integrator(bins=bins, max_time=1)
+    integrator = make_integrator(bins=bins, max_time=max_time)
 
-    scene = load_string(ISM_room_scene(max_time=1, time_steps=100, spp=100, wavs=bins[:-1], scattering=0.0))
+    scene = load_string(ISM_room_scene(max_time=max_time, time_steps=time_steps, spp=1, wavs=bins[:-1], scattering=0.0))
     sensor = scene.sensors()[0]
 
     status = integrator.render(scene, sensor)
@@ -254,9 +256,12 @@ def test02_render_specular_single(variant_scalar_acoustic):
 
     film = sensor.film()
     raw = film.bitmap(raw=True)
-    vals = get_vals(raw, 100, len(bins) - 1)
+    counts = film.bitmap(raw=False)
+    vals = get_vals(raw, time_steps, len(bins) - 1)
+    vals_count = get_vals(counts, time_steps, len(bins) - 1)
 
     print("sum:", np.sum(vals))
 
+    plt.plot(vals_count)
     plt.plot(vals)
     plt.show()
