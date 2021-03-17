@@ -1,5 +1,6 @@
-#include <mitsuba/render/histogram.h>
+#include <mitsuba/core/bitmap.h>
 #include <mitsuba/core/profiler.h>
+#include <mitsuba/render/histogram.h>
 
 NAMESPACE_BEGIN(mitsuba)
 
@@ -8,7 +9,8 @@ Histogram<Float, Spectrum>::Histogram(size_t bin_count, size_t time_step_count,
                                       const ScalarPoint2f &wav_range,
                                       const ScalarPoint2f &time_range)
     : m_bin_count(bin_count), m_time_step_count(time_step_count),
-      m_wav_range(wav_range), m_time_range(time_range) {
+      m_channel_count(1), m_size({ bin_count, time_step_count }),
+      m_wav_range(wav_range), m_time_range(time_range), m_offset(0) {
 
     if (wav_range.y() < wav_range.x() or time_range.y() < time_range.x()) {
         Throw("Histogram: lower bound of range must be smaller than upper");
@@ -18,7 +20,7 @@ Histogram<Float, Spectrum>::Histogram(size_t bin_count, size_t time_step_count,
     }
 
     // Allocate empty buffer
-    m_data = empty<DynamicBuffer<Float>>(time_step_count * bin_count);
+    m_data = empty<DynamicBuffer<Float>>(hprod(m_size));
 }
 
 MTS_VARIANT
@@ -53,23 +55,47 @@ Histogram<Float, Spectrum>::put(const Float &time_step,
         UInt32 bidx;
 
         bidx = discretize_preset_bins(lambda, m_wavelength_bins);
-
-        scatter_add(m_data, val, offset + bidx, enabled);
+        Point2u pos = { bidx - 1, discrete_time_step };
+        put(pos, &val, enabled);
     }
 
     return enabled;
 }
 
+MTS_VARIANT typename Histogram<Float, Spectrum>::Mask
+Histogram<Float, Spectrum>::put(const Point2u &pos, const Float *value,
+                                Mask active) {
+    Mask enabled = active && all(pos >= 0u && pos < m_size);
+
+    UInt32 offset = m_channel_count * (pos.y() * m_size.x() + pos.x());
+
+    ENOKI_NOUNROLL for (uint32_t k = 0; k < m_channel_count; ++k)
+        scatter_add(m_data, value[k], offset + k, enabled);
+
+    return enabled;
+};
+
 MTS_VARIANT void Histogram<Float, Spectrum>::put(const Histogram *hist) {
     ScopedPhase sp(ProfilerPhase::HistogramPut);
 
-    /*if (likely(hist->bin_count() != bin_count())) {
-        return;
-    }*/
-    m_data = hist->data();
+    size_t time_steps = time_step_count();
+    size_t n_bins     = bin_count();
 
+    ScalarVector2i source_size = { hist->bin_count(), hist->time_step_count() },
+                   target_size = { n_bins, time_steps };
+
+    ScalarPoint2i source_offset = hist->offset(), target_offset = offset();
+
+    if constexpr (is_cuda_array_v<Float> || is_diff_array_v<Float>) {
+        accumulate_2d<Float &, const Float &>(
+            hist->data(), source_size, data(), target_size, ScalarVector2i(0),
+            source_offset - target_offset, source_size, 1);
+    } else {
+        accumulate_2d(hist->data().data(), source_size, data().data(),
+                      target_size, ScalarVector2i(0),
+                      source_offset - target_offset, source_size, 1);
+    }
 }
-
 
 MTS_VARIANT void Histogram<Float, Spectrum>::clear() {
     size_t size = m_time_step_count * m_bin_count;

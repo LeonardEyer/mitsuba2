@@ -4,7 +4,16 @@ project(mitsuba)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/resources")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(PYTHON_EXECUTABLE /Users/leonardeyer/.pyenv/shims/python3)
+
+if(REMOTE)
+  message("Using remote mitsuba config")
+  file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/resources/mitsuba.conf.remote DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
+  file(RENAME mitsuba.conf.remote mitsuba.conf)
+else()
+  message("Using local mitsuba config")
+  file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/resources/mitsuba.conf.local DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
+  file(RENAME mitsuba.conf.local mitsuba.conf)
+endif()
 
 # ---------- Setup mitsuba.conf ----------
 
@@ -24,12 +33,12 @@ if (NOT IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/ext/openexr/OpenEXR")
 endif()
 
 # ---------- Detect Python ----------
-
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ext/pybind11/tools")
 set(Python_ADDITIONAL_VERSIONS 3.9 3.8 3.7 3.6 3.5)
 find_package(PythonLibsNew REQUIRED)
 
 message(STATUS "python found: ${PYTHON_EXECUTABLE}")
+
 # ---------- Detect renderer variants ----------
 
 # We want CMake to re-run whenever 'mitsuba.conf' changes because the build

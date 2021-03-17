@@ -52,6 +52,8 @@ public:
     Mask put(const Float &time_step, const Wavelength &wavelength,
              const Spectrum &value, Mask active = true);
 
+    Mask put(const Point2u &pos, const Float *value, Mask active = true);
+
     /**
      * For now we simply overwrite the storage
      * In the future it could be beneficial to be able to merge histograms
@@ -65,20 +67,26 @@ public:
     //! @{ \name Accesors
     // =============================================================
 
+    /// Set the current hist offset.
+    void set_offset(const ScalarPoint2i &offset) { m_offset = offset; }
+
     /// Return the number of stored bins
-    size_t bin_count() { return m_bin_count; }
+    size_t bin_count() const { return m_bin_count; }
 
     /// Return the count of recordable time steps
-    size_t time_step_count() { return m_time_step_count; }
+    size_t time_step_count() const { return m_time_step_count; }
 
     // Return the wavelength range this histogram is recording
-    ScalarPoint2f wav_range() { return m_wav_range; }
+    const ScalarPoint2f &wav_range() const { return m_wav_range; }
 
     // Return the time range this histogram is recording
-    ScalarPoint2f time_range() { return m_time_range; }
+    const ScalarPoint2f &time_range() const { return m_time_range; }
+
+    /// Return the current hist offset
+    const ScalarPoint2i &offset() const { return m_offset; }
 
     // Return the predefined wavelength bins
-    std::vector<float> wavelength_bins() { return m_wavelength_bins; }
+    std::vector<float> wavelength_bins() const { return m_wavelength_bins; }
 
     /// Return the underlying spectrum buffer
     DynamicBuffer<Float> &data() { return m_data; }
@@ -149,7 +157,7 @@ protected:
             Mask mask =
                 preset_bins.at(i - 1) <= value && value < preset_bins.at(i);
 
-            masked(index, mask) = (i - 1);
+            masked(index, mask) = i;
         }
         return index;
     }
@@ -157,8 +165,11 @@ protected:
 protected:
     size_t m_bin_count;
     size_t m_time_step_count;
+    size_t m_channel_count;
+    ScalarPoint2i m_size;
     ScalarPoint2f m_wav_range;
     ScalarPoint2f m_time_range;
+    ScalarPoint2i m_offset;
     std::vector<float> m_wavelength_bins;
     DynamicBuffer<Float> m_data;
 };

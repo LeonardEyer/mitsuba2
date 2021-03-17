@@ -12,15 +12,16 @@ NAMESPACE_BEGIN(mitsuba)
 template <typename Float, typename Spectrum>
 class AcousticPathIntegrator : public TimeDependentIntegrator<Float, Spectrum> {
 public:
-    MTS_IMPORT_BASE(TimeDependentIntegrator, m_stop, m_max_depth, m_rr_depth,
-                    m_max_time, m_time_steps, m_wavelength_bins)
+    MTS_IMPORT_BASE(TimeDependentIntegrator, m_stop,
+                    m_max_time, m_wavelength_bins, m_time_step_count)
     MTS_IMPORT_TYPES(Scene, Sensor, Sampler, Medium, Emitter, EmitterPtr, BSDF,
-                     BSDFPtr)
+                     BSDFPtr, Histogram)
 
     AcousticPathIntegrator(const Properties &props) : Base(props) {}
 
     std::pair<Spectrum, Mask> sample(const Scene *scene, Sampler *sampler,
-                                     RayDifferential3f &ray_,
+                                     const RayDifferential3f &ray_,
+                                     Histogram * hist,
                                      const Medium * /* medium */,
                                      Float * /* aovs */,
                                      Mask active) const override {
@@ -49,29 +50,24 @@ public:
            // Update traveled time
            time += select(si.is_valid(), si.t / MTS_SOUND_SPEED, math::Infinity<Float>);
 
-            // ---------------- Intersection with emitters ----------------
-            if (any_or<true>(neq(emitter, nullptr)))
-                result[active] +=
-                    emission_weight * throughput * emitter->eval(si, active);
+            // medium absorption operator
+            //throughput *= enoki::exp( - 0.1151f * alpha * si.t);
+
+            // ---------------- Intersection with sensors ----------------
+            if (any_or<true>(neq(emitter, nullptr))) {
+                result[active] += emission_weight * throughput * emitter->eval(si, active);
+                // Logging the result
+                hist->put(time, ray.wavelengths, result, active);
+            }
 
             active &= si.is_valid();
-
-            /* Russian roulette: try to keep path weights equal to one,
-               while accounting for the solid angle compression at refractive
-               index boundaries. Stop with at least some probability to avoid
-               getting stuck (e.g. due to total internal reflection) */
-            if (depth > m_rr_depth) {
-                Float q = min(hmax(depolarize(throughput)) * sqr(eta), .95f);
-                active &= sampler->next_1d(active) < q;
-                throughput *= rcp(q);
-            }
 
             // Stop if we've exceeded the number of requested bounces, or
             // if there are no more active lanes. Only do this latter check
             // in GPU mode when the number of requested bounces is infinite
             // since it causes a costly synchronization.
-            if ((uint32_t) depth >= (uint32_t) m_max_depth ||
-                ((!is_cuda_array_v<Float> || m_max_depth < 0) && none(active)))
+            if (any(time >= (uint32_t) m_max_time) ||
+                ((!is_cuda_array_v<Float> || m_max_time < 0) && none(active)))
                 break;
 
             // --------------------- Emitter sampling ---------------------
@@ -94,7 +90,13 @@ public:
                 Float bsdf_pdf = bsdf->pdf(ctx, si, wo, active_e);
 
                 Float mis = select(ds.delta, 1.f, mis_weight(ds.pdf, bsdf_pdf));
+
                 result[active_e] += mis * throughput * bsdf_val * emitter_val;
+
+                // Logging the result
+                Float expected_time = (ds.dist / MTS_SOUND_SPEED) + time;
+                hist->put(expected_time, ray.wavelengths, result, active_e);
+
             }
 
             // ----------------------- BSDF sampling ----------------------
@@ -133,9 +135,6 @@ public:
             si = std::move(si_bsdf);
         }
 
-        // Store time in original ray
-        ray_.time = time;
-
         return { result, valid_ray };
     }
 
@@ -146,10 +145,7 @@ public:
         std::ostringstream oss;
         oss << "AcousticPathIntegrator[" << std::endl
             << "  stop = " << m_stop << "," << std::endl
-            << "  max_depth = " << m_max_depth << "," << std::endl
-            << "  rr_depth = " << m_rr_depth << "," << std::endl
             << "  max_time = " << m_max_time << "," << std::endl
-            << "  time_steps = " << m_time_steps << "," << std::endl
             << "  wavelength_bins = " << m_wavelength_bins;
         oss << std::endl << "]";
         return oss.str();

@@ -18,6 +18,8 @@ MTS_PY_EXPORT(Histogram) {
         .def_method(Histogram, clear)
         .def_method(Histogram, bin_count)
         .def_method(Histogram, time_step_count)
+        .def_method(Histogram, set_offset, "offset"_a)
+        .def_method(Histogram, offset)
         .def_method(Histogram, wav_range)
         .def_method(Histogram, time_range)
         .def_method(Histogram, wavelength_bins)

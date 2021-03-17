@@ -1,21 +1,39 @@
+#include <mitsuba/core/properties.h>
 #include <mitsuba/core/spectrum.h>
 #include <mitsuba/core/string.h>
 #include <mitsuba/render/film.h>
 #include <mitsuba/render/fwd.h>
 #include <mitsuba/render/histogram.h>
+#include <mitsuba/render/imageblock.h>
 
 NAMESPACE_BEGIN(mitsuba)
 
 template <typename Float, typename Spectrum>
 class Tape final : public Film<Float, Spectrum> {
 public:
-    MTS_IMPORT_BASE(Film, m_size, m_filter)
+    MTS_IMPORT_BASE(Film, m_size)
     MTS_IMPORT_TYPES(ImageBlock, Histogram)
 
-    Tape(const Properties &props) : Base(props) { }
+    Tape(const Properties &props) : Base(props) {
+
+        // Update size
+        m_size = ScalarVector2i(props.int_("time_steps", 1), 1);
+
+        m_max_time = props.float_("max_time", 1.f);
+    }
 
     void prepare(const std::vector<std::string> &channels) override {
-        m_storage = new Histogram(10, {0, 10}, {0, 10});
+        Throw("Tape wont work with typical channels. We expect floating point wavelength bins");
+    }
+
+    void prepare(const std::vector<ScalarFloat> &wavelength_bins) override {
+
+        m_size.y() = wavelength_bins.size();
+
+        // Create histogram
+        m_storage =
+            new Histogram(m_size.x(), { 0, m_max_time }, wavelength_bins);
+        // prepare it
         m_storage->clear();
     }
 
@@ -27,15 +45,11 @@ public:
         m_storage->put(hist);
     }
 
-    void develop() override {
-        NotImplementedError("develop");
-    }
+    void develop() override { NotImplementedError("develop"); }
 
-    bool develop(
-        const ScalarPoint2i  &offset,
-        const ScalarVector2i &size,
-        const ScalarPoint2i  &target_offset,
-        Bitmap *target) const override {
+    bool develop(const ScalarPoint2i &offset, const ScalarVector2i &size,
+                 const ScalarPoint2i &target_offset,
+                 Bitmap *target) const override {
         NotImplementedError("develop");
     }
 
@@ -43,9 +57,7 @@ public:
         NotImplementedError("bitmap");
     }
 
-    DynamicBuffer<Float> &raw() override{
-       return m_storage->data();
-    }
+    DynamicBuffer<Float> &raw() override { return m_storage->data(); }
 
     void set_destination_file(const fs::path &filename) override {
         NotImplementedError("set_destination_file");
@@ -56,8 +68,10 @@ public:
     }
 
     MTS_DECLARE_CLASS()
-    protected:
+protected:
+    ScalarFloat m_max_time;
     ref<Histogram> m_storage;
+    std::vector<ScalarFloat> m_wavelength_bins;
 };
 
 MTS_IMPLEMENT_CLASS_VARIANT(Tape, Film)

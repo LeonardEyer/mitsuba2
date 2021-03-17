@@ -205,6 +205,10 @@ public:
         m_channels = channels;
     }
 
+    void prepare(const std::vector<ScalarFloat> &wavelength_bins) override {
+        Throw("hrdfilm does not accept wavelength bins.");
+    }
+
     void put(const ImageBlock *block) override {
         Assert(m_storage != nullptr);
         std::lock_guard<std::mutex> lock(m_mutex);
@@ -212,7 +216,7 @@ public:
     }
 
     void put(const Histogram *hist) override {
-        return;
+        Throw("hrdfilm does not accept histograms");
     }
 
     bool develop(const ScalarPoint2i  &source_offset,
