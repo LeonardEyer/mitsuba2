@@ -265,6 +265,7 @@ protected:
     MTS_DECLARE_CLASS()
 protected:
     float m_max_time;
+    size_t m_time_step_count;
     std::vector<ScalarFloat> m_wavelength_bins;
 };
 

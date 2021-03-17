@@ -1,10 +1,10 @@
 import math
 import numpy as np
+import matplotlib.pyplot as plt
 
 import pytest
 import enoki as ek
 import mitsuba
-import matplotlib.pyplot as plt
 
 fractional_octave_1_bins = [0.01532125, 0.03056991, 0.06099498, 0.12170099, 0.2428254, 0.48450038,
                             0.96670535, 1.92883075, 3.8485233, 7.67881351, 15.32124721]
@@ -74,6 +74,7 @@ def box_room_scene(max_time, time_steps, spp, wavs, scattering=0.0):
     <bsdf type="acousticbsdf" id="blend">
         <spectrum name="scattering" value="{scattering}"/>
         <spectrum name="absorption" type="acoustic">
+            <boolean name="absorption" value="true"/>
             <string name="wavelengths" value="0.017, 17"/>
             <string name="values" value="0.1, 0.1"/>
          </spectrum>
@@ -167,6 +168,49 @@ def box_room_scene(max_time, time_steps, spp, wavs, scattering=0.0):
 """
 
 
+def ISM_room_scene(max_time, time_steps, spp, wavs, scattering):
+    return f"""
+<scene version="2.1.0">
+    <bsdf type="acousticbsdf" id="blend">
+        <spectrum name="scattering" value="{scattering}"/>
+        <spectrum name="absorption" type="acoustic">
+            <boolean name="absorption" value="true"/>
+            <string name="wavelengths" value="0.017, 17"/>
+            <string name="values" value="0.1, 0.1"/>
+         </spectrum>
+    </bsdf>
+    
+    <shape type="ply">
+        <string name="filename" value="resources/data/scenes/acoustic/meshes/Cube.ply"/>
+        <ref id="blend"/>
+    </shape>
+    <shape type="ply">
+        <string name="filename" value="resources/data/scenes/acoustic/meshes/Emitter.ply"/>
+        <emitter type="area">
+            <spectrum name="radiance" value="0.017:1.0, 17:1.0"/>
+        </emitter>
+    </shape>
+    <shape type="ply">
+        <string name="filename" value="resources/data/scenes/acoustic/meshes/Receiver.ply"/>
+        <sensor type="microphone">
+            <string name="wavelengths" value="{','.join(str(x) for x in wavs)}"/>
+            
+            <sampler type="independent">
+                <integer name="sample_count" value="{spp}"/>
+                <integer name="seed" value="0"/>
+            </sampler>
+            
+            <film type="tape">
+                <float name="max_time" value="{max_time}"/>
+                <integer name="time_steps" value="{time_steps}"/>
+                <rfilter type="box"/>
+            </film>
+        </sensor>
+    </shape>
+</scene>
+"""
+
+
 def get_vals(data, time_steps, bin_count):
     return np.array(data, copy=False).reshape([time_steps, bin_count])
 
@@ -198,7 +242,7 @@ def test02_render_specular_single(variant_scalar_acoustic):
 
     integrator = make_integrator(bins=bins, max_time=1)
 
-    scene = load_string(box_room_scene(max_time=1, time_steps=100, spp=100, wavs=bins[:-1], scattering=0.0))
+    scene = load_string(ISM_room_scene(max_time=1, time_steps=100, spp=100, wavs=bins[:-1], scattering=0.0))
     sensor = scene.sensors()[0]
 
     status = integrator.render(scene, sensor)

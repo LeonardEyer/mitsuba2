@@ -50,9 +50,6 @@ public:
            // Update traveled time
            time += select(si.is_valid(), si.t / MTS_SOUND_SPEED, math::Infinity<Float>);
 
-            // time bin id
-            UInt32 time_bin_id = 0; //time / m_time_step_count;
-
             // medium absorption operator
             //throughput *= enoki::exp( - 0.1151f * alpha * si.t);
 
@@ -137,9 +134,6 @@ public:
 
             si = std::move(si_bsdf);
         }
-
-        // Store time in original ray
-        //ray_.time = time;
 
         return { result, valid_ray };
     }
