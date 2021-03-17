@@ -249,10 +249,10 @@ def test02_render_specular_single(variant_scalar_acoustic):
     assert status
 
     film = sensor.film()
-    raw = film.raw()
+    raw = film.bitmap(raw=True)
     vals = get_vals(raw, 100, len(bins) - 1)
 
-    print("sum:", sum(raw))
+    print("sum:", np.sum(vals))
 
     plt.plot(vals)
     plt.show()

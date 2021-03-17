@@ -330,10 +330,6 @@ public:
         return target;
      };
 
-  virtual DynamicBuffer<Float> &raw() override {
-      return m_storage->data();
-  }
-
     void develop() override {
         if (m_dest_file.empty())
             Throw("Destination file not specified, cannot develop.");
