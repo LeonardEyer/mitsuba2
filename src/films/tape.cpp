@@ -61,9 +61,20 @@ public:
             cuda_sync();
         }
 
-        ref<Bitmap> source = new Bitmap(Bitmap::PixelFormat::Y,
-                                        struct_type_v<ScalarFloat>, m_storage->size(), 1,
-                                        (uint8_t *) m_storage->data().managed().data());
+//        DynamicBuffer<Float> tmp =
+//            raw ? m_storage->data() : m_storage->data() / m_storage->counts();
+
+//        ref<Bitmap> source = new Bitmap(Bitmap::PixelFormat::Y, struct_type_v<ScalarUInt32>,
+//                                        m_storage->size(), 1, (uint8_t *) m_storage->counts().managed().data());
+
+        ref<Bitmap> source;
+
+        if (raw)
+            source = new Bitmap(Bitmap::PixelFormat::Y, struct_type_v<ScalarFloat>,
+                           m_storage->size(), 1, (uint8_t *) m_storage->data().managed().data());
+        else
+            source = new Bitmap(Bitmap::PixelFormat::Y, struct_type_v<ScalarUInt32>,
+                       m_storage->size(), 1, (uint8_t *) m_storage->counts().managed().data());
 
         return source;
     }
