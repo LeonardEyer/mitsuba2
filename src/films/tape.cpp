@@ -5,8 +5,8 @@
 #include <mitsuba/core/string.h>
 #include <mitsuba/render/film.h>
 #include <mitsuba/render/fwd.h>
-#include <mitsuba/render/imageblock.h>
 #include <mitsuba/render/histogram.h>
+#include <mitsuba/render/imageblock.h>
 
 NAMESPACE_BEGIN(mitsuba)
 
@@ -25,7 +25,8 @@ public:
     }
 
     void prepare(const std::vector<std::string> &channels) override {
-        Throw("Tape wont work with typical channels. We expect floating point wavelength bins");
+        Throw("Tape wont work with typical channels. We expect floating point "
+              "wavelength bins");
     }
 
     void prepare(const std::vector<ScalarFloat> &wavelength_bins) override {
@@ -43,9 +44,7 @@ public:
         NotImplementedError("put ImageBlock");
     }
 
-    void put(const Histogram *hist) override {
-        m_storage->put(hist);
-    }
+    void put(const Histogram *hist) override { m_storage->put(hist); }
 
     void develop() override { NotImplementedError("develop"); }
 
@@ -66,12 +65,7 @@ public:
                                         struct_type_v<ScalarFloat>, m_storage->size(), 1,
                                         (uint8_t *) m_storage->data().managed().data());
 
-        //if (raw)
         return source;
-    }
-
-    DynamicBuffer<Float> &raw() override {
-        return m_storage->data();
     }
 
     void set_destination_file(const fs::path &filename) override {
