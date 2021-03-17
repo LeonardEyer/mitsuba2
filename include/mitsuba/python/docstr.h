@@ -2822,6 +2822,10 @@ static const char *__doc_mitsuba_Histogram_data = R"doc(Return the underlying sp
 
 static const char *__doc_mitsuba_Histogram_data_2 = R"doc(Return the underlying spectrum buffer (const version))doc";
 
+static const char *__doc_mitsuba_Histogram_counts = R"doc(Return the underlying counts for every bin)doc";
+
+static const char *__doc_mitsuba_Histogram_counts_2 = R"doc(Return the underlying counts for every bin (const version))doc";
+
 static const char *__doc_mitsuba_Histogram_bin_count = R"doc(Return the number of stored bins)doc";
 
 static const char *__doc_mitsuba_Histogram_time_step_count = R"doc(Return the count of recordable time steps)doc";

@@ -23,7 +23,7 @@ MTS_PY_EXPORT(Histogram) {
         .def_method(Histogram, wav_range)
         .def_method(Histogram, time_range)
         .def_method(Histogram, wavelength_bins)
-        .def("data", py::overload_cast<>(&Histogram::data, py::const_),
-             D(Histogram, data));
+        .def("data", py::overload_cast<>(&Histogram::data, py::const_), D(Histogram, data))
+        .def("counts", py::overload_cast<>(&Histogram::counts, py::const_), D(Histogram, counts))
     ;
 }

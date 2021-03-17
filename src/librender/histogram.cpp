@@ -21,6 +21,7 @@ Histogram<Float, Spectrum>::Histogram(size_t bin_count, size_t time_step_count,
 
     // Allocate empty buffer
     m_data = empty<DynamicBuffer<Float>>(hprod(m_size));
+    m_counts = empty<DynamicBuffer<Float>>(hprod(m_size));
 }
 
 MTS_VARIANT
@@ -42,7 +43,6 @@ Histogram<Float, Spectrum>::put(const Float &time_step,
 
     UInt32 discrete_time_step =
         discretize_linear(time_step, m_time_range, m_time_step_count);
-    UInt32 offset = (discrete_time_step * m_bin_count);
 
     Mask enabled =
         active &&
@@ -69,8 +69,10 @@ Histogram<Float, Spectrum>::put(const Point2u &pos, const Float *value,
 
     UInt32 offset = m_channel_count * (pos.y() * m_size.x() + pos.x());
 
-    ENOKI_NOUNROLL for (uint32_t k = 0; k < m_channel_count; ++k)
+    ENOKI_NOUNROLL for (uint32_t k = 0; k < m_channel_count; ++k) {
         scatter_add(m_data, value[k], offset + k, enabled);
+        scatter_add(m_counts, Float(1), offset + k, enabled);
+    }
 
     return enabled;
 };
@@ -90,8 +92,17 @@ MTS_VARIANT void Histogram<Float, Spectrum>::put(const Histogram *hist) {
         accumulate_2d<Float &, const Float &>(
             hist->data(), source_size, data(), target_size, ScalarVector2i(0),
             source_offset - target_offset, source_size, 1);
+
+        accumulate_2d<Float &, const Float &>(
+            hist->counts(), source_size, counts(), target_size, ScalarVector2i(0),
+            source_offset - target_offset, source_size, 1);
+
     } else {
         accumulate_2d(hist->data().data(), source_size, data().data(),
+                      target_size, ScalarVector2i(0),
+                      source_offset - target_offset, source_size, 1);
+
+        accumulate_2d(hist->counts().data(), source_size, counts().data(),
                       target_size, ScalarVector2i(0),
                       source_offset - target_offset, source_size, 1);
     }
@@ -99,10 +110,13 @@ MTS_VARIANT void Histogram<Float, Spectrum>::put(const Histogram *hist) {
 
 MTS_VARIANT void Histogram<Float, Spectrum>::clear() {
     size_t size = m_time_step_count * m_bin_count;
-    if constexpr (!is_cuda_array_v<Float>)
+    if constexpr (!is_cuda_array_v<Float>) {
         memset(m_data.data(), 0, size * sizeof(ScalarFloat));
-    else
-        m_data = zero<DynamicBuffer<Float>>(size);
+        memset(m_counts.data(), 0, size * sizeof(ScalarFloat));
+    } else {
+            m_data   = zero<DynamicBuffer<Float>>(size);
+            m_counts = zero<DynamicBuffer<Float>>(size);
+    }
 }
 
 MTS_VARIANT Histogram<Float, Spectrum>::~Histogram() {}
