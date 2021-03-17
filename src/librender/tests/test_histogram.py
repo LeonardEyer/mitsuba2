@@ -174,8 +174,8 @@ def test04_put_values_basic_accumulate(variant_scalar_acoustic):
 
     hist = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=np.linspace(0, 10, 5))
 
-    spectrum = np.random.uniform(size=(20, ))
-    wavelength = np.random.uniform(0, 10, size=(20, ))
+    spectrum = np.random.uniform(size=(20,))
+    wavelength = np.random.uniform(0, 10, size=(20,))
     time = np.random.uniform(0, 5, size=(20,))
 
     hist.clear()
@@ -208,8 +208,8 @@ def test06_put_values_preset_bins(variant_scalar_acoustic):
 
     hist = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=[0, 5, 10])
 
-    spectrum = np.ones(shape=(5, ))
-    wavelength = np.linspace(0, 10, 5).reshape(5,)
+    spectrum = np.ones(shape=(5,))
+    wavelength = np.linspace(0, 10, 5).reshape(5, )
     time = np.arange(4)
 
     hist.clear()
@@ -326,3 +326,60 @@ def test11_put_packet_histogram_basic(variant_packet_spectral):
     hist2.put(hist)
 
     check_value(hist2, time, wavelength, spectrum, bins=[0, 2, 5, 10])
+
+
+def test12_basic_counts(variant_scalar_acoustic):
+    from mitsuba.render import Histogram
+
+    hist = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=[1, 2, 3])
+
+    wavelength = [0, 1, 2, 2, 1]
+    # Weightings
+    spectrum = [.1, .6, .7, .5, .2]
+
+    time = [0, 1, 2, 2, 3]
+
+    # Setup histogram
+    hist.clear()
+
+    # Insert
+    for i, t in enumerate(time):
+        hist.put(t, wavelength[i], spectrum[i])
+
+    check_value(hist, time, wavelength, spectrum, bins=[1, 2, 3])
+
+    counts = np.array(hist.counts(), copy=False).reshape([hist.time_step_count(), hist.bin_count()])
+
+    # Double entries
+    assert counts[2][1] == 2
+
+
+def test13_put_hist_counts(variant_scalar_acoustic):
+    from mitsuba.render import Histogram
+
+    hist = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=[1, 2, 3])
+    hist2 = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=[1, 2, 3])
+
+    wavelength = [0, 1, 2, 2, 1]
+    # Weightings
+    spectrum = [.1, .6, .7, .5, .2]
+
+    time = [0, 1, 2, 2, 3]
+
+    # Setup histogram
+    hist.clear()
+    hist2.clear()
+
+    # Insert
+    for i, t in enumerate(time):
+        hist.put(t, wavelength[i], spectrum[i])
+        hist2.put(t, wavelength[i], spectrum[i])
+
+    check_value(hist, time, wavelength, spectrum, bins=[1, 2, 3])
+
+    hist.put(hist2)
+
+    counts = np.array(hist.counts(), copy=False).reshape([hist.time_step_count(), hist.bin_count()])
+
+    # Double Double entries
+    assert counts[2][1] == 4
