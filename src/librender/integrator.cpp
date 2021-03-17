@@ -358,11 +358,11 @@ MTS_VARIANT bool TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, 
     // Simulate each frequency band and time step times spp
     for (size_t i = 0; i < bin_count - 1; ++i) {
         auto single_wav_bin = std::vector<ScalarFloat>(m_wavelength_bins.begin() + i, m_wavelength_bins.begin() + i + 2);
-        ref<Histogram> hist = new Histogram(time_steps, {0, m_max_time}, single_wav_bin);
+        ref<Histogram> hist = new Histogram(m_time_step_count, {0, m_max_time}, single_wav_bin);
         hist->set_offset({i, 0});
         hist->clear();
         render_band(scene, sensor, sampler, hist, spp, i);
-        progress->update((i+1) / (ScalarFloat) time_steps * bin_count);
+        progress->update((i+1) / (ScalarFloat) m_time_step_count * bin_count);
         film->put(hist);
     }
 
@@ -397,7 +397,7 @@ MTS_VARIANT void TimeDependentIntegrator<Float, Spectrum>::render_band(const Sce
         sampler->seed(band_id);
 
         for (auto [index, active] : range<UInt32>(m_time_step_count * sample_count)) {
-            render_sample(scene, sensor, sampler, hist, diff_scale_factor, wav);
+            render_sample(scene, sensor, sampler, hist, diff_scale_factor, band_id);
         }
     } else {
         ENOKI_MARK_USED(scene);
@@ -423,7 +423,7 @@ TimeDependentIntegrator<Float, Spectrum>::render_sample(const Scene *scene,
     Point2f direction_sample = sampler->next_2d(active);
     Float wavelength_sample = band_id / (m_wavelength_bins.size() - 1);
 
-    auto [ray, ray_weight] = sensor->sample_ray_differential(time, wavelength_sample, position_sample, aperture_sample);
+    auto [ray, ray_weight] = sensor->sample_ray_differential(0, wavelength_sample, position_sample, direction_sample);
 
     std::pair<Spectrum, Mask> result = sample(scene, sampler, ray, hist, nullptr, nullptr, active);
 
