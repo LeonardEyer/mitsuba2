@@ -2836,6 +2836,12 @@ static const char *__doc_mitsuba_Histogram_time_range = R"doc(Return the time ra
 
 static const char *__doc_mitsuba_Histogram_offset = R"doc(Return the current histogram offset)doc";
 
+static const char *__doc_mitsuba_Histogram_size = R"doc(Return the current histogram size)doc";
+
+static const char *__doc_mitsuba_Histogram_width = R"doc(Return the width (wav bins))doc";
+
+static const char *__doc_mitsuba_Histogram_height = R"doc(RReturn the height (time bins))doc";
+
 static const char *__doc_mitsuba_Histogram_set_offset = R"doc(Set the current hist offset.)doc";
 
 static const char *__doc_mitsuba_Histogram_wavelength_bins = R"doc(// Return the predefined wavelength bins )doc";

@@ -70,11 +70,20 @@ public:
     /// Set the current hist offset.
     void set_offset(const ScalarPoint2i &offset) { m_offset = offset; }
 
+    /// Return the current histogram size
+    const ScalarVector2i &size() const { return m_size; }
+
+    /// Return the width (wav bins)
+    size_t width() const { return m_size.x(); }
+
+    /// Return the height (time bins)
+    size_t height() const { return m_size.y(); }
+
     /// Return the number of stored bins
-    size_t bin_count() const { return m_bin_count; }
+    size_t bin_count() const { return width(); }
 
     /// Return the count of recordable time steps
-    size_t time_step_count() const { return m_time_step_count; }
+    size_t time_step_count() const { return height(); }
 
     // Return the wavelength range this histogram is recording
     const ScalarPoint2f &wav_range() const { return m_wav_range; }
@@ -172,7 +181,7 @@ protected:
     size_t m_bin_count;
     size_t m_time_step_count;
     size_t m_channel_count;
-    ScalarPoint2i m_size;
+    ScalarVector2i m_size;
     ScalarPoint2f m_wav_range;
     ScalarPoint2f m_time_range;
     ScalarPoint2i m_offset;
