@@ -387,6 +387,8 @@ public:
      */
     virtual ScalarSize effective_primitive_count() const;
 
+    bool is_visible() const { return m_visible; }
+
 
 #if defined(MTS_ENABLE_EMBREE)
     /// Return the Embree version of this shape
@@ -505,6 +507,7 @@ protected:
     ref<Medium> m_interior_medium;
     ref<Medium> m_exterior_medium;
     std::string m_id;
+    bool m_visible = true;
 
     ScalarTransform4f m_to_world;
     ScalarTransform4f m_to_object;

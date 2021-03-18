@@ -37,6 +37,8 @@ MTS_VARIANT Shape<Float, Spectrum>::Shape(const Properties &props) : m_id(props.
     m_to_world = props.transform("to_world", ScalarTransform4f());
     m_to_object = m_to_world.inverse();
 
+    m_visible = props.bool_("visible", true);
+
     for (auto &[name, obj] : props.objects(false)) {
         Emitter *emitter = dynamic_cast<Emitter *>(obj.get());
         Sensor *sensor = dynamic_cast<Sensor *>(obj.get());
