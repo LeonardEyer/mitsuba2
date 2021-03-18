@@ -173,15 +173,14 @@ def box_room_scene(max_time, time_steps, spp, wavs, scattering=0.0, hide_sensor=
 """
 
 
-def ISM_room_scene(max_time, time_steps, spp, wavs, scattering, hide_sensor=True):
+def ISM_room_scene(max_time, time_steps, spp, wavs, scattering=0.0, absorption=0.0, hide_sensor=True):
     return f"""
 <scene version="2.1.0">
     <bsdf type="acousticbsdf" id="blend">
         <spectrum name="scattering" value="{scattering}"/>
         <spectrum name="absorption" type="acoustic">
             <boolean name="absorption" value="true"/>
-            <string name="wavelengths" value="0.017, 17"/>
-            <string name="values" value="0.1, 0.1"/>
+            <float name="value" value="{absorption}"/>
          </spectrum>
     </bsdf>
     
@@ -250,7 +249,14 @@ def test02_render_specular_single(variant_scalar_acoustic):
 
     integrator = make_integrator(bins=bins, max_time=max_time)
 
-    scene = load_string(ISM_room_scene(max_time=max_time, time_steps=time_steps, spp=100, wavs=bins[:-1], scattering=0.0))
+    scene = load_string(ISM_room_scene(
+        max_time=max_time,
+        time_steps=time_steps,
+        spp=10,
+        wavs=bins[:-1],
+        scattering=0.0,
+        absorption=0.5
+    ))
     sensor = scene.sensors()[0]
 
     status = integrator.render(scene, sensor)

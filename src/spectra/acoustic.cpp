@@ -50,11 +50,19 @@ public:
 
         // **************** Copied from irregular ****************************
 
-        bool has_wavs = props.has_property("wavelengths");
-        auto str      = has_wavs ? "wavelengths" : "frequencies";
-
         // Are the supplied values for absorption or reflectance?
         bool absorption = props.bool_("absorption", true);
+
+        if (props.has_property("value")) {
+            m_values.reserve(1);
+            ScalarFloat v = props.float_("value");
+            v = absorption ? 1 - v : v;
+            m_values.push_back(v);
+            return;
+        }
+
+        bool has_wavs = props.has_property("wavelengths");
+        auto str      = has_wavs ? "wavelengths" : "frequencies";
 
         if (props.has_property(str)) {
 
@@ -129,13 +137,19 @@ public:
     }
 
     std::vector<ref<Object>> expand() const override {
-        // This plugin recursively expands into an instance of 'irregular'
-        Properties props("irregular");
-        props.set_int("size", m_values.size());
+        Properties props;
+        // If we only have one value we want the spectrum to be uniform
+        if(m_values.size() == 1) {
+            props = Properties("uniform");
+            props.set_float("value", m_values.at(0));
+        } else {
+            // This plugin recursively expands into an instance of 'irregular'
+            props = Properties("irregular");
+            props.set_int("size", m_values.size());
 
-        props.set_pointer("values", (const void *) &m_values[0]);
-        props.set_pointer("wavelengths", (const void *) &m_wavelengths[0]);
-
+            props.set_pointer("values", (const void *) &m_values[0]);
+            props.set_pointer("wavelengths", (const void *) &m_wavelengths[0]);
+        }
         PluginManager *pmgr = PluginManager::instance();
         return { ref<Object>(pmgr->create_object<Texture>(props)) };
     }
