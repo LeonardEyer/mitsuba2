@@ -55,7 +55,7 @@ def sphere_room_scene(spp):
 """
 
 
-def box_room_scene(max_time, time_steps, spp, wavs, scattering=0.0):
+def box_room_scene(max_time, time_steps, spp, wavs, scattering=0.0, hide_sensor=True):
     return f"""
 <scene version="2.0.0">
     <bsdf type="conductor" id="blens2"/>
@@ -84,11 +84,12 @@ def box_room_scene(max_time, time_steps, spp, wavs, scattering=0.0):
         <point name="center" x="3" y="-3" z="2.5"/>
         <float name="radius" value="1"/>
         <emitter type="area">
-            <spectrum name="radiance" value="0.017:1.0, 17:1.0"/>
+            <spectrum name="radiance" type="uniform"/>
         </emitter>
     </shape>
 
     <shape type="sphere" id="sensor">
+        <boolean name="visible" value="{not hide_sensor}"/>
         <point name="center" x="-3" y="3" z="2.5"/>
         <float name="radius" value="1"/>
         <sensor type="microphone">
@@ -168,7 +169,7 @@ def box_room_scene(max_time, time_steps, spp, wavs, scattering=0.0):
 """
 
 
-def ISM_room_scene(max_time, time_steps, spp, wavs, scattering):
+def ISM_room_scene(max_time, time_steps, spp, wavs, scattering, hide_sensor=True):
     return f"""
 <scene version="2.1.0">
     <bsdf type="acousticbsdf" id="blend">
@@ -191,6 +192,7 @@ def ISM_room_scene(max_time, time_steps, spp, wavs, scattering):
         </emitter>
     </shape>
     <shape type="ply" id="receiver">
+        <boolean name="visible" value="{not hide_sensor}"/>
         <string name="filename" value="resources/data/scenes/acoustic/meshes/Receiver.ply"/>
         <sensor type="microphone">
             <string name="wavelengths" value="{','.join(str(x) for x in wavs)}"/>
@@ -244,7 +246,7 @@ def test02_render_specular_single(variant_scalar_acoustic):
 
     integrator = make_integrator(bins=bins, max_time=max_time)
 
-    scene = load_string(ISM_room_scene(max_time=max_time, time_steps=time_steps, spp=1, wavs=bins[:-1], scattering=0.0))
+    scene = load_string(ISM_room_scene(max_time=max_time, time_steps=time_steps, spp=100, wavs=bins[:-1], scattering=0.0))
     sensor = scene.sensors()[0]
 
     status = integrator.render(scene, sensor)
@@ -258,6 +260,8 @@ def test02_render_specular_single(variant_scalar_acoustic):
 
     print("sum:", np.sum(vals))
 
-    plt.plot(vals_count)
-    plt.plot(vals)
+    plt.plot(vals_count, label='count')
+    plt.plot(vals, label='vals')
+    plt.plot(vals / vals_count, label='normalized')
+    plt.legend()
     plt.show()
