@@ -24,6 +24,7 @@ public :
         // Copy absorption coefficients
         // (conversion is handled in spectra/acoustic.cpp)
         propsDiffuse.set_object("reflectance", m_absorpt);
+        propsConduct.set_object("specular_reflectance", m_absorpt);
 
         ref<Base> diffuser = pmgr->create_object<Base>(propsDiffuse);
         ref<Base> conductor = pmgr->create_object<Base>(propsConduct);
