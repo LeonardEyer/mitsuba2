@@ -356,35 +356,74 @@ TimeDependentIntegrator<Float, Spectrum>::sample(const Scene * /* scene */,
     NotImplementedError("sample");
 }
 
-MTS_VARIANT bool TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
+MTS_VARIANT bool
+TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
     ScopedPhase sp(ProfilerPhase::Render);
+    m_stop = false;
 
     ref<Sampler> sampler = sensor->sampler()->clone();
-    ref<Film> film = sensor->film();
-    m_time_step_count = film->size().x();
+    ref<Film> film       = sensor->film();
+    m_time_step_count    = film->size().x();
 
     // Prepare the film
     film->prepare(m_wavelength_bins);
 
-    size_t spp = sampler->sample_count();
+    size_t spp       = sampler->sample_count();
     size_t bin_count = m_wavelength_bins.size();
 
     ScalarFloat diff_scale_factor = rsqrt((ScalarFloat) spp);
 
-    ref<ProgressReporter> progress = new ProgressReporter("Rendering");
+    m_render_timer.reset();
+    if constexpr (!is_cuda_array_v<Float>) {
 
-    // Simulate each frequency band and time step times spp
-    for (size_t i = 0; i < bin_count - 1; ++i) {
-        auto single_wav_bin = std::vector<ScalarFloat>(m_wavelength_bins.begin() + i, m_wavelength_bins.begin() + i + 2);
-        ref<Histogram> hist = new Histogram(m_time_step_count, {0, m_max_time}, single_wav_bin);
-        hist->set_offset({i, 0});
-        hist->clear();
-        render_band(scene, sensor, sampler, hist, spp, i);
-        progress->update((i+1) / (ScalarFloat) m_time_step_count * bin_count);
-        film->put(hist);
+        /// Render on the CPU using a spiral pattern
+        size_t n_threads = __global_thread_count;
+        Log(Info, "Starting render job (%ix%i, %i sample%s, %i thread%s)",
+            film->size().x(), film->size().y(), spp, spp == 1 ? "" : "s",
+            n_threads, n_threads == 1 ? "" : "s");
+
+        ThreadEnvironment env;
+        ref<ProgressReporter> progress = new ProgressReporter("Rendering");
+        std::mutex mutex;
+
+        size_t total_bands = bin_count - 1, bands_done = 0;
+
+        // Simulate each frequency band and time step times spp
+        tbb::parallel_for(size_t(0), total_bands, [&](size_t i) {
+            ScopedSetThreadEnvironment set_env(env);
+
+            ref<Sampler> sampler = sensor->sampler()->clone();
+
+            auto single_wav_bin =
+                std::vector<ScalarFloat>(m_wavelength_bins.begin() + i,
+                                         m_wavelength_bins.begin() + i + 2);
+            ref<Histogram> hist = new Histogram(
+                m_time_step_count, { 0, m_max_time }, single_wav_bin);
+
+            scoped_flush_denormals flush_denormals(true);
+
+            hist->set_offset({ i, 0 });
+            hist->clear();
+
+            render_band(scene, sensor, sampler, hist, spp, i);
+
+            film->put(hist);
+
+            /* Critical section: update progress bar */ {
+                std::lock_guard<std::mutex> lock(mutex);
+                bands_done++;
+                progress->update(bands_done / (ScalarFloat) total_bands);
+            }
+        });
+    } else {
+        NotImplementedError("Not implemented for cuda arrays");
     }
 
-    return true;
+    if (!m_stop)
+        Log(Info, "Rendering finished. (took %s)",
+            util::time_string(m_render_timer.value(), true));
+
+    return !m_stop;
 }
 
 MTS_VARIANT void TimeDependentIntegrator<Float, Spectrum>::render_band(const Scene *scene,
