@@ -252,10 +252,10 @@ def test02_render_specular_single(variant_scalar_acoustic):
     scene = load_string(ISM_room_scene(
         max_time=max_time,
         time_steps=time_steps,
-        spp=10,
+        spp=100,
         wavs=bins[:-1],
         scattering=0.0,
-        absorption=0.5
+        absorption=0.1
     ))
     sensor = scene.sensors()[0]
 
@@ -270,8 +270,8 @@ def test02_render_specular_single(variant_scalar_acoustic):
 
     print("sum:", np.sum(vals))
 
-    plt.plot(vals_count, label='count')
-    plt.plot(vals, label='vals')
+    #plt.plot(vals_count, label='count')
+    #plt.plot(vals, label='vals')
     plt.plot(vals / vals_count, label='normalized')
     plt.legend()
     plt.show()
