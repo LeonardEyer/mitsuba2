@@ -37,7 +37,7 @@ public:
         // MIS weight for intersected emitters (set by prev. iteration)
         Float emission_weight(1.f);
 
-        Spectrum throughput(1.f), result(0.f);
+        Spectrum throughput(1.f);//, result(0.f);
 
         // ---------------------- First intersection ----------------------
 
@@ -55,9 +55,12 @@ public:
 
             // ---------------- Intersection with sensors ----------------
             if (any_or<true>(neq(emitter, nullptr))) {
-                result[active] += emission_weight * throughput * emitter->eval(si, active);
+                //result[active] += emission_weight * throughput * emitter->eval(si, active);
+                throughput[active] *= emission_weight * emitter->eval(si, active);
                 // Logging the result
-                hist->put(time, ray.wavelengths, result, active);
+                hist->put(time, ray.wavelengths, throughput, active);
+
+                return { throughput, active };
             }
 
             active &= si.is_valid();
@@ -91,11 +94,13 @@ public:
 
                 Float mis = select(ds.delta, 1.f, mis_weight(ds.pdf, bsdf_pdf));
 
-                result[active_e] += mis * throughput * bsdf_val * emitter_val;
+                //result[active_e] += mis * throughput * bsdf_val * emitter_val;
+                Spectrum expected_throughput = throughput;
+                expected_throughput[active_e] *= mis * bsdf_val * emitter_val;
 
                 // Logging the result
                 Float expected_time = (ds.dist / MTS_SOUND_SPEED) + time;
-                hist->put(expected_time, ray.wavelengths, result, active_e);
+                hist->put(expected_time, ray.wavelengths, expected_throughput, active_e);
 
             }
 
@@ -135,7 +140,7 @@ public:
             si = std::move(si_bsdf);
         }
 
-        return { result, valid_ray };
+        return { throughput, valid_ray };
     }
 
     //! @}

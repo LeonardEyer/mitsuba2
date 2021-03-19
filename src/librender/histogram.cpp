@@ -45,7 +45,7 @@ Histogram<Float, Spectrum>::put(const Float &time_step,
         discretize_linear(time_step, m_time_range, m_time_step_count);
 
     Mask enabled =
-        active &&
+        active && all(value >= 0) &&
         all(time_step >= m_time_range[0] && time_step < m_time_range[1]) &&
         all(wavelengths >= m_wav_range[0] && wavelengths < m_wav_range[1]);
 
