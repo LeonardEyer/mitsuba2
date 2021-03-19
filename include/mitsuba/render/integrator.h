@@ -225,7 +225,7 @@ protected:
 template <typename Float, typename Spectrum>
 class MTS_EXPORT_RENDER TimeDependentIntegrator : public MonteCarloIntegrator<Float, Spectrum> {
 public:
-    MTS_IMPORT_BASE(MonteCarloIntegrator, m_max_depth, m_rr_depth, m_samples_per_pass)
+    MTS_IMPORT_BASE(MonteCarloIntegrator, m_max_depth, m_rr_depth, m_samples_per_pass, m_render_timer, m_stop)
     MTS_IMPORT_TYPES(Scene, Sensor, Film, Histogram, Medium, Sampler)
 
     bool render(Scene *scene, Sensor *sensor) override;
