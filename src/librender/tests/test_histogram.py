@@ -197,13 +197,13 @@ def test04_put_values_basic_accumulate(variant_scalar_acoustic):
     check_value(hist, time, wavelength, spectrum)
 
 
-def test05_put_packets_basic(variant_packet_spectral):
+def test05_put_packets_basic(variant_packet_acoustic):
     from mitsuba.render import Histogram
 
     hist = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=np.linspace(0, 10, 5))
 
-    spectrum = np.random.uniform(size=(10, 4))
-    wavelengths = np.random.uniform(0, 10, size=(10, 4))
+    spectrum = np.random.uniform(size=(10, 1))
+    wavelengths = np.random.uniform(0, 10, size=(10, 1))
     time = np.random.uniform(0, 10, size=(10,))
 
     hist.clear()
@@ -230,13 +230,13 @@ def test06_put_values_preset_bins(variant_scalar_acoustic):
     check_value(hist, time, wavelength, spectrum, bins=[0, 5, 10])
 
 
-def test07_put_packet_preset_bins(variant_packet_spectral):
+def test07_put_packet_preset_bins(variant_packet_acoustic):
     from mitsuba.render import Histogram
 
     hist = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=[0, 5, 10])
 
-    spectrum = np.ones((10, 4))
-    wavelength = np.random.uniform(0, 10, size=(10, 4))
+    spectrum = np.ones((10, 1))
+    wavelength = np.random.uniform(0, 10, size=(10, 1))
     time = np.random.uniform(0, 10, size=(10,))
 
     hist.clear()
@@ -319,14 +319,14 @@ def test10_put_histogram_offset(variant_scalar_acoustic):
     check_value(hist, time, wavelength, spectrum, bins=[0, 2, 5])
 
 
-def test11_put_packet_histogram_basic(variant_packet_spectral):
+def test11_put_packet_histogram_basic(variant_packet_acoustic):
     from mitsuba.render import Histogram
 
     hist = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=[0, 2, 5, 10])
     hist2 = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=[0, 2, 5, 10])
 
-    spectrum = np.random.uniform(size=(10, 4))
-    wavelength = np.random.uniform(0, 10, size=(10, 4))
+    spectrum = np.random.uniform(size=(10, 1))
+    wavelength = np.random.uniform(0, 10, size=(10, 1))
     time = np.arange(10)
 
     hist.clear()

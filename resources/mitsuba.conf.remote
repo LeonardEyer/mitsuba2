@@ -72,7 +72,7 @@
         # The "scalar_rgb" variant *must* be included at the moment.
         "scalar_rgb",
         "scalar_acoustic",
-        "gpu_autodiff_rgb"
+        "gpu_acoustic"
     ],
 
     # If mitsuba is launched without any specific mode parameter,
@@ -210,6 +210,11 @@
         "spectrum": "Spectrum<Float, 4>"
     },
 
+    "packet_acoustic": {
+            "float": "Packet<float>",
+            "spectrum": "Spectrum<Float, 1>"
+    },
+
     "packet_spectral8": {
         "float": "Packet<float>",
         "spectrum": "Spectrum<Float, 8>"
@@ -256,6 +261,11 @@
     "gpu_spectral": {
         "float": "CUDAArray<float>",
         "spectrum": "Spectrum<Float, 4>"
+    },
+
+    "gpu_acoustic": {
+            "float": "CUDAArray<float>",
+            "spectrum": "Spectrum<Float, 1>"
     },
 
     "gpu_spectral_polarized": {
