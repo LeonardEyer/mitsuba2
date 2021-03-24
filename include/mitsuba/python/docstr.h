@@ -2752,7 +2752,18 @@ Parameter ``value``:
 Returns:
     ``False`` if the sample was invalid. E.g not in range or NaN.)doc";
 
-static const char *__doc_mitsuba_Histogram_put_2 = R"doc(For now we simply overwrite the storage
+static const char *__doc_mitsuba_Histogram_put_2 = R"doc(Insert Wavelength samples at discrete position
+
+Parameter ``pos``:
+    wavelength bin and time bin
+
+Parameter ``value``:
+    Intensity value for this wavelength and time
+
+Returns:
+    ``False`` if the sample was invalid. E.g not in range or NaN.)doc";
+
+static const char *__doc_mitsuba_Histogram_put_3 = R"doc(For now we simply overwrite the storage
 In the future it could be beneficial to be able to merge histograms.)doc";
 
 static const char *__doc_mitsuba_Histogram_clear = R"doc(Clear everything to zero.)doc";
