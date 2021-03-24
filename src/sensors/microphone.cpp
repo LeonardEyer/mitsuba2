@@ -88,8 +88,8 @@ public:
     std::string to_string() const override {
         std::ostringstream oss;
         oss << "Microphone[" << std::endl
-            << "  shape = " << m_shape << "," << std::endl
-            //<< "  wavelengths = " << m_wavelengths << "," << std::endl
+            //<< "  shape = " << m_shape << "," << std::endl
+            << "  wavelengths = " << m_wavelengths << "," << std::endl
             << "]";
         return oss.str();
     }
