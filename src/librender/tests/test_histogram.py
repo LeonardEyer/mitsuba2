@@ -68,7 +68,7 @@ def check_value(hist, time, wav, spec, bins=None, atol=1e-9, verbose=False):
     # Correct structure
     correct = np.allclose(vals, check, atol=atol)
 
-    if verbose or correct:
+    if verbose or not correct:
         print("What we got:\n", vals)
         print("Sum:", np.sum(vals))
         print("What we want:\n", check)
@@ -393,3 +393,24 @@ def test13_put_hist_counts(variant_scalar_acoustic):
 
     # Double Double entries
     assert counts[2][1] == 4
+
+
+def test14_put_discrete(variant_scalar_acoustic):
+    from mitsuba.render import Histogram
+
+    hist = Histogram(time_step_count=5, time_range=[0, 1], wavelength_bins=[1, 2, 3])
+    hist.clear()
+
+    wavelength = np.linspace(1, 3, 5, endpoint=False)
+    time = np.linspace(0, 1, 5, endpoint=False)
+    spectrum = [1] * 5
+
+    wavelength_bin = np.digitize(wavelength, [1, 2, 3]).astype(int) - 1
+    time_bin = np.floor(time * 5).astype(int)
+
+    positions = [[w, t] for (w, t) in zip(wavelength_bin, time_bin)]
+
+    for i in range(5):
+        hist.put(positions[i], spectrum[i])
+
+    check_value(hist, time, wavelength, spectrum, bins=[1, 2, 3])

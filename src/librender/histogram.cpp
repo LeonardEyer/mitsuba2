@@ -44,11 +44,6 @@ Histogram<Float, Spectrum>::put(const Float &time_step,
     UInt32 discrete_time_step =
         discretize_linear(time_step, m_time_range, m_time_step_count);
 
-    Mask enabled =
-        active && all(value >= 0) &&
-        all(time_step >= m_time_range[0] && time_step < m_time_range[1]) &&
-        all(wavelengths >= m_wav_range[0] && wavelengths < m_wav_range[1]);
-
     for (size_t i = 0; i < value.size(); ++i) {
         Float lambda = wavelengths[i];
         Float val    = value[i];
@@ -56,16 +51,29 @@ Histogram<Float, Spectrum>::put(const Float &time_step,
 
         bidx = discretize_preset_bins(lambda, m_wavelength_bins);
         Point2u pos = { bidx - 1, discrete_time_step };
-        put(pos, &val, enabled);
+        active &= put(pos, &val, active);
     }
 
-    return enabled;
+    return active;
+}
+
+MTS_VARIANT typename Histogram<Float, Spectrum>::Mask
+Histogram<Float, Spectrum>::put(const Point2u &pos,
+                                const Spectrum &value,
+                                Mask active) {
+
+    for (size_t i = 0; i < value.size(); ++i) {
+        Float val    = value[i];
+        active &= put(pos, &val, active);
+    }
+
+    return active;
 }
 
 MTS_VARIANT typename Histogram<Float, Spectrum>::Mask
 Histogram<Float, Spectrum>::put(const Point2u &pos, const Float *value,
                                 Mask active) {
-    Mask enabled = active && all(pos >= 0u && pos < m_size);
+    Mask enabled = active && all_or<true>(pos >= 0u && pos < m_size);
 
     UInt32 offset = m_channel_count * (pos.y() * m_size.x() + pos.x());
 

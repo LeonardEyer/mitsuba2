@@ -52,6 +52,21 @@ public:
     Mask put(const Float &time_step, const Wavelength &wavelength,
              const Spectrum &value, Mask active = true);
 
+
+    /**
+     * \brief Insert Wavelength samples at discrete position
+     *
+     * \param pos
+     *     wavelength bin and time bin
+     * \param value
+     *     Intensity value for this wavelength and time
+     * \param active
+     *     Mask indicating enabled state
+     * \returns
+     *     False if the sample was invalid. E.g not in range or NaN
+     */
+    Mask put(const Point2u &pos, const Spectrum &value, Mask active = true);
+
     Mask put(const Point2u &pos, const Float *value, Mask active = true);
 
     /**
