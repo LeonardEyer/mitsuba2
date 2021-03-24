@@ -31,7 +31,7 @@ public:
 
     void prepare(const std::vector<ScalarFloat> &wavelength_bins) override {
 
-        m_size.y() = wavelength_bins.size();
+        m_size.y() = wavelength_bins.size() - 1;
 
         // Create histogram
         m_storage =
@@ -85,6 +85,16 @@ public:
 
     bool destination_exists(const fs::path &basename) const override {
         NotImplementedError("destination_exists");
+    }
+
+    std::string to_string() const override {
+        std::ostringstream oss;
+        oss << "Tape[" << std::endl
+            << "  size = " << m_size        << "," << std::endl
+            << "  max_time = " << m_max_time   << "," << std::endl
+            << "  wavelength_bins = " << m_wavelength_bins << "," << std::endl
+            << "]";
+        return oss.str();
     }
 
     MTS_DECLARE_CLASS()
