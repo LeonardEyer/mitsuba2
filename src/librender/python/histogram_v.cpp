@@ -13,6 +13,11 @@ MTS_PY_EXPORT(Histogram) {
                                          const Spectrum &, mask_t<Float>>(
                  &Histogram::put)),
              "time_step"_a, "wavelengths"_a, "value"_a, "active"_a = true)
+        .def("put",
+             vectorize(py::overload_cast<const Point2u &,
+                                         const Spectrum &, mask_t<Float>>(
+                 &Histogram::put)),
+             "pos"_a, "value"_a, "active"_a = true)
         .def("put", py::overload_cast<const Histogram *>(&Histogram::put),
              "hist"_a)
         .def_method(Histogram, clear)
