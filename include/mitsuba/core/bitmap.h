@@ -699,7 +699,7 @@ void accumulate_2d(ConstT source,
         using Int32 = int32_array_t<Value>;
         Int32 index = arange<Int32>(n * size.y());
 
-        Int32 y   = index / n,
+        Int32 y   = n != 1 ? index / n: index,
               col = index - y * n;
 
         Int32 index_source = col + (source_offset.x() + source_size.x() * (y + source_offset.y())) *
