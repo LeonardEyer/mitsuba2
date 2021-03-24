@@ -72,7 +72,7 @@
         # The "scalar_rgb" variant *must* be included at the moment.
         "scalar_rgb",
         "scalar_acoustic",
-        "packet_spectral"
+        "packet_acoustic"
     ],
 
     # If mitsuba is launched without any specific mode parameter,
@@ -208,6 +208,11 @@
     "packet_spectral": {
         "float": "Packet<float>",
         "spectrum": "Spectrum<Float, 4>"
+    },
+
+    "packet_acoustic": {
+        "float": "Packet<float>",
+        "spectrum": "Spectrum<Float, 1>"
     },
 
     "packet_spectral8": {
