@@ -251,15 +251,14 @@ protected:
                 const Sensor *sensor,
                 Sampler *sampler,
                 Histogram *hist,
-                size_t sample_count_,
+                size_t sample_count,
                 const size_t band_id) const;
 
     void render_sample(const Scene *scene,
                        const Sensor *sensor,
                        Sampler *sampler,
                        Histogram *hist,
-                       ScalarFloat diff_scale_factor,
-                       const size_t band_id,
+                       const UInt32 band_id,
                        Mask active = true) const;
 
     MTS_DECLARE_CLASS()

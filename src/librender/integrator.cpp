@@ -361,32 +361,40 @@ TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
     ScopedPhase sp(ProfilerPhase::Render);
     m_stop = false;
 
-    ref<Sampler> sampler = sensor->sampler()->clone();
     ref<Film> film       = sensor->film();
-    m_time_step_count    = film->size().x();
+    auto film_size = film->size();
+    m_time_step_count    = film_size.x();
 
     // Prepare the film
     film->prepare(m_wavelength_bins);
 
-    size_t spp       = sampler->sample_count();
-    size_t bin_count = m_wavelength_bins.size();
+    size_t total_spp       = sensor->sampler()->sample_count();
+    size_t samples_per_pass = (m_samples_per_pass == (size_t) -1)
+                              ? total_spp : std::min((size_t) m_samples_per_pass, total_spp);
 
-    ScalarFloat diff_scale_factor = rsqrt((ScalarFloat) spp);
+    if ((total_spp % samples_per_pass) != 0)
+        Throw("sample_count (%d) must be a multiple of samples_per_pass (%d).",
+              total_spp, samples_per_pass);
+
+    size_t n_passes = (total_spp + samples_per_pass - 1) / samples_per_pass;
+
+    size_t bin_count = m_wavelength_bins.size();
 
     m_render_timer.reset();
     if constexpr (!is_cuda_array_v<Float>) {
 
         /// Render on the CPU using a spiral pattern
         size_t n_threads = __global_thread_count;
-        Log(Info, "Starting render job (%ix%i, %i sample%s, %i thread%s)",
-            film->size().x(), film->size().y(), spp, spp == 1 ? "" : "s",
+        Log(Info, "Starting render job (%ix%i, %i sample%s,%s %i thread%s)",
+            film_size.x(), film_size.y(), total_spp, total_spp == 1 ? "" : "s",
+            n_passes > 1 ? tfm::format(" %d passes,", n_passes) : "",
             n_threads, n_threads == 1 ? "" : "s");
 
         ThreadEnvironment env;
         ref<ProgressReporter> progress = new ProgressReporter("Rendering");
         std::mutex mutex;
 
-        size_t total_bands = bin_count - 1, bands_done = 0;
+        size_t total_bands = (bin_count - 1) * n_passes, bands_done = 0;
 
         // Simulate each frequency band and time step times spp
         tbb::parallel_for(size_t(0), total_bands, [&](size_t i) {
@@ -394,18 +402,20 @@ TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
 
             ref<Sampler> sampler = sensor->sampler()->clone();
 
+            size_t band_id = i / n_passes;
+
             auto single_wav_bin =
-                std::vector<ScalarFloat>(m_wavelength_bins.begin() + i,
-                                         m_wavelength_bins.begin() + i + 2);
+                std::vector<ScalarFloat>(m_wavelength_bins.begin() + band_id,
+                                         m_wavelength_bins.begin() + band_id + 2);
             ref<Histogram> hist = new Histogram(
                 m_time_step_count, { 0, m_max_time }, single_wav_bin);
 
             scoped_flush_denormals flush_denormals(true);
 
-            hist->set_offset({ i, 0 });
+            hist->set_offset({ band_id, 0 });
             hist->clear();
 
-            render_band(scene, sensor, sampler, hist, spp, i);
+            render_band(scene, sensor, sampler, hist, samples_per_pass, band_id);
 
             film->put(hist);
 
@@ -416,7 +426,30 @@ TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
             }
         });
     } else {
-        NotImplementedError("Not implemented for cuda arrays");
+        Log(Info, "Start rendering...");
+
+        ref<Sampler> sampler = sensor->sampler();
+        sampler->set_samples_per_wavefront((uint32_t) samples_per_pass);
+
+        ScalarUInt32 wavefront_size = hprod(film_size) * (uint32_t) samples_per_pass;
+        if (sampler->wavefront_size() != wavefront_size)
+            sampler->seed(0, wavefront_size);
+
+        UInt32 idx = arange<UInt32>(wavefront_size);
+        if (samples_per_pass != 1)
+            idx /= (uint32_t) samples_per_pass;
+
+        UInt32 band_id = idx % film_size.x();
+
+        ref<Histogram> hist = new Histogram(m_time_step_count, { 0, m_max_time }, m_wavelength_bins);
+        hist->clear();
+
+        for (size_t i = 0; i < n_passes; i++) {
+            render_sample(scene, sensor, sampler, hist, band_id);
+            Log(Info, "%f", (i + 1) / (ScalarFloat) n_passes);
+        }
+
+        film->put(hist);
     }
 
     if (!m_stop)
@@ -432,21 +465,17 @@ MTS_VARIANT void TimeDependentIntegrator<Float, Spectrum>::render_band(const Sce
                                                                    Histogram *hist,
                                                                    size_t sample_count_,
                                                                    const size_t band_id) const {
-    auto time_step_count  = (uint32_t) sensor->film()->size().x(),
-         sample_count = (uint32_t)(sample_count_ == (size_t) -1
-                                      ? sampler->sample_count()
-                                      : sample_count_);
+    auto sample_count = (uint32_t)(sample_count_ == (size_t) -1
+                                       ? sampler->sample_count()
+                                       : sample_count_);
 
     hist->clear();
-    ScalarFloat diff_scale_factor = rsqrt((ScalarFloat) sampler->sample_count());
-
-    Wavelength wav = m_wavelength_bins.at(band_id);
 
     if constexpr (!is_array_v<Float>) {
         for (uint32_t i = 0; i < m_time_step_count; ++i) {
             sampler->seed(band_id * m_time_step_count + i);
             for (uint32_t j = 0; j < sample_count; ++j) {
-                render_sample(scene, sensor, sampler, hist, diff_scale_factor, band_id);
+                render_sample(scene, sensor, sampler, hist, band_id);
             }
         }
     } else if constexpr (is_array_v<Float> && !is_cuda_array_v<Float>) {
@@ -454,14 +483,13 @@ MTS_VARIANT void TimeDependentIntegrator<Float, Spectrum>::render_band(const Sce
         sampler->seed(band_id);
 
         for (auto [index, active] : range<UInt32>(m_time_step_count * sample_count)) {
-            render_sample(scene, sensor, sampler, hist, diff_scale_factor, band_id);
+            render_sample(scene, sensor, sampler, hist, band_id);
         }
     } else {
         ENOKI_MARK_USED(scene);
         ENOKI_MARK_USED(sensor);
-        ENOKI_MARK_USED(diff_scale_factor);
+        ENOKI_MARK_USED(band_id);
         ENOKI_MARK_USED(sample_count);
-        ENOKI_MARK_USED(wav);
         Throw("Not implemented for CUDA arrays.");
     }
 }
@@ -472,13 +500,16 @@ TimeDependentIntegrator<Float, Spectrum>::render_sample(const Scene *scene,
                                                         const Sensor *sensor,
                                                         Sampler *sampler,
                                                         Histogram *hist,
-                                                        ScalarFloat diff_scale_factor,
-                                                        const size_t band_id,
+                                                        const UInt32 band_id,
                                                         Mask active) const {
 
     Vector2f position_sample = sampler->next_2d(active);
     Point2f direction_sample = sampler->next_2d(active);
-    Float wavelength_sample = band_id / (m_wavelength_bins.size() - 1);
+
+    Float wavelength_sample = band_id;
+
+    if (m_wavelength_bins.size() - 1 != 1)
+        wavelength_sample = band_id / (m_wavelength_bins.size() - 1);
 
     auto [ray, ray_weight] = sensor->sample_ray_differential(0, wavelength_sample, position_sample, direction_sample);
 
