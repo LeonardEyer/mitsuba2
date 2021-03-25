@@ -13,7 +13,7 @@ template <typename Float, typename Spectrum>
 class AcousticPathIntegrator : public TimeDependentIntegrator<Float, Spectrum> {
 public:
     MTS_IMPORT_BASE(TimeDependentIntegrator, m_stop,
-                    m_max_time, m_wavelength_bins, m_time_step_count)
+                    m_max_depth, m_wavelength_bins, m_time_step_count)
     MTS_IMPORT_TYPES(Scene, Sensor, Sampler, Medium, Emitter, EmitterPtr, BSDF,
                      BSDFPtr, Histogram)
 
@@ -31,13 +31,10 @@ public:
 
         Float time = ray.time;
 
-        // Tracks radiance scaling due to index of refraction changes
-        Float eta(1.f);
-
         // MIS weight for intersected emitters (set by prev. iteration)
         Float emission_weight(1.f);
 
-        Spectrum throughput(1.f);//, result(0.f);
+        Spectrum throughput(1.f);
 
         // ---------------------- First intersection ----------------------
 
@@ -48,36 +45,38 @@ public:
         for (int depth = 1;; ++depth) {
 
            // Update traveled time
-           time += select(si.is_valid(), si.t / MTS_SOUND_SPEED, math::Infinity<Float>);
+           time += select(si.is_valid(), si.t / MTS_SOUND_SPEED, 0);
 
             // medium absorption operator
             //throughput *= enoki::exp( - 0.1151f * alpha * si.t);
 
+           Mask hit_emitter = neq(emitter, nullptr);
+
             // ---------------- Intersection with sensors ----------------
-            if (any_or<true>(neq(emitter, nullptr))) {
+            if (any_or<true>(hit_emitter)) {
                 //result[active] += emission_weight * throughput * emitter->eval(si, active);
-                throughput[active] *= emission_weight * emitter->eval(si, active);
+                //throughput[active] *= emission_weight * emitter->eval(si, active);
                 // Logging the result
-                hist->put(time, ray.wavelengths, throughput, active);
 
-                return { throughput, active };
+                hist->put(time, ray.wavelengths, throughput, hit_emitter);
+
+                throughput[hit_emitter] = 0;
             }
-
             active &= si.is_valid();
 
             // Stop if we've exceeded the number of requested bounces, or
             // if there are no more active lanes. Only do this latter check
             // in GPU mode when the number of requested bounces is infinite
             // since it causes a costly synchronization.
-            if (any(time >= (uint32_t) m_max_time) ||
-                ((!is_cuda_array_v<Float> || m_max_time < 0) && none(active)))
+            if ((uint32_t) depth >= (uint32_t) m_max_depth ||
+                ((!is_cuda_array_v<Float> || m_max_depth < 0) && none(active)))
                 break;
 
             // --------------------- Emitter sampling ---------------------
 
             BSDFContext ctx;
             BSDFPtr bsdf = si.bsdf(ray);
-            Mask active_e = active && has_flag(bsdf->flags(), BSDFFlags::Smooth);
+            /*Mask active_e = active && has_flag(bsdf->flags(), BSDFFlags::Smooth);
 
             if (likely(any_or<true>(active_e))) {
                 auto [ds, emitter_val] = scene->sample_emitter_direction(
@@ -102,7 +101,7 @@ public:
                 Float expected_time = (ds.dist / MTS_SOUND_SPEED) + time;
                 hist->put(expected_time, ray.wavelengths, expected_throughput, active_e);
 
-            }
+            }*/
 
             // ----------------------- BSDF sampling ----------------------
 
@@ -116,16 +115,15 @@ public:
             if (none_or<false>(active))
                 break;
 
-            eta *= bs.eta;
-
             // Intersect the BSDF ray against the scene geometry
             ray = si.spawn_ray(si.to_world(bs.wo));
             SurfaceInteraction3f si_bsdf = scene->ray_intersect(ray, active);
 
+            emitter = si_bsdf.emitter(scene, active);
+
             /* Determine probability of having sampled that same
                direction using emitter sampling. */
-            emitter = si_bsdf.emitter(scene, active);
-            DirectionSample3f ds(si_bsdf, si);
+            /*DirectionSample3f ds(si_bsdf, si);
             ds.object = emitter;
 
             if (any_or<true>(neq(emitter, nullptr))) {
@@ -135,7 +133,7 @@ public:
                            0.f);
 
                 emission_weight = mis_weight(bs.pdf, emitter_pdf);
-            }
+            }*/
 
             si = std::move(si_bsdf);
         }
@@ -150,7 +148,7 @@ public:
         std::ostringstream oss;
         oss << "AcousticPathIntegrator[" << std::endl
             << "  stop = " << m_stop << "," << std::endl
-            << "  max_time = " << m_max_time << "," << std::endl
+            << "  max_depth = " << m_max_depth << "," << std::endl
             << "  wavelength_bins = " << m_wavelength_bins;
         oss << std::endl << "]";
         return oss.str();
