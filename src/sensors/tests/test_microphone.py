@@ -5,17 +5,13 @@ import enoki as ek
 import mitsuba
 
 
-def sensor_shape_dict(radius, center, wavs):
+def sensor_dict(center, wavs):
     from mitsuba.core import ScalarTransform4f
 
     d = {
-        "type": "sphere",
-        "radius": radius,
+        "type": "microphone",
+        "wavelengths": ",".join(str(x) for x in wavs),
         "to_world": ScalarTransform4f.translate(center),
-        "sensor": {
-            "type": "microphone",
-            "wavelengths": ",".join(str(x) for x in wavs)
-        }
     }
 
     return d
@@ -31,11 +27,7 @@ def test_construct(variant_scalar_acoustic):
     from mitsuba.core.xml import load_dict
 
     center_v = ScalarVector3f(0.0)
-    radius = 1.0
-    sphere = load_dict(sensor_shape_dict(radius, center_v, [10, 20]))
-    sensor = sphere.sensor()
-
-    assert sensor.shape() == sphere
+    sensor = load_dict(sensor_dict(center_v, [10, 20]))
 
 
 @pytest.mark.parametrize(
@@ -44,7 +36,7 @@ def test_construct(variant_scalar_acoustic):
 )
 def test_sampling(variant_scalar_acoustic, center, radius):
     """We construct an irradiance meter attached to a sphere and assert that
-    sampled rays originate at the sphere's surface
+    sampled rays originate at the sphere's center
     """
     from mitsuba.core import ScalarVector3f
     from mitsuba.core.xml import load_dict
@@ -52,8 +44,7 @@ def test_sampling(variant_scalar_acoustic, center, radius):
     wavs = [1, 2, 3, 4, 5]
 
     center_v = ScalarVector3f(center)
-    sphere = load_dict(sensor_shape_dict(radius, center_v, wavs))
-    sensor = sphere.sensor()
+    sensor = load_dict(sensor_dict(center_v, wavs))
     num_samples = 100
 
     wav_samples = np.linspace(0, 1, num_samples)
@@ -64,10 +55,8 @@ def test_sampling(variant_scalar_acoustic, center, radius):
         ray, weight = sensor.sample_ray_differential(
             0.0, wav_samples[i], pos_samples[i], dir_samples[i])
 
-        # assert that the ray starts at the sphere surface
-        assert ek.allclose(ek.norm(center_v - ray.o), radius)
-        # assert that all rays point away from the sphere center
-        assert ek.dot(ek.normalize(ray.o - center_v), ray.d) > 0.0
+        # assert that the ray starts at the sphere center
+        assert ek.allclose(ray.o, center_v)
 
         idx = np.ceil(wav_samples[i] * (len(wavs) - 1))
         assert ray.wavelengths[0] == wavs[int(idx)]
