@@ -53,24 +53,18 @@ def make_shoebox_scene(emitter_pos, sensor_pos, box_dimensions, radius, max_time
                 }
             }
         },
-        "sensor_shape": {
-            "id": "sensor",
-            "type": "sphere",
-            "radius": radius,
+        "sensor": {
+            "type": "microphone",
             "to_world": transform(translate=sensor_pos),
-            "visible": not hide_sensor,
-            "sensor": {
-                "type": "microphone",
-                "wavelengths": ','.join(str(x) for x in wavs),
-                "sampler": {
-                    "type": "independent",
-                    "sample_count": spp
-                },
-                "myfilm": {
-                    "type": "tape",
-                    "max_time": max_time,
-                    "time_steps": time_steps,
-                }
+            "wavelengths": ','.join(str(x) for x in wavs),
+            "sampler": {
+                "type": "independent",
+                "sample_count": spp
+            },
+            "myfilm": {
+                "type": "tape",
+                "max_time": max_time,
+                "time_steps": time_steps,
             }
         },
         "shoebox": {
