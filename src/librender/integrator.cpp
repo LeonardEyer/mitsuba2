@@ -361,14 +361,15 @@ TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
     ScopedPhase sp(ProfilerPhase::Render);
     m_stop = false;
 
-    ref<Film> film       = sensor->film();
-    auto film_size = film->size();
-    m_time_step_count    = film_size.x();
+    ref<Film> film          = sensor->film();
 
     // Prepare the film
     film->prepare(m_wavelength_bins);
 
-    size_t total_spp       = sensor->sampler()->sample_count();
+    auto film_size          = film->size();
+    m_time_step_count       = film_size.x();
+
+    size_t total_spp        = sensor->sampler()->sample_count();
     size_t samples_per_pass = (m_samples_per_pass == (size_t) -1)
                               ? total_spp : std::min((size_t) m_samples_per_pass, total_spp);
 
@@ -377,8 +378,6 @@ TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
               total_spp, samples_per_pass);
 
     size_t n_passes = (total_spp + samples_per_pass - 1) / samples_per_pass;
-
-    size_t bin_count = m_wavelength_bins.size();
 
     m_render_timer.reset();
     if constexpr (!is_cuda_array_v<Float>) {
@@ -394,7 +393,7 @@ TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
         ref<ProgressReporter> progress = new ProgressReporter("Rendering");
         std::mutex mutex;
 
-        size_t total_bands = (bin_count - 1) * n_passes, bands_done = 0;
+        size_t total_bands = film_size.y() * n_passes, bands_done = 0;
 
         // Simulate each frequency band and time step times spp
         tbb::parallel_for(size_t(0), total_bands, [&](size_t i) {
@@ -439,7 +438,9 @@ TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
         if (samples_per_pass != 1)
             idx /= (uint32_t) samples_per_pass;
 
-        UInt32 band_id = idx % film_size.x();
+        UInt32 band_id = 0;
+        if (film_size.y() != 1)
+            band_id = idx % film_size.y();
 
         ref<Histogram> hist = new Histogram(m_time_step_count, { 0, m_max_time }, m_wavelength_bins);
         hist->clear();
@@ -509,7 +510,7 @@ TimeDependentIntegrator<Float, Spectrum>::render_sample(const Scene *scene,
     Float wavelength_sample = band_id;
 
     if (m_wavelength_bins.size() - 1 != 1)
-        wavelength_sample = band_id / (m_wavelength_bins.size() - 1);
+        wavelength_sample = band_id / (m_wavelength_bins.size() - 1.f);
 
     auto [ray, ray_weight] = sensor->sample_ray_differential(0, wavelength_sample, position_sample, direction_sample);
 

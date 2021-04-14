@@ -152,13 +152,14 @@ def get_vals(data, time_steps, bin_count):
     return np.array(data, copy=False).reshape([time_steps, bin_count])
 
 
-def make_integrator(bins, samples_per_pass, max_time=1.):
+def make_integrator(bins, samples_per_pass, max_depth=5, max_time=1.):
     str_bins = list(map(str, bins))
     from mitsuba.core.xml import load_string
 
     integrator = load_string(f"""
     <integrator version='2.0.0' type='acousticpath'>
         <float name='max_time' value='{max_time}'/>
+        <integer name='max_depth' value='{max_depth}'/>
         <string name='wavelength_bins' value='{','.join(str_bins)}'/>
         <integer name='samples_per_pass' value='{samples_per_pass}'/>
     </integrator>
@@ -173,11 +174,11 @@ def test01_create(variant_scalar_acoustic):
     print(integrator)
 
 
-def test02_render_specular_single(variant_gpu_acoustic):
+def test02_render_specular_multiple_equal(variant_scalar_acoustic):
     from mitsuba.core.xml import load_string, load_dict
 
-    bins = [3, 6]
-    max_time = 7
+    bins = [3, 4, 5, 8]
+    max_time = 1
     time_steps = 1000 * max_time
 
     scene = load_dict(make_shoebox_scene(emitter_pos=[20, 7, 2],
@@ -191,7 +192,7 @@ def test02_render_specular_single(variant_gpu_acoustic):
                                          scattering=0.0,
                                          absorption=0.1))
 
-    integrator = make_integrator(bins=bins, samples_per_pass=1000, max_time=max_time)
+    integrator = make_integrator(bins=bins, samples_per_pass=100, max_time=max_time, max_depth=10)
 
     sensor = scene.sensors()[0]
 
@@ -204,10 +205,14 @@ def test02_render_specular_single(variant_gpu_acoustic):
     vals = get_vals(raw, time_steps, len(bins) - 1)
     vals_count = get_vals(counts, time_steps, len(bins) - 1)
 
-    print("sum:", np.sum(vals))
+    sums = np.sum(vals, axis=0)
+    total = np.sum(sums)
 
-    plt.plot(vals_count, label='count')
-    plt.plot(vals, label='vals')
-    # plt.plot(vals / vals_count, label='normalized')
-    plt.legend()
-    plt.show()
+    print("sum:", sums)
+    print("%:", sums / total)
+
+    # plt.plot(vals_count, label='count')
+    # #plt.plot(vals, label='vals')
+    # # plt.plot(vals / vals_count, label='normalized')
+    # plt.legend()
+    # plt.show()
