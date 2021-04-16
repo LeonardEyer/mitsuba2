@@ -45,7 +45,8 @@ def generate_fixture(variant):
 
 for variant in ['scalar_rgb', 'scalar_spectral', 'scalar_acoustic',
                 'scalar_mono_polarized', 'packet_rgb',
-                'packet_spectral', 'packet_acoustic', 'gpu_rgb', 'gpu_autodiff_rgb', 'gpu_acoustic']:
+                'packet_spectral', 'packet_acoustic', 'gpu_rgb',
+                'gpu_autodiff_rgb', 'gpu_acoustic', 'gpu_autodiff_acoustic', 'gpu_autodiff_spectral']:
     generate_fixture(variant)
 del generate_fixture
 

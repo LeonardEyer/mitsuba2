@@ -124,7 +124,11 @@ def render(scene,
            unbiased=False,
            optimizer: 'mitsuba.python.autodiff.Optimizer' = None,
            sensor_index=0,
+<<<<<<< HEAD
            pre_render_callback = lambda: None):
+=======
+           time_dependent=False):
+>>>>>>> 20e6136d... Prepare for autodiff of acoustic variants
     """
     Perform a differentiable of the scene `scene`, returning a floating point
     array containing RGB values and AOVs, if applicable.
@@ -179,6 +183,8 @@ def render(scene,
         ``unbiased=True`` as one might want to update the scene in between
         the two renders.
     """
+
+    _rh = _render_helper_time_dependent if time_dependent else _render_helper
     if unbiased:
         if optimizer is None:
             raise Exception('render(): unbiased=True requires that an '
@@ -187,20 +193,30 @@ def render(scene,
             spp = (spp, spp)
 
         with optimizer.disable_gradients():
+<<<<<<< HEAD
             pre_render_callback()
             image = _render_helper(scene, spp=spp[0],
                                    sensor_index=sensor_index)
 
         pre_render_callback()
         image_diff = _render_helper(scene, spp=spp[1],
+=======
+            image = _rh(scene, spp=spp[0],
+                                   sensor_index=sensor_index)
+        image_diff = _rh(scene, spp=spp[1],
+>>>>>>> 20e6136d... Prepare for autodiff of acoustic variants
                                     sensor_index=sensor_index)
         ek.reattach(image, image_diff)
     else:
         if type(spp) is tuple:
             raise Exception('render(): unbiased=False requires that spp '
                             'is either an integer or None!')
+<<<<<<< HEAD
         pre_render_callback()
         image = _render_helper(scene, spp=spp, sensor_index=sensor_index)
+=======
+        image = _rh(scene, spp=spp, sensor_index=sensor_index)
+>>>>>>> 20e6136d... Prepare for autodiff of acoustic variants
 
     return image
 

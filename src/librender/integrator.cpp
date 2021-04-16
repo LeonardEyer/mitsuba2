@@ -486,15 +486,15 @@ TimeDependentIntegrator<Float, Spectrum>::render_sample(const Scene *scene,
                                                         const UInt32 band_id,
                                                         Mask active) const {
 
-    Vector2f position_sample = sampler->next_2d(active);
+    //Vector2f position_sample = sampler->next_2d(active);
     Point2f direction_sample = sampler->next_2d(active);
 
     Float wavelength_sample = band_id;
 
-    if (m_wavelength_bins.size() - 1 != 1)
-        wavelength_sample = band_id / (m_wavelength_bins.size() - 1.f);
+    if (sensor->film()->size().y() != 1)
+        wavelength_sample = band_id / (ScalarFloat) sensor->film()->size().y();
 
-    auto [ray, ray_weight] = sensor->sample_ray_differential(0, wavelength_sample, position_sample, direction_sample);
+    auto [ray, ray_weight] = sensor->sample_ray_differential(0, wavelength_sample, { 0, 0 }, direction_sample);
 
     std::pair<Spectrum, Mask> result = sample(scene, sampler, ray, hist, nullptr, nullptr, active);
 
