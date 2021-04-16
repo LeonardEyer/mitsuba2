@@ -35,6 +35,8 @@ public:
         }
     }
 
+    ~Microphone() {}
+
     std::pair<RayDifferential3f, Spectrum>
     sample_ray_differential(Float time, Float wavelength_sample,
                             const Point2f &/*sample2*/, const Point2f &sample3,
@@ -73,6 +75,11 @@ public:
     ScalarBoundingBox3f bbox() const override {
         // Return an invalid bounding box
         return ScalarBoundingBox3f();
+    }
+
+    void traverse(TraversalCallback *callback) override {
+        callback->put_parameter("wavelengths", m_wavelengths);
+        Base::traverse(callback);
     }
 
     std::string to_string() const override {
