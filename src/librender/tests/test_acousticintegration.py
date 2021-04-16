@@ -174,10 +174,11 @@ def test01_create(variant_scalar_acoustic):
     print(integrator)
 
 
-def test02_render_specular_multiple_equal(variant_scalar_acoustic):
+def test02_render_specular_multiple_equal(variant_gpu_autodiff_spectral):
     from mitsuba.core.xml import load_string, load_dict
-
-    bins = [3, 4, 5, 8]
+    from enoki import cuda_set_log_level
+    cuda_set_log_level(0)
+    bins = [3, 4]
     max_time = 1
     time_steps = 1000 * max_time
 
@@ -187,7 +188,7 @@ def test02_render_specular_multiple_equal(variant_scalar_acoustic):
                                          radius=0.7,
                                          max_time=max_time,
                                          time_steps=time_steps,
-                                         spp=10000,
+                                         spp=100,
                                          wavs=bins[:-1],
                                          scattering=0.0,
                                          absorption=0.1))
@@ -196,6 +197,7 @@ def test02_render_specular_multiple_equal(variant_scalar_acoustic):
 
     sensor = scene.sensors()[0]
 
+    status = integrator.render(scene, sensor)
     status = integrator.render(scene, sensor)
     assert status
 
@@ -210,6 +212,8 @@ def test02_render_specular_multiple_equal(variant_scalar_acoustic):
 
     print("sum:", sums)
     print("%:", sums / total)
+
+    assert True
 
     # plt.plot(vals_count, label='count')
     # #plt.plot(vals, label='vals')
