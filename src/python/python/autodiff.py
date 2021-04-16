@@ -1,6 +1,39 @@
 from contextlib import contextmanager
 from typing import Union, Tuple
 import enoki as ek
+import numpy as np
+
+
+def _render_helper_time_dependent(scene, spp=None, sensor_index=0):
+
+    def get_vals(data, time_steps, bin_count):
+        return np.array(data, copy=False).reshape([time_steps, bin_count])
+
+    def pad_first_zeros(arr):
+        non_zero = (arr != 0).argmax(axis=0)
+        arr_pad = np.copy(arr)
+        for i, v in enumerate(non_zero):
+            arr_pad[:v, i] = 1
+
+        return arr_pad
+
+    sensor = scene.sensors()[sensor_index]
+    integrator = scene.integrator()
+    integrator.render(scene, sensor)
+
+    film = sensor.film()
+    raw = film.bitmap(raw=True)
+    counts = film.bitmap(raw=False)
+    vals = get_vals(raw, *film.size())
+    vals_count = get_vals(counts, *film.size())
+
+    # Pad the energy with ones
+    vals = pad_first_zeros(vals)
+    vals_count = pad_first_zeros(vals_count)
+
+    energy = vals / vals_count
+    energy = np.nan_to_num(energy)
+    return energy
 
 
 def _render_helper(scene, spp=None, sensor_index=0):
@@ -122,7 +155,8 @@ def render(scene,
            spp: Union[None, int, Tuple[int, int]] = None,
            unbiased=False,
            optimizer: 'mitsuba.python.autodiff.Optimizer' = None,
-           sensor_index=0):
+           sensor_index=0,
+           time_dependent=False):
     """
     Perform a differentiable of the scene `scene`, returning a floating point
     array containing RGB values and AOVs, if applicable.
@@ -172,6 +206,8 @@ def render(scene,
         When the scene contains more than one sensor/camera, this parameter
         can be specified to select the desired sensor.
     """
+
+    _rh = _render_helper_time_dependent if time_dependent else _render_helper
     if unbiased:
         if optimizer is None:
             raise Exception('render(): unbiased=True requires that an '
@@ -180,16 +216,16 @@ def render(scene,
             spp = (spp, spp)
 
         with optimizer.disable_gradients():
-            image = _render_helper(scene, spp=spp[0],
+            image = _rh(scene, spp=spp[0],
                                    sensor_index=sensor_index)
-        image_diff = _render_helper(scene, spp=spp[1],
+        image_diff = _rh(scene, spp=spp[1],
                                     sensor_index=sensor_index)
         ek.reattach(image, image_diff)
     else:
         if type(spp) is tuple:
             raise Exception('render(): unbiased=False requires that spp '
                             'is either an integer or None!')
-        image = _render_helper(scene, spp=spp, sensor_index=sensor_index)
+        image = _rh(scene, spp=spp, sensor_index=sensor_index)
 
     return image
 
