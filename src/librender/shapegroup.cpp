@@ -153,6 +153,13 @@ MTS_VARIANT void ShapeGroup<Float, Spectrum>::optix_fill_hitgroup_records(std::v
 
 #endif
 
+MTS_VARIANT void ShapeGroup<Float, Spectrum>::traverse(TraversalCallback *callback) {
+    for (size_t i = 0; i < m_kdtree->shape_count(); ++i) {
+        auto s = m_kdtree->shape(i);
+        callback->put_object("child_" + std::to_string(i), s);
+    }
+}
+
 MTS_VARIANT std::string ShapeGroup<Float, Spectrum>::to_string() const {
     std::ostringstream oss;
         oss << "ShapeGroup[" << std::endl

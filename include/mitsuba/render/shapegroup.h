@@ -44,6 +44,8 @@ public:
 
     MTS_INLINE ScalarSize effective_primitive_count() const override { return 0; }
 
+    void traverse(TraversalCallback *callback) override;
+
     std::string to_string() const override;
 
 #if defined(MTS_ENABLE_OPTIX)
