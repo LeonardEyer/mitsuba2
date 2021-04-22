@@ -1,7 +1,7 @@
-#include <mitsuba/render/integrator.h>
 #include <mitsuba/core/properties.h>
 #include <mitsuba/core/thread.h>
 #include <mitsuba/core/tls.h>
+#include <mitsuba/render/integrator.h>
 #include <mitsuba/python/python.h>
 
 #if defined(__APPLE__) || defined(__linux__)
@@ -55,6 +55,34 @@ public:
     std::string to_string() const override {
         PYBIND11_OVERLOAD(std::string, SamplingIntegrator, to_string, );
     }
+};
+
+MTS_VARIANT class PyTimeDependentIntegrator : public TimeDependentIntegrator<Float, Spectrum> {
+public:
+    MTS_IMPORT_TYPES(TimeDependentIntegrator, Scene, Sampler, Medium, Emitter,
+                     EmitterPtr, BSDF, BSDFPtr, Histogram)
+
+    PyTimeDependentIntegrator(const Properties &props)
+        : TimeDependentIntegrator(props) {}
+
+    std::pair<Spectrum, Mask> trace_acoustic_ray(const Scene *scene,
+                                                 Sampler *sampler,
+                                                 const RayDifferential3f &ray,
+                                                 Histogram *hist,
+                                                 const Medium *medium = nullptr,
+                                                 Float *aovs = nullptr,
+                                                 Mask active = true) const override {
+
+    };
+
+    std::vector<std::string> aov_names() const override {
+        PYBIND11_OVERLOAD(std::vector<std::string>, TimeDependentIntegrator, aov_names, );
+    }
+
+    std::string to_string() const override {
+        PYBIND11_OVERLOAD(std::string, TimeDependentIntegrator, to_string, );
+    }
+
 };
 
 template <typename Float, typename Spectrum, typename Class,
@@ -120,6 +148,7 @@ void bind_integrator_sample(Class &integrator) {
 MTS_PY_EXPORT(Integrator) {
     MTS_PY_IMPORT_TYPES()
     using PySamplingIntegrator = PySamplingIntegrator<Float, Spectrum>;
+    using PyTimeDependentIntegrator = PyTimeDependentIntegrator<Float, Spectrum>;
 
     MTS_PY_CLASS(Integrator, Object)
         .def("render",
@@ -168,5 +197,9 @@ MTS_PY_EXPORT(Integrator) {
 
     MTS_PY_CLASS(MonteCarloIntegrator, SamplingIntegrator);
 
-    MTS_PY_CLASS(TimeDependentIntegrator, Integrator);
+    //MTS_PY_CLASS(TimeDependentIntegrator, Integrator);
+
+    py::class_<TimeDependentIntegrator, PyTimeDependentIntegrator, Integrator,
+               ref<TimeDependentIntegrator>>(m, "TimeDependentIntegrator", D(TimeDependentIntegrator))
+        .def(py::init<const Properties&>());
 }
