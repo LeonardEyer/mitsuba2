@@ -1,5 +1,6 @@
 #pragma once
 
+#include <mitsuba/core/filesystem.h>
 #include <mitsuba/core/fwd.h>
 #include <mitsuba/core/object.h>
 #include <mitsuba/core/properties.h>
@@ -8,13 +9,13 @@
 #include <mitsuba/core/tls.h>
 #include <mitsuba/core/vector.h>
 #include <mitsuba/render/fwd.h>
-#include <mitsuba/render/imageblock.h>
 #include <mitsuba/render/histogram.h>
+#include <mitsuba/render/imageblock.h>
 #include <mitsuba/render/interaction.h>
+#include <mitsuba/render/medium.h>
 #include <mitsuba/render/records.h>
 #include <mitsuba/render/scene.h>
 #include <mitsuba/render/shape.h>
-#include <mitsuba/render/medium.h>
 
 NAMESPACE_BEGIN(mitsuba)
 
@@ -51,13 +52,53 @@ public:
      */
     virtual void cancel() = 0;
 
+    /**
+     * Indicates whether \ref cancel() or a timeout have occured. Should be
+     * checked regularly in the integrator's main loop so that timeouts are
+     * enforced accurately.
+     *
+     * Note that accurate timeouts rely on \ref m_render_timer, which needs
+     * to be reset at the beginning of the rendering phase.
+     */
+    bool should_stop() const {
+        return m_stop || (m_timeout > 0.f &&
+            m_render_timer.value() > 1000.f * m_timeout);
+    }
+
+    /**
+     * For integrators that return one or more arbitrary output variables
+     * (AOVs), this function specifies a list of associated channel names. The
+     * default implementation simply returns an empty vector.
+     */
+    virtual std::vector<std::string> aov_names() const;
+
+    void set_graphviz_output(const fs::path &value) {
+        m_graphviz_output = value;
+    }
+
     MTS_DECLARE_CLASS()
 protected:
     /// Create an integrator
-    Integrator(const Properties & /*props*/) {}
+    Integrator(const Properties & props);
 
     /// Virtual destructor
     virtual ~Integrator() { }
+
+protected:
+    /// Integrators should stop all work when this flag is set to true.
+    bool m_stop;
+
+    /**
+     * \brief Maximum amount of time to spend rendering (excluding scene parsing).
+     *
+     * Specified in seconds. A negative values indicates no timeout.
+     */
+    float m_timeout;
+
+    /// Timer used to enforce the timeout.
+    Timer m_render_timer;
+
+    fs::path m_graphviz_output;
 };
 
 /** \brief Integrator based on Monte Carlo sampling
@@ -70,7 +111,8 @@ protected:
 template <typename Float, typename Spectrum>
 class MTS_EXPORT_RENDER SamplingIntegrator : public Integrator<Float, Spectrum> {
 public:
-    MTS_IMPORT_BASE(Integrator)
+    MTS_IMPORT_BASE(Integrator, should_stop, aov_names,
+                    m_stop, m_timeout, m_render_timer)
     MTS_IMPORT_TYPES(Scene, Sensor, Film, ImageBlock, Medium, Sampler)
 
     /**
@@ -119,32 +161,12 @@ public:
                                              Float *aovs = nullptr,
                                              Mask active = true) const;
 
-    /**
-     * For integrators that return one or more arbitrary output variables
-     * (AOVs), this function specifies a list of associated channel names. The
-     * default implementation simply returns an empty vector.
-     */
-    virtual std::vector<std::string> aov_names() const;
-
     // =========================================================================
     //! @{ \name Integrator interface implementation
     // =========================================================================
 
     bool render(Scene *scene, Sensor *sensor) override;
     void cancel() override;
-
-    /**
-     * Indicates whether \ref cancel() or a timeout have occured. Should be
-     * checked regularly in the integrator's main loop so that timeouts are
-     * enforced accurately.
-     *
-     * Note that accurate timeouts rely on \ref m_render_timer, which needs
-     * to be reset at the beginning of the rendering phase.
-     */
-    bool should_stop() const {
-        return m_stop || (m_timeout > 0.f &&
-                          m_render_timer.value() > 1000.f * m_timeout);
-    }
 
     //! @}
     // =========================================================================
@@ -171,8 +193,6 @@ protected:
                        Mask active = true) const;
 
 protected:
-    /// Integrators should stop all work when this flag is set to true.
-    bool m_stop;
 
     /// Size of (square) image blocks to render per core.
     uint32_t m_block_size;
@@ -184,16 +204,6 @@ protected:
      * If set to (size_t) -1, all the work is done in a single pass (default).
      */
     uint32_t m_samples_per_pass;
-
-    /**
-     * \brief Maximum amount of time to spend rendering (excluding scene parsing).
-     *
-     * Specified in seconds. A negative values indicates no timeout.
-     */
-    float m_timeout;
-
-    /// Timer used to enforce the timeout.
-    Timer m_render_timer;
 
     /// Flag for disabling direct visibility of emitters
     bool m_hide_emitters;
@@ -223,18 +233,21 @@ protected:
 };
 
 template <typename Float, typename Spectrum>
-class MTS_EXPORT_RENDER TimeDependentIntegrator : public MonteCarloIntegrator<Float, Spectrum> {
+class MTS_EXPORT_RENDER TimeDependentIntegrator : public Integrator<Float, Spectrum> {
 public:
-    MTS_IMPORT_BASE(MonteCarloIntegrator, m_max_depth, m_rr_depth, m_samples_per_pass, m_render_timer, m_stop)
+    MTS_IMPORT_BASE(Integrator, should_stop, m_stop, m_timeout, m_render_timer, aov_names)
     MTS_IMPORT_TYPES(Scene, Sensor, Film, Histogram, Medium, Sampler)
 
-    bool render(Scene *scene, Sensor *sensor) override;
+    TimeDependentIntegrator(const Properties &props);
+    virtual ~TimeDependentIntegrator();
 
-    /**
-     * NOTE: that this method overloads sample such that a reference to histogram
-     * is passed so that we can record at any time
+    bool render(Scene *scene, Sensor *sensor) override;
+    void cancel() override;
+
+    /*
+     * Trace an acoustic ray over time and store intermediate results in the histogram
      */
-    virtual std::pair<Spectrum, Mask> sample(const Scene *scene,
+    virtual std::pair<Spectrum, Mask> trace_acoustic_ray(const Scene *scene,
                                              Sampler *sampler,
                                              const RayDifferential3f &ray,
                                              Histogram *hist,
@@ -249,10 +262,6 @@ public:
     const std::vector<ScalarFloat> wavelength_bins() { return m_wavelength_bins; }
 
 protected:
-    TimeDependentIntegrator(const Properties &props);
-
-    virtual ~TimeDependentIntegrator();
-
     void render_band(const Scene *scene,
                 const Sensor *sensor,
                 Sampler *sampler,
@@ -272,6 +281,27 @@ protected:
     float m_max_time;
     size_t m_time_step_count;
     std::vector<ScalarFloat> m_wavelength_bins;
+
+    /**
+     * \brief Number of samples to compute for each pass over the image blocks.
+     *
+     * Must be a multiple of the total sample count per pixel.
+     * If set to (size_t) -1, all the work is done in a single pass (default).
+     */
+    uint32_t m_samples_per_pass;
+
+    /// Flag for disabling direct visibility of emitters
+    bool m_hide_emitters;
+
+    /**
+     * Longest visualized path depth (\c -1 = infinite).
+     * A value of \c 1 will visualize only directly visible light sources.
+     * \c 2 will lead to single-bounce (direct-only) illumination, and so on.
+     */
+    int m_max_depth;
+
+    /// Depth to begin using russian roulette
+    int m_rr_depth;
 };
 
 MTS_EXTERN_CLASS_RENDER(Integrator)

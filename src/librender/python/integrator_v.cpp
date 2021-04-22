@@ -155,16 +155,18 @@ MTS_PY_EXPORT(Integrator) {
             D(Integrator, render), "scene"_a, "sensor"_a)
         .def_method(Integrator, cancel);
 
-    auto integrator =
+    auto sampling_integrator =
         py::class_<SamplingIntegrator, PySamplingIntegrator, Integrator,
                     ref<SamplingIntegrator>>(m, "SamplingIntegrator", D(SamplingIntegrator))
             .def(py::init<const Properties&>())
             .def_method(SamplingIntegrator, aov_names)
             .def_method(SamplingIntegrator, should_stop);
 
-    bind_integrator_sample<Float, Spectrum>(integrator);
+    bind_integrator_sample<Float, Spectrum>(sampling_integrator);
 
     MTS_PY_REGISTER_OBJECT("register_integrator", Integrator)
 
     MTS_PY_CLASS(MonteCarloIntegrator, SamplingIntegrator);
+
+    MTS_PY_CLASS(TimeDependentIntegrator, Integrator);
 }
