@@ -19,7 +19,7 @@ public:
 
     AcousticPathIntegrator(const Properties &props) : Base(props) {}
 
-    std::pair<Spectrum, Mask> sample(const Scene *scene, Sampler *sampler,
+    std::pair<Spectrum, Mask> trace_acoustic_ray(const Scene *scene, Sampler *sampler,
                                      const RayDifferential3f &ray_,
                                      Histogram * hist,
                                      const Medium * /* medium */,
@@ -32,7 +32,7 @@ public:
         Float time = ray.time;
 
         // MIS weight for intersected emitters (set by prev. iteration)
-        Float emission_weight(1.f);
+        //Float emission_weight(1.f);
 
         Spectrum throughput(1.f);
 

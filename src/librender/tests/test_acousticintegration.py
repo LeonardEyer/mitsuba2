@@ -174,10 +174,23 @@ def test01_create(variant_scalar_acoustic):
     print(integrator)
 
 
-def test02_render_specular_multiple_equal(variant_gpu_autodiff_spectral):
+def test015_test(variant_scalar_acoustic):
     from mitsuba.core.xml import load_string, load_dict
-    from enoki import cuda_set_log_level
-    cuda_set_log_level(0)
+    from mitsuba.render import TimeDependentIntegrator
+    bins = [3, 4]
+    max_time = 1
+    time_steps = 1000 * max_time
+
+    integrator = make_integrator(bins=bins, samples_per_pass=100, max_time=max_time, max_depth=10)
+    print("integrator.__class__.__name__:", integrator.__class__.__name__)
+
+    assert isinstance(integrator, TimeDependentIntegrator)
+
+
+def test02_render_specular_multiple_equal(variant_scalar_acoustic):
+    from mitsuba.core.xml import load_string, load_dict
+    #from enoki import cuda_set_log_level
+    #cuda_set_log_level(0)
     bins = [3, 4]
     max_time = 1
     time_steps = 1000 * max_time
@@ -194,6 +207,7 @@ def test02_render_specular_multiple_equal(variant_gpu_autodiff_spectral):
                                          absorption=0.1))
 
     integrator = make_integrator(bins=bins, samples_per_pass=100, max_time=max_time, max_depth=10)
+    print(integrator)
 
     sensor = scene.sensors()[0]
 

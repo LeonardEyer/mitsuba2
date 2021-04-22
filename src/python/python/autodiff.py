@@ -5,35 +5,49 @@ import numpy as np
 
 
 def _render_helper_time_dependent(scene, spp=None, sensor_index=0):
+    from mitsuba.core import (Float, UInt32, UInt64, Vector2f)
+    from mitsuba.render import Histogram
 
-    def get_vals(data, time_steps, bin_count):
-        return np.array(data, copy=False).reshape([time_steps, bin_count])
-
-    def pad_first_zeros(arr):
-        non_zero = (arr != 0).argmax(axis=0)
-        arr_pad = np.copy(arr)
-        for i, v in enumerate(non_zero):
-            arr_pad[:v, i] = 1
-
-        return arr_pad
+    integrator = scene.integrator()
+    wav_bins = integrator.wavelength_bins()
+    max_time = integrator.max_time()
 
     sensor = scene.sensors()[sensor_index]
-    integrator = scene.integrator()
-    integrator.render(scene, sensor)
-
     film = sensor.film()
-    raw = film.bitmap(raw=True)
-    counts = film.bitmap(raw=False)
-    vals = get_vals(raw, *film.size())
-    vals_count = get_vals(counts, *film.size())
 
-    # Pad the energy with ones
-    vals = pad_first_zeros(vals)
-    vals_count = pad_first_zeros(vals_count)
+    film.prepare(wav_bins)
 
-    energy = vals / vals_count
-    energy = np.nan_to_num(energy)
-    return energy
+    sampler = sensor.sampler()
+    film_size = film.size()
+    if spp is None:
+        spp = sampler.sample_count()
+
+    total_sample_count = ek.hprod(film_size) * spp
+
+    if sampler.wavefront_size() != total_sample_count:
+        sampler.seed(0, total_sample_count)
+
+    pos = ek.arange(UInt32, total_sample_count)
+    pos //= spp
+    idx = pos % film_size.y()
+
+    hist = Histogram(
+        time_step_count=film_size.y(),
+        time_range=[0, max_time],
+        wavelength_bins=wav_bins
+    )
+    hist.clear()
+
+    rays, weights = sensor.sample_ray_differential(
+        time=0,
+        sample1= film_size.y(),
+        sample2=[0, 0],
+        sample3=sampler.next_2d()
+    )
+
+    trace_acoustic_ray(scene, sampler, rays, hist, None, None)
+
+    data = hist.data()
 
 
 def _render_helper(scene, spp=None, sensor_index=0):
@@ -139,8 +153,8 @@ def write_bitmap(filename, data, resolution, write_async=True):
     data = data.reshape(resolution[1], resolution[0], -1)
     bitmap = Bitmap(data)
     if filename.endswith('.png') or \
-       filename.endswith('.jpg') or \
-       filename.endswith('.jpeg'):
+            filename.endswith('.jpg') or \
+            filename.endswith('.jpeg'):
         bitmap = bitmap.convert(Bitmap.PixelFormat.RGB,
                                 Struct.Type.UInt8, True)
     quality = 0 if filename.endswith('png') else -1
@@ -205,7 +219,10 @@ def render(scene,
     Parameter ``sensor_index`` (``int``):
         When the scene contains more than one sensor/camera, this parameter
         can be specified to select the desired sensor.
+
     """
+    from mitsuba.render import TimeDependentIntegrator
+    print("Instance?", isinstance(scene.integrator(), TimeDependentIntegrator))
 
     _rh = _render_helper_time_dependent if time_dependent else _render_helper
     if unbiased:
@@ -217,9 +234,9 @@ def render(scene,
 
         with optimizer.disable_gradients():
             image = _rh(scene, spp=spp[0],
-                                   sensor_index=sensor_index)
+                        sensor_index=sensor_index)
         image_diff = _rh(scene, spp=spp[1],
-                                    sensor_index=sensor_index)
+                         sensor_index=sensor_index)
         ek.reattach(image, image_diff)
     else:
         if type(spp) is tuple:
@@ -234,6 +251,7 @@ class Optimizer:
     """
     Base class of all gradient-based optimizers (currently SGD and Adam)
     """
+
     def __init__(self, params, lr):
         """
         Parameter ``params``:
@@ -339,7 +357,7 @@ class SGD(Optimizer):
 
     def __repr__(self):
         return ('SGD[\n  lr = %.2g,\n  momentum = %.2g\n]') % \
-            (self.lr, self.momentum)
+               (self.lr, self.momentum)
 
 
 class Adam(Optimizer):
@@ -347,6 +365,7 @@ class Adam(Optimizer):
     Implements the Adam optimizer presented in the paper *Adam: A Method for
     Stochastic Optimization* by Kingman and Ba, ICLR 2015.
     """
+
     def __init__(self, params, lr, beta_1=0.9, beta_2=0.999, epsilon=1e-8):
         """
         Parameter ``lr``:
@@ -363,7 +382,7 @@ class Adam(Optimizer):
         super().__init__(params, lr)
 
         assert 0 <= beta_1 < 1 and 0 <= beta_2 < 1 \
-            and lr > 0 and epsilon > 0
+               and lr > 0 and epsilon > 0
 
         self.beta_1 = beta_1
         self.beta_2 = beta_2
@@ -375,8 +394,8 @@ class Adam(Optimizer):
         self.t += 1
 
         from mitsuba.core import Float
-        lr_t = ek.detach(Float(self.lr * ek.sqrt(1 - self.beta_2**self.t) /
-                               (1 - self.beta_1**self.t), literal=False))
+        lr_t = ek.detach(Float(self.lr * ek.sqrt(1 - self.beta_2 ** self.t) /
+                               (1 - self.beta_1 ** self.t), literal=False))
 
         for k, p in self.params.items():
             g_p = ek.gradient(p)
