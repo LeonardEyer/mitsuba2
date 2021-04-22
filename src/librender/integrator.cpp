@@ -21,6 +21,17 @@ NAMESPACE_BEGIN(mitsuba)
 
 // -----------------------------------------------------------------------------
 
+MTS_VARIANT Integrator<Float, Spectrum>::Integrator(const Properties & props)
+    : m_stop(false) {
+    m_timeout = props.float_("timeout", -1.f);
+}
+
+MTS_VARIANT std::vector<std::string> Integrator<Float, Spectrum>::aov_names() const {
+    return { };
+}
+
+// -----------------------------------------------------------------------------
+
 MTS_VARIANT SamplingIntegrator<Float, Spectrum>::SamplingIntegrator(const Properties &props)
     : Base(props) {
 
@@ -33,7 +44,6 @@ MTS_VARIANT SamplingIntegrator<Float, Spectrum>::SamplingIntegrator(const Proper
     }
 
     m_samples_per_pass = (uint32_t) props.size_("samples_per_pass", (size_t) -1);
-    m_timeout = props.float_("timeout", -1.f);
 
     /// Disable direct visibility of emitters if needed
     m_hide_emitters = props.bool_("hide_emitters", false);
@@ -43,10 +53,6 @@ MTS_VARIANT SamplingIntegrator<Float, Spectrum>::~SamplingIntegrator() { }
 
 MTS_VARIANT void SamplingIntegrator<Float, Spectrum>::cancel() {
     m_stop = true;
-}
-
-MTS_VARIANT std::vector<std::string> SamplingIntegrator<Float, Spectrum>::aov_names() const {
-    return { };
 }
 
 MTS_VARIANT bool SamplingIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
@@ -303,6 +309,19 @@ MTS_VARIANT MonteCarloIntegrator<Float, Spectrum>::~MonteCarloIntegrator() { }
 
 MTS_VARIANT TimeDependentIntegrator<Float, Spectrum>::TimeDependentIntegrator(const Properties &props)
     : Base(props) {
+
+    // TODO: consider moving those parameters to the base class.
+    m_samples_per_pass = (uint32_t) props.size_("samples_per_pass", (size_t) -1);
+    m_hide_emitters = props.bool_("hide_emitters", false);
+
+    m_rr_depth = props.int_("rr_depth", 5);
+    if (m_rr_depth <= 0)
+        Throw("\"rr_depth\" must be set to a value greater than zero!");
+
+    m_max_depth = props.int_("max_depth", -1);
+    if (m_max_depth < 0 && m_max_depth != -1)
+        Throw("\"max_depth\" must be set to -1 (infinite) or a value >= 0");
+
     m_max_time = props.float_("max_time", 1.0f);
 
     if (m_max_time <= 0)
@@ -328,7 +347,7 @@ MTS_VARIANT TimeDependentIntegrator<Float, Spectrum>::TimeDependentIntegrator(co
 MTS_VARIANT TimeDependentIntegrator<Float, Spectrum>::~TimeDependentIntegrator() { }
 
 MTS_VARIANT std::pair<Spectrum, typename TimeDependentIntegrator<Float, Spectrum>::Mask>
-TimeDependentIntegrator<Float, Spectrum>::sample(const Scene * /* scene */,
+TimeDependentIntegrator<Float, Spectrum>::trace_acoustic_ray(const Scene * /* scene */,
                                                  Sampler * /* sampler */,
                                                  const RayDifferential3f & /* ray */,
                                                  Histogram * /*hist*/,
@@ -496,7 +515,7 @@ TimeDependentIntegrator<Float, Spectrum>::render_sample(const Scene *scene,
 
     auto [ray, ray_weight] = sensor->sample_ray_differential(0, wavelength_sample, { 0, 0 }, direction_sample);
 
-    std::pair<Spectrum, Mask> result = sample(scene, sampler, ray, hist, nullptr, nullptr, active);
+    trace_acoustic_ray(scene, sampler, ray, hist, nullptr, nullptr, active);
 
     //result.first = ray_weight * result.first;
 
@@ -504,11 +523,15 @@ TimeDependentIntegrator<Float, Spectrum>::render_sample(const Scene *scene,
     sampler->advance();
 }
 
+MTS_VARIANT void TimeDependentIntegrator<Float, Spectrum>::cancel() {
+    m_stop = true;
+}
+
 
 MTS_IMPLEMENT_CLASS_VARIANT(Integrator, Object, "integrator")
 MTS_IMPLEMENT_CLASS_VARIANT(SamplingIntegrator, Integrator)
 MTS_IMPLEMENT_CLASS_VARIANT(MonteCarloIntegrator, SamplingIntegrator)
-MTS_IMPLEMENT_CLASS_VARIANT(TimeDependentIntegrator, SamplingIntegrator)
+MTS_IMPLEMENT_CLASS_VARIANT(TimeDependentIntegrator, Integrator)
 
 MTS_INSTANTIATE_CLASS(Integrator)
 MTS_INSTANTIATE_CLASS(SamplingIntegrator)
