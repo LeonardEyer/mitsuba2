@@ -3844,6 +3844,16 @@ static const char *__doc_mitsuba_MonteCarloIntegrator_m_max_depth = R"doc()doc";
 
 static const char *__doc_mitsuba_MonteCarloIntegrator_m_rr_depth = R"doc()doc";
 
+static const char *__doc_mitsuba_TimeDependentIntegrator = R"doc()doc";
+
+static const char *__doc_mitsuba_TimeDependentIntegrator_TimeDependentIntegrator = R"doc(Create an integrator)doc";
+
+static const char *__doc_mitsuba_TimeDependentIntegrator_trace_acoustic_ray = R"doc()doc";
+
+static const char *__doc_mitsuba_TimeDependentIntegrator_max_time = R"doc()doc";
+
+static const char *__doc_mitsuba_TimeDependentIntegrator_wavelength_bins = R"doc()doc";
+
 static const char *__doc_mitsuba_NamedReference = R"doc(Wrapper object used to represent named references to Object instances)doc";
 
 static const char *__doc_mitsuba_NamedReference_NamedReference = R"doc()doc";

@@ -241,6 +241,13 @@ public:
                                              const Medium *medium = nullptr,
                                              Float *aovs = nullptr,
                                              Mask active = true) const;
+
+    /// Get the maximum time of the integration domain
+    const ScalarFloat max_time() { return m_max_time; }
+
+    /// Get the bins for each which we integrate
+    const std::vector<ScalarFloat> wavelength_bins() { return m_wavelength_bins; }
+
 protected:
     TimeDependentIntegrator(const Properties &props);
 
