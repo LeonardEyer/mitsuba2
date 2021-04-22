@@ -238,7 +238,7 @@ public:
     MTS_IMPORT_BASE(Integrator, should_stop, m_stop, m_timeout, m_render_timer, aov_names)
     MTS_IMPORT_TYPES(Scene, Sensor, Film, Histogram, Medium, Sampler)
 
-    TimeDependentIntegrator(const Properties &props);
+    explicit TimeDependentIntegrator(const Properties &props);
     virtual ~TimeDependentIntegrator();
 
     bool render(Scene *scene, Sensor *sensor) override;
@@ -253,13 +253,13 @@ public:
                                              Histogram *hist,
                                              const Medium *medium = nullptr,
                                              Float *aovs = nullptr,
-                                             Mask active = true) const;
+                                             Mask active = true) const = 0;
 
     /// Get the maximum time of the integration domain
-    const ScalarFloat max_time() { return m_max_time; }
+    ScalarFloat max_time() const { return m_max_time; }
 
     /// Get the bins for each which we integrate
-    const std::vector<ScalarFloat> wavelength_bins() { return m_wavelength_bins; }
+    std::vector<ScalarFloat> wavelength_bins() const { return m_wavelength_bins; }
 
 protected:
     void render_band(const Scene *scene,
