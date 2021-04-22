@@ -346,17 +346,6 @@ MTS_VARIANT TimeDependentIntegrator<Float, Spectrum>::TimeDependentIntegrator(co
 
 MTS_VARIANT TimeDependentIntegrator<Float, Spectrum>::~TimeDependentIntegrator() { }
 
-MTS_VARIANT std::pair<Spectrum, typename TimeDependentIntegrator<Float, Spectrum>::Mask>
-TimeDependentIntegrator<Float, Spectrum>::trace_acoustic_ray(const Scene * /* scene */,
-                                                 Sampler * /* sampler */,
-                                                 const RayDifferential3f & /* ray */,
-                                                 Histogram * /*hist*/,
-                                                 const Medium * /* medium */,
-                                                 Float * /* aovs */,
-                                                 Mask /* active */) const {
-    NotImplementedError("sample");
-}
-
 MTS_VARIANT bool
 TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
     ScopedPhase sp(ProfilerPhase::Render);
