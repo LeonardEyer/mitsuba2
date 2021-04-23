@@ -42,6 +42,7 @@ static py::object caster(Object *o) {
 
     PY_TRY_CAST(MonteCarloIntegrator);
     PY_TRY_CAST(SamplingIntegrator);
+    PY_TRY_CAST(TimeDependentIntegrator)
     PY_TRY_CAST(Integrator);
 
     PY_TRY_CAST(Sampler);

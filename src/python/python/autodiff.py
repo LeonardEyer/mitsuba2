@@ -29,10 +29,10 @@ def _render_helper_time_dependent(scene, spp=None, sensor_index=0):
 
     pos = ek.arange(UInt32, total_sample_count)
     pos //= spp
-    idx = pos % film_size.y()
+    idx = Float(pos % UInt32(film_size[1])) / film_size[1]
 
     hist = Histogram(
-        time_step_count=film_size.y(),
+        time_step_count=film_size[0],
         time_range=[0, max_time],
         wavelength_bins=wav_bins
     )
@@ -40,14 +40,28 @@ def _render_helper_time_dependent(scene, spp=None, sensor_index=0):
 
     rays, weights = sensor.sample_ray_differential(
         time=0,
-        sample1= film_size.y(),
+        sample1=idx,
         sample2=[0, 0],
         sample3=sampler.next_2d()
     )
 
-    trace_acoustic_ray(scene, sampler, rays, hist, None, None)
+    del pos, idx
+
+    integrator.trace_acoustic_ray(scene, sampler, rays, hist)
+
+    del rays, weights
 
     data = hist.data()
+    counts = hist.counts()
+
+    i = UInt32.arange(ek.hprod(hist.size()))
+
+    values = ek.gather(data, i)
+    weight = ek.gather(counts, i)
+
+    del i
+
+    return values / (Float(weight) + 1e-8)
 
 
 def _render_helper(scene, spp=None, sensor_index=0):
@@ -169,8 +183,7 @@ def render(scene,
            spp: Union[None, int, Tuple[int, int]] = None,
            unbiased=False,
            optimizer: 'mitsuba.python.autodiff.Optimizer' = None,
-           sensor_index=0,
-           time_dependent=False):
+           sensor_index=0):
     """
     Perform a differentiable of the scene `scene`, returning a floating point
     array containing RGB values and AOVs, if applicable.
@@ -222,9 +235,10 @@ def render(scene,
 
     """
     from mitsuba.render import TimeDependentIntegrator
-    print("Instance?", isinstance(scene.integrator(), TimeDependentIntegrator))
 
-    _rh = _render_helper_time_dependent if time_dependent else _render_helper
+    _rh = _render_helper_time_dependent \
+        if isinstance(scene.integrator(), TimeDependentIntegrator) \
+        else _render_helper
     if unbiased:
         if optimizer is None:
             raise Exception('render(): unbiased=True requires that an '
