@@ -123,8 +123,12 @@ def render(scene,
            spp: Union[None, int, Tuple[int, int]] = None,
            unbiased=False,
            optimizer: 'mitsuba.python.autodiff.Optimizer' = None,
+<<<<<<< HEAD
            sensor_index=0,
            pre_render_callback = lambda: None):
+=======
+           sensor_index=0):
+>>>>>>> c4ef412e... Instantiation of timedependent integrator working. Finalize autodiff loop. Cuda runs out of memory
     """
     Perform a differentiable of the scene `scene`, returning a floating point
     array containing RGB values and AOVs, if applicable.
@@ -180,9 +184,10 @@ def render(scene,
         the two renders.
     """
     from mitsuba.render import TimeDependentIntegrator
-    print("Instance?", isinstance(scene.integrator(), TimeDependentIntegrator))
 
-    _rh = _render_helper_time_dependent if time_dependent else _render_helper
+    _rh = _render_helper_time_dependent \
+        if isinstance(scene.integrator(), TimeDependentIntegrator) \
+        else _render_helper
     if unbiased:
         if optimizer is None:
             raise Exception('render(): unbiased=True requires that an '

@@ -12,7 +12,7 @@
 if [[ "$#" -ge "1" ]]; then
     BUILD_DIR="$1"
 else
-    BUILD_DIR="build"
+    BUILD_DIR="cmake-build-debug"
 fi
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then

@@ -35,7 +35,8 @@ MTS_PY_EXPORT(ShapeKDTree) {
 
 #if 1
 MTS_PY_EXPORT(Scene) {
-    MTS_PY_IMPORT_TYPES(Scene, Integrator, SamplingIntegrator, MonteCarloIntegrator, Sensor)
+    MTS_PY_IMPORT_TYPES(Scene, Integrator, SamplingIntegrator,
+                        MonteCarloIntegrator, TimeDependentIntegrator, Sensor)
     MTS_PY_CLASS(Scene, Object)
         .def(py::init<const Properties>())
         .def("ray_intersect",
@@ -74,6 +75,8 @@ MTS_PY_EXPORT(Scene) {
         .def("integrator",
             [](Scene &scene) {
                 Integrator *o = scene.integrator();
+                if (auto tmp = dynamic_cast<TimeDependentIntegrator *>(o); tmp)
+                    return py::cast(tmp);
                 if (auto tmp = dynamic_cast<MonteCarloIntegrator *>(o); tmp)
                     return py::cast(tmp);
                 if (auto tmp = dynamic_cast<SamplingIntegrator *>(o); tmp)
