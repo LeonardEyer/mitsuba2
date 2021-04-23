@@ -310,6 +310,8 @@ MTS_VARIANT MonteCarloIntegrator<Float, Spectrum>::~MonteCarloIntegrator() { }
 MTS_VARIANT TimeDependentIntegrator<Float, Spectrum>::TimeDependentIntegrator(const Properties &props)
     : Base(props) {
 
+    m_time_step_count = 0;
+
     // TODO: consider moving those parameters to the base class.
     m_samples_per_pass = (uint32_t) props.size_("samples_per_pass", (size_t) -1);
     m_hide_emitters = props.bool_("hide_emitters", false);
@@ -345,6 +347,17 @@ MTS_VARIANT TimeDependentIntegrator<Float, Spectrum>::TimeDependentIntegrator(co
 }
 
 MTS_VARIANT TimeDependentIntegrator<Float, Spectrum>::~TimeDependentIntegrator() { }
+
+MTS_VARIANT std::pair<Spectrum, typename TimeDependentIntegrator<Float, Spectrum>::Mask>
+    TimeDependentIntegrator<Float, Spectrum>::trace_acoustic_ray(const Scene *scene,
+                                                               Sampler *sampler,
+                                                               const RayDifferential3f &ray,
+                                                               Histogram *hist,
+                                                               const Medium *medium,
+                                                               Float *aovs,
+                                                               Mask active) const {
+    NotImplementedError("trace_acoustic_ray");
+}
 
 MTS_VARIANT bool
 TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
