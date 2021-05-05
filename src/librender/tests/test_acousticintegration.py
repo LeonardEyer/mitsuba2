@@ -68,79 +68,11 @@ def make_shoebox_scene(emitter_pos, sensor_pos, box_dimensions, radius, max_time
             }
         },
         "shoebox": {
-            "id": "shoebox_ref",
-            "type": "shapegroup",
-            "bottom": {
-                "type": "rectangle",
-                "to_world": transform(
-                    scale=[1, 1, 1],
-                    translate=[0, 0, -1]),
-                "bsdf": {
-                    "type": "ref",
-                    "id": "bsdf_neutral"
-                }
-            },
-            "left": {
-                "type": "rectangle",
-                "to_world": transform(
-                    scale=[1, 1, 1],
-                    rotate=([0, 1, 0], 90),
-                    translate=[-1, 0, 0]),
-                "bsdf": {
-                    "type": "ref",
-                    "id": "bsdf_neutral"
-                }
-            },
-            "back": {
-                "type": "rectangle",
-                "to_world": transform(
-                    scale=[1, 1, 1],
-                    rotate=([1, 0, 0], 90),
-                    translate=[0, 1, 0]),
-                "bsdf": {
-                    "type": "ref",
-                    "id": "bsdf_neutral"
-                }
-            },
-            "front": {
-                "type": "rectangle",
-                "to_world": transform(
-                    scale=[1, 1, 1],
-                    rotate=([1, 0, 0], -90),
-                    translate=[0, -1, 0]),
-                "bsdf": {
-                    "type": "ref",
-                    "id": "bsdf_neutral"
-                }
-            },
-            "right": {
-                "type": "rectangle",
-                "to_world": transform(
-                    scale=[1, 1, 1],
-                    rotate=([0, 1, 0], -90),
-                    translate=[1, 0, 0]),
-                "bsdf": {
-                    "type": "ref",
-                    "id": "bsdf_neutral"
-                }
-            },
-            "top": {
-                "type": "rectangle",
-                "to_world": transform(
-                    scale=[1, 1, 1],
-                    rotate=([0, 1, 0], 180),
-                    translate=[0, 0, 1]),
-                "bsdf": {
-                    "type": "ref",
-                    "id": "bsdf_neutral"
-                }
-            }
-        },
-        "shoebox_instance": {
-            "type": "instance",
-            "shape": {
+            "type": "obj",
+            "filename": "resources/cuberoom.obj",
+            "bsdf": {
                 "type": "ref",
-                "id": "shoebox_ref"
+                "id": "bsdf_neutral"
             },
             "to_world": global_translation * transform(scale=np.array(box_dimensions) / 2)
         }
@@ -174,30 +106,45 @@ def test01_create(variant_scalar_acoustic):
     print(integrator)
 
 
-def test02_render_specular_multiple_equal(variant_gpu_autodiff_spectral):
+def test015_test(variant_scalar_acoustic):
     from mitsuba.core.xml import load_string, load_dict
-    from enoki import cuda_set_log_level
-    cuda_set_log_level(0)
+    from mitsuba.render import TimeDependentIntegrator
     bins = [3, 4]
     max_time = 1
     time_steps = 1000 * max_time
 
-    scene = load_dict(make_shoebox_scene(emitter_pos=[20, 7, 2],
-                                         sensor_pos=[9, 6, 1],
-                                         box_dimensions=[25, 12, 7],
-                                         radius=0.7,
-                                         max_time=max_time,
-                                         time_steps=time_steps,
-                                         spp=100,
-                                         wavs=bins[:-1],
-                                         scattering=0.0,
-                                         absorption=0.1))
+    integrator = make_integrator(bins=bins, samples_per_pass=100, max_time=max_time, max_depth=10)
+    print("integrator.__class__.__name__:", integrator.__class__.__name__)
+
+    assert isinstance(integrator, TimeDependentIntegrator)
+
+
+def test02_render_specular_multiple_equal(variant_scalar_acoustic):
+    from mitsuba.core.xml import load_string, load_dict
+    # from enoki import cuda_set_log_level
+    # cuda_set_log_level(0)
+    bins = [3, 4]
+    max_time = 1
+    time_steps = 10 * max_time
+
+    scene_dict = make_shoebox_scene(emitter_pos=[20, 7, 2],
+                                    sensor_pos=[9, 6, 1],
+                                    box_dimensions=[25, 12, 7],
+                                    radius=0.7,
+                                    max_time=max_time,
+                                    time_steps=time_steps,
+                                    spp=10,
+                                    wavs=bins[:-1],
+                                    scattering=0.0,
+                                    absorption=0.1)
+
+    scene = load_dict(scene_dict)
 
     integrator = make_integrator(bins=bins, samples_per_pass=100, max_time=max_time, max_depth=10)
+    print(integrator)
 
     sensor = scene.sensors()[0]
 
-    status = integrator.render(scene, sensor)
     status = integrator.render(scene, sensor)
     assert status
 
@@ -216,7 +163,7 @@ def test02_render_specular_multiple_equal(variant_gpu_autodiff_spectral):
     assert True
 
     # plt.plot(vals_count, label='count')
-    # #plt.plot(vals, label='vals')
-    # # plt.plot(vals / vals_count, label='normalized')
-    # plt.legend()
-    # plt.show()
+    # plt.plot(vals, label='vals')
+    plt.plot(vals / vals_count, label='normalized')
+    plt.legend()
+    plt.show()
