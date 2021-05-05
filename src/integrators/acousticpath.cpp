@@ -7,6 +7,15 @@
 #include <mitsuba/render/records.h>
 #include <random>
 
+#define MTS_DEBUG_ACOUSTIC_PATHS "/tmp/ptracer.obj"
+#if defined(MTS_DEBUG_ACOUSTIC_PATHS)
+#include <fstream>
+namespace {
+static size_t export_counter = 0;
+static size_t path_counter = 0;
+} // namespace
+#endif
+
 NAMESPACE_BEGIN(mitsuba)
 
 template <typename Float, typename Spectrum>
@@ -27,6 +36,12 @@ public:
                                      Mask active) const override {
         MTS_MASKED_FUNCTION(ProfilerPhase::SamplingIntegratorSample, active);
 
+#if defined(MTS_DEBUG_ACOUSTIC_PATHS)
+        auto mode = (export_counter == 0 ? std::ios::out : std::ios::app);
+        std::ofstream f(MTS_DEBUG_ACOUSTIC_PATHS, mode);
+        f << "o path" << path_counter++ << std::endl;
+#endif
+
         RayDifferential3f ray = ray_;
 
         Float time = ray.time;
@@ -43,6 +58,23 @@ public:
         EmitterPtr emitter      = si.emitter(scene);
 
         for (int depth = 1;; ++depth) {
+
+#if defined(MTS_DEBUG_ACOUSTIC_PATHS)
+            size_t i  = 0;
+
+            auto origin = ray.o;
+            auto target = si.p;
+
+            f << "v " << origin.x() << " " << origin.y() << " " << origin.z() << std::endl;
+            f << "v " << target.x() << " " << target.y() << " " << target.z() << std::endl;
+            i += 2;
+
+            f << "l";
+            for (size_t j = 1; j <= i; ++j)
+                f << " " << (export_counter + j);
+            f << std::endl;
+            export_counter += i;
+#endif
 
            // Update traveled time
            time += select(si.is_valid(), si.t / MTS_SOUND_SPEED, 0);
@@ -137,6 +169,9 @@ public:
 
             si = std::move(si_bsdf);
         }
+#if defined(MTS_DEBUG_ACOUSTIC_PATHS)
+
+#endif
 
         return { throughput, valid_ray };
     }

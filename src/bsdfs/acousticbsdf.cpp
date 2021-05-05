@@ -1,3 +1,4 @@
+
 #include <mitsuba/core/properties.h>
 #include <mitsuba/core/spectrum.h>
 #include <mitsuba/core/string.h>
@@ -16,26 +17,8 @@ public :
         m_scatter = props.texture<Texture>("scattering");
         m_absorpt = props.texture<Texture>("absorption");
 
-        PluginManager *pmgr = PluginManager::instance();
-
-        Properties propsDiffuse("diffuse");
-        Properties propsConduct("conductor");
-
-        // Copy absorption coefficients
-        // (conversion is handled in spectra/acoustic.cpp)
-        //propsDiffuse.set_object("reflectance", m_absorpt);
-
-        ref<Base> diffuser = pmgr->create_object<Base>(propsDiffuse);
-        ref<Base> conductor = pmgr->create_object<Base>(propsConduct);
-
-        Properties propsBlend("blendbsdf");
-        // Weighting
-        // propsBlend.set_object("weight", m_scatter);
-        // // Nested bsdfs
-        // propsBlend.set_object("0_conductor", conductor);
-        // propsBlend.set_object("1_diffuser", diffuser);
-
-        m_nested_bsdf = pmgr->create_object<Base>(propsBlend);
+        m_flags = BSDFFlags::DeltaReflection | BSDFFlags::FrontSide;
+        m_components.push_back(m_flags);
     }
 
     std::pair<BSDFSample3f, Spectrum> sample(const BSDFContext &ctx,
@@ -43,21 +26,38 @@ public :
                                              Float sample1,
                                              const Point2f &sample2,
                                              Mask active) const override {
-        return m_nested_bsdf->sample(ctx, si, sample1, sample2, active);
+        MTS_MASKED_FUNCTION(ProfilerPhase::BSDFSample, active);
+
+        Float cos_theta_i = Frame3f::cos_theta(si.wi);
+        active &= cos_theta_i > 0.f;
+
+        auto bs = zero<BSDFSample3f>();
+
+        bs.sampled_component = 0;
+        bs.sampled_type = +BSDFFlags::DeltaReflection;
+        bs.wo  = reflect(si.wi);
+        bs.eta = 1.f;
+        bs.pdf = 1.f;
+
+        UnpolarizedSpectrum reflectance = m_absorpt->eval(si, active);
+
+        return { bs, reflectance & active };
     }
 
     Spectrum eval(const BSDFContext &ctx, const SurfaceInteraction3f &si,
                   const Vector3f &wo, Mask active) const override {
-        return m_nested_bsdf->eval(ctx, si, wo, active);
+
+        return 0.f;
     }
 
     Float pdf(const BSDFContext &ctx, const SurfaceInteraction3f &si,
               const Vector3f &wo, Mask active) const override {
-        return m_nested_bsdf->pdf(ctx, si, wo, active);
+        return 0.f;
     }
 
     void traverse(TraversalCallback *callback) override {
-        return m_nested_bsdf->traverse(callback);
+        callback->put_object("scattering", m_scatter.get());
+        callback->put_object("absorption", m_absorpt.get());
     }
 
     std::string to_string() const override {
@@ -65,7 +65,6 @@ public :
         oss << "AcousticBSDF[" << std::endl
             << "  scattering = " << string::indent(m_scatter) << "," << std::endl
             << "  absorption = " << string::indent(m_absorpt) << "," << std::endl
-            << "  nested_bsdf = " << string::indent(m_nested_bsdf) << std::endl
             << "]";
         return oss.str();
     }
@@ -75,7 +74,6 @@ public :
 protected:
     ref<Texture> m_scatter;
     ref<Texture> m_absorpt;
-    ref<Base> m_nested_bsdf;
 };
 
 MTS_IMPLEMENT_CLASS_VARIANT(AcousticBSDF, BSDF)
