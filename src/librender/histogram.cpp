@@ -74,7 +74,7 @@ MTS_VARIANT typename Histogram<Float, Spectrum>::Mask
 Histogram<Float, Spectrum>::put(const Point2u &pos, const Float *value,
                                 Mask active) {
     // BUG: all will throw away all samples
-    Mask enabled = active && all_or<true>(pos >= 0u && pos < m_size);
+    Mask enabled = active && all(pos >= 0u && pos < m_size);
 
     UInt32 offset = m_channel_count * (pos.y() * m_size.x() + pos.x());
 

@@ -246,7 +246,7 @@ public:
      */
     virtual std::pair<Spectrum, Mask> trace_acoustic_ray(const Scene *scene,
                                              Sampler *sampler,
-                                             const RayDifferential3f &ray,
+                                             const Ray3f &ray,
                                              Histogram *hist,
                                              const Medium *medium = nullptr,
                                              Float *aovs = nullptr,
