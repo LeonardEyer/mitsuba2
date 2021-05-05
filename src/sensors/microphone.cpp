@@ -18,7 +18,7 @@ public:
 
     Microphone(const Properties &props) : Base(props) {
         std::vector<std::string> wavelengths_str =
-                string::tokenize(props.string("wavelengths"), " ,");
+            string::tokenize(props.string("wavelengths"), " ,");
 
         // Allocate space
         m_wavelengths = zero<DynamicBuffer<Float>>(wavelengths_str.size());
@@ -37,10 +37,10 @@ public:
 
     ~Microphone() {}
 
-    std::pair<RayDifferential3f, Spectrum>
-    sample_ray_differential(Float time, Float wavelength_sample,
-                            const Point2f &/*sample2*/, const Point2f &sample3,
-                            Mask active) const override {
+    std::pair<Ray3f, Spectrum> sample_ray(Float time, Float wavelength_sample,
+                                          const Point2f & /*sample2*/,
+                                          const Point2f &sample3,
+                                          Mask active) const override {
 
         MTS_MASKED_FUNCTION(ProfilerPhase::EndpointSampleRay, active);
 
@@ -54,22 +54,15 @@ public:
         Vector3f direction = warp::square_to_uniform_sphere(sample3);
 
         // 3. Sample spectrum
-        UInt32 index = enoki::ceil(wavelength_sample * (m_wavelengths.size() - 1));
+        UInt32 index =
+            enoki::ceil(wavelength_sample * (m_wavelengths.size() - 1));
         Wavelength wavelengths = gather<Float>(m_wavelengths, index, active);
 
         // All wavelengths are equally weighted
         Spectrum wav_weight = 1.f;
 
-        Ray3f ray;
-        ray.time = time;
-        ray.o = origin;
-        ray.d = direction;
-        ray.wavelengths = wavelengths;
-
-        return {
-            ray,
-            unpolarized<Spectrum>(wav_weight) * math::Pi<ScalarFloat>
-        };
+        return { Ray3f(origin, direction, time, wavelengths),
+                 unpolarized<Spectrum>(wav_weight) * math::Pi<ScalarFloat> };
     }
 
     ScalarBoundingBox3f bbox() const override {

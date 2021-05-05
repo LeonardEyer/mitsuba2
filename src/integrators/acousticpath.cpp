@@ -29,7 +29,7 @@ public:
     AcousticPathIntegrator(const Properties &props) : Base(props) {}
 
     std::pair<Spectrum, Mask> trace_acoustic_ray(const Scene *scene, Sampler *sampler,
-                                     const RayDifferential3f &ray_,
+                                     const Ray3f &ray_,
                                      Histogram * hist,
                                      const Medium * /* medium */,
                                      Float * /* aovs */,

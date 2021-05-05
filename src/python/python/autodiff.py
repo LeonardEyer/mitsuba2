@@ -38,7 +38,7 @@ def _render_helper_time_dependent(scene, spp=None, sensor_index=0):
     )
     hist.clear()
 
-    rays, weights = sensor.sample_ray_differential(
+    rays, weights = sensor.sample_ray(
         time=0,
         sample1=idx,
         sample2=[0, 0],
