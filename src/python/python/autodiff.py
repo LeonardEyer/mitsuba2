@@ -47,8 +47,9 @@ def _render_helper_time_dependent(scene, spp=None, sensor_index=0):
 
     del pos, idx
 
-    integrator.trace_acoustic_ray(scene, sampler, rays, hist)
+    x = integrator.trace_acoustic_ray(scene, sampler, rays, hist)
 
+    del x
     del rays, weights
 
     data = hist.data()
