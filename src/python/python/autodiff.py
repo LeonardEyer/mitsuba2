@@ -28,7 +28,7 @@ def _render_helper_time_dependent(scene, spp=None, sensor_index=0):
         sampler.seed(0, total_sample_count)
 
     pos = ek.arange(UInt32, total_sample_count)
-    pos //= spp
+    pos = pos // (total_sample_count // film_size[1])
     idx = Float(pos % UInt32(film_size[1])) / film_size[1]
 
     hist = Histogram(
