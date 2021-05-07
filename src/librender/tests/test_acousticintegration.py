@@ -7,6 +7,13 @@ import enoki as ek
 import mitsuba
 
 
+def estimate_max_depth(box_dimensions, max_time, boost=1.):
+    max_box_distance = np.linalg.norm(box_dimensions) / 2
+    max_box_time = max_box_distance / 343
+    max_depth_estimate = np.ceil(max_time / max_box_time * boost).astype(int)
+    return max_depth_estimate
+
+
 def make_shoebox_scene(emitter_pos, sensor_pos, box_dimensions, radius, max_time, time_steps, spp, wavs, scattering=0.0,
                        absorption=0.0, hide_sensor=True):
     from mitsuba.core import ScalarTransform4f
@@ -35,8 +42,7 @@ def make_shoebox_scene(emitter_pos, sensor_pos, box_dimensions, radius, max_time
                 "value": scattering
             },
             "absorption": {
-                "type": "acoustic",
-                "absorption": True,
+                "type": "spectrum",
                 "value": absorption
             }
         },
@@ -106,41 +112,29 @@ def test01_create(variant_scalar_acoustic):
     print(integrator)
 
 
-def test015_test(variant_scalar_acoustic):
-    from mitsuba.core.xml import load_string, load_dict
-    from mitsuba.render import TimeDependentIntegrator
-    bins = [3, 4]
-    max_time = 1
-    time_steps = 1000 * max_time
-
-    integrator = make_integrator(bins=bins, samples_per_pass=100, max_time=max_time, max_depth=10)
-    print("integrator.__class__.__name__:", integrator.__class__.__name__)
-
-    assert isinstance(integrator, TimeDependentIntegrator)
-
-
 def test02_render_specular_multiple_equal(variant_scalar_acoustic):
     from mitsuba.core.xml import load_string, load_dict
     # from enoki import cuda_set_log_level
     # cuda_set_log_level(0)
-    bins = [3, 4]
+    bins = [3, 4, 7]
+    absorption = [(3, 0.9), (4, 0.5)]
     max_time = 1
     time_steps = 10 * max_time
 
     scene_dict = make_shoebox_scene(emitter_pos=[20, 7, 2],
                                     sensor_pos=[9, 6, 1],
                                     box_dimensions=[25, 12, 7],
-                                    radius=0.7,
+                                    radius=1.0,
                                     max_time=max_time,
                                     time_steps=time_steps,
-                                    spp=10,
+                                    spp=1000,
                                     wavs=bins[:-1],
                                     scattering=0.0,
-                                    absorption=0.1)
+                                    absorption=absorption)
 
     scene = load_dict(scene_dict)
 
-    integrator = make_integrator(bins=bins, samples_per_pass=100, max_time=max_time, max_depth=10)
+    integrator = make_integrator(bins=bins, samples_per_pass=100, max_time=max_time, max_depth=estimate_max_depth([25, 12, 7], max_time, boost=1.5))
     print(integrator)
 
     sensor = scene.sensors()[0]
@@ -157,13 +151,15 @@ def test02_render_specular_multiple_equal(variant_scalar_acoustic):
     sums = np.sum(vals, axis=0)
     total = np.sum(sums)
 
+    print('vals.shape', vals.shape)
+
     print("sum:", sums)
     print("%:", sums / total)
 
     assert True
 
-    # plt.plot(vals_count, label='count')
-    # plt.plot(vals, label='vals')
+    #plt.plot(vals_count, label='count')
+    #plt.plot(vals, label='vals')
     plt.plot(vals / vals_count, label='normalized')
     plt.legend()
     plt.show()
