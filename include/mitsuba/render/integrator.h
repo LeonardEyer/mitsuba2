@@ -249,8 +249,7 @@ public:
                                              Sampler *sampler,
                                              const Ray3f &ray,
                                              Histogram *hist,
-                                             const Medium *medium = nullptr,
-                                             Float *aovs = nullptr,
+                                             const UInt32 band_id,
                                              Mask active = true) const;
 
     /// Get the maximum time of the integration domain

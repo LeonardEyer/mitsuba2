@@ -1,0 +1,206 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "src/media/heterogeneous.dylib"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"add_plugin",
+			"target_link_libraries",
+			"add_subdirectory",
+			"add_compile_options",
+			"add_definitions",
+			"include_directories",
+			"include"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt",
+			"src/media/CMakeLists.txt",
+			"src/cmake/libpython.cmake",
+			"src/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 4,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 527,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 531,
+				"parent" : 1
+			},
+			{
+				"file" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 234,
+				"parent" : 4
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 279,
+				"parent" : 4
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 280,
+				"parent" : 4
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 381,
+				"parent" : 4
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 551,
+				"parent" : 4
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 485,
+				"parent" : 4
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 489,
+				"parent" : 4
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 475,
+				"parent" : 4
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 237,
+				"parent" : 4
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 7,
+				"file" : 3,
+				"line" : 4,
+				"parent" : 14
+			},
+			{
+				"file" : 2,
+				"parent" : 15
+			},
+			{
+				"command" : 6,
+				"file" : 2,
+				"line" : 1,
+				"parent" : 16
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 3,
+			"id" : "tbb::@3dd1ab55f51ddf8a6aef"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "mitsuba-core::@9d97644c8f6463bf4b5c"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "mitsuba-render::@c7253971a9139727f5ae"
+		},
+		{
+			"id" : "heterogeneous-obj::@75b8b8d758a74e7d2cbc"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "plugins/media/heterogeneous"
+	},
+	"id" : "heterogeneous::@75b8b8d758a74e7d2cbc",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-stdlib=libc++ -march=native",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "../librender/libmitsuba-render.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "../libcore/libmitsuba-core.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "../../ext_build/tbb/libtbb.dylib",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "heterogeneous",
+	"nameOnDisk" : "heterogeneous.dylib",
+	"paths" : 
+	{
+		"build" : "src/media",
+		"source" : "src/media"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Object Libraries",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/media/CMakeFiles/heterogeneous-obj.dir/heterogeneous.cpp.o",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}

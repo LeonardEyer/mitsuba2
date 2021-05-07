@@ -1,0 +1,365 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "src/libcore/python/core_ext.cpython-37m-darwin.so"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"add_mitsuba_python_library",
+			"target_link_libraries",
+			"add_subdirectory",
+			"add_compile_options",
+			"add_definitions",
+			"include_directories",
+			"include"
+		],
+		"files" : 
+		[
+			"src/cmake/libpython.cmake",
+			"src/libcore/python/CMakeLists.txt",
+			"CMakeLists.txt",
+			"src/CMakeLists.txt",
+			"src/libcore/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 57,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 19,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 84,
+				"parent" : 0
+			},
+			{
+				"file" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 234,
+				"parent" : 4
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 279,
+				"parent" : 4
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 280,
+				"parent" : 4
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 381,
+				"parent" : 4
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 551,
+				"parent" : 4
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 5,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 485,
+				"parent" : 4
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 489,
+				"parent" : 4
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 475,
+				"parent" : 4
+			},
+			{
+				"command" : 6,
+				"file" : 2,
+				"line" : 237,
+				"parent" : 4
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 7,
+				"file" : 3,
+				"line" : 4,
+				"parent" : 15
+			},
+			{
+				"file" : 0,
+				"parent" : 16
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 1,
+				"parent" : 17
+			},
+			{
+				"file" : 4
+			},
+			{
+				"command" : 6,
+				"file" : 4,
+				"line" : 1,
+				"parent" : 19
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 3,
+			"id" : "tbb::@3dd1ab55f51ddf8a6aef"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "mitsuba-core::@9d97644c8f6463bf4b5c"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "asmjit::@75f2248e44231e1fe518"
+		},
+		{
+			"id" : "core_ext-obj::@72c85af991e62108fa72"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "mitsuba-render::@c7253971a9139727f5ae"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "mitsuba-python"
+	},
+	"id" : "core_ext::@72c85af991e62108fa72",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-stdlib=libc++ -march=native  -undefined dynamic_lookup",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-Wl,-rpath,@loader_path/../..",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "../../librender/libmitsuba-render.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "../libmitsuba-core.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "../../../ext_build/asmjit/libasmjit.dylib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lpthread",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "../../../ext_build/tbb/libtbb.dylib",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "core_ext",
+	"nameOnDisk" : "core_ext.cpython-37m-darwin.so",
+	"paths" : 
+	{
+		"build" : "src/libcore/python",
+		"source" : "src/libcore/python"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Object Libraries",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/python/CMakeFiles/core_ext-obj.dir/main.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/python/CMakeFiles/core_ext-obj.dir/atomic.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/python/CMakeFiles/core_ext-obj.dir/appender.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/python/CMakeFiles/core_ext-obj.dir/argparser.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/python/CMakeFiles/core_ext-obj.dir/bitmap.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/python/CMakeFiles/core_ext-obj.dir/cast.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/python/CMakeFiles/core_ext-obj.dir/filesystem.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/python/CMakeFiles/core_ext-obj.dir/formatter.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/python/CMakeFiles/core_ext-obj.dir/fresolver.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/python/CMakeFiles/core_ext-obj.dir/logger.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/python/CMakeFiles/core_ext-obj.dir/mmap.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/python/CMakeFiles/core_ext-obj.dir/object.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/python/CMakeFiles/core_ext-obj.dir/progress.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/python/CMakeFiles/core_ext-obj.dir/quad.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/python/CMakeFiles/core_ext-obj.dir/rfilter.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/python/CMakeFiles/core_ext-obj.dir/stream.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/python/CMakeFiles/core_ext-obj.dir/struct.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/python/CMakeFiles/core_ext-obj.dir/thread.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/python/CMakeFiles/core_ext-obj.dir/util.cpp.o",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}

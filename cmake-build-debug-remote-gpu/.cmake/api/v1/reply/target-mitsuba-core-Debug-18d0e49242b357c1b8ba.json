@@ -1,0 +1,1210 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "libmitsuba-core.so"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"install",
+			"target_link_libraries",
+			"add_compile_options",
+			"add_definitions",
+			"target_compile_definitions",
+			"include_directories",
+			"set_property"
+		],
+		"files" : 
+		[
+			"src/libcore/CMakeLists.txt",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 12,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 644,
+				"parent" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 83,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 108,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 104,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 504,
+				"parent" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 529,
+				"parent" : 2
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 458,
+				"parent" : 2
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 76,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 368,
+				"parent" : 2
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 357,
+				"parent" : 2
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 373,
+				"parent" : 2
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 462,
+				"parent" : 2
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 450,
+				"parent" : 2
+			},
+			{
+				"command" : 6,
+				"file" : 1,
+				"line" : 348,
+				"parent" : 2
+			},
+			{
+				"command" : 6,
+				"file" : 1,
+				"line" : 372,
+				"parent" : 2
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 1,
+				"parent" : 0
+			},
+			{
+				"command" : 7,
+				"file" : 0,
+				"line" : 70,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -march=native -fdiagnostics-color=always -g -flto -fno-fat-lto-objects -fPIC   -fno-math-errno -ffp-contract=fast -fno-trapping-math"
+				},
+				{
+					"backtrace" : 7,
+					"fragment" : "-Wdouble-promotion"
+				},
+				{
+					"backtrace" : 8,
+					"fragment" : "-Wall"
+				},
+				{
+					"backtrace" : 8,
+					"fragment" : "-Wextra"
+				},
+				{
+					"backtrace" : 8,
+					"fragment" : "-Wno-unused-local-typedefs"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-pthread"
+				},
+				{
+					"fragment" : "-std=gnu++17"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 9,
+					"define" : "LITTLE_ENDIAN"
+				},
+				{
+					"backtrace" : 10,
+					"define" : "MTS_BUILD_MODULE=MTS_MODULE_CORE"
+				},
+				{
+					"backtrace" : 11,
+					"define" : "MTS_ENABLE_AUTODIFF=1"
+				},
+				{
+					"backtrace" : 12,
+					"define" : "MTS_ENABLE_CUDA=1"
+				},
+				{
+					"backtrace" : 13,
+					"define" : "MTS_ENABLE_EMBREE=1"
+				},
+				{
+					"backtrace" : 14,
+					"define" : "MTS_ENABLE_PROFILER=1"
+				},
+				{
+					"backtrace" : 10,
+					"define" : "MTS_HAS_LIBPNG"
+				},
+				{
+					"backtrace" : 15,
+					"define" : "__LINUX__"
+				},
+				{
+					"define" : "mitsuba_core_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 16,
+					"path" : "/home/leonard/mitsuba2/include"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/home/leonard/mitsuba2/ext/tinyformat"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/include"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/ext/enoki-jit/include"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/ext/enoki-jit/ext/enoki-thread/include"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/include"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "/home/leonard/mitsuba2/ext/embree/include"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/home/leonard/mitsuba2/ext/pugixml/src"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/home/leonard/mitsuba2/ext/asmjit/src"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/Imath"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/Iex"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/Half"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/OpenEXR/IlmImf"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext/openexr/OpenEXR/config"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext/openexr/IlmBase/config"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/IexMath"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/IlmThread"
+				},
+				{
+					"backtrace" : 18,
+					"isSystem" : true,
+					"path" : "/home/leonard/anaconda3/include"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				10,
+				12,
+				14,
+				17,
+				20,
+				24,
+				26,
+				28,
+				30,
+				32,
+				34,
+				35,
+				37,
+				39,
+				41,
+				43,
+				45,
+				47,
+				49,
+				51,
+				53,
+				57,
+				59,
+				62,
+				64,
+				66,
+				69,
+				76,
+				78,
+				81
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -march=native -fdiagnostics-color=always -g -flto -fno-fat-lto-objects -fPIC   -fno-math-errno -ffp-contract=fast -fno-trapping-math"
+				},
+				{
+					"backtrace" : 7,
+					"fragment" : "-Wdouble-promotion"
+				},
+				{
+					"backtrace" : 8,
+					"fragment" : "-Wall"
+				},
+				{
+					"backtrace" : 8,
+					"fragment" : "-Wextra"
+				},
+				{
+					"backtrace" : 8,
+					"fragment" : "-Wno-unused-local-typedefs"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-pthread"
+				},
+				{
+					"fragment" : "-std=gnu++17"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 9,
+					"define" : "LITTLE_ENDIAN"
+				},
+				{
+					"backtrace" : 19,
+					"define" : "MTS_BRANCH=\"\""
+				},
+				{
+					"backtrace" : 10,
+					"define" : "MTS_BUILD_MODULE=MTS_MODULE_CORE"
+				},
+				{
+					"backtrace" : 11,
+					"define" : "MTS_ENABLE_AUTODIFF=1"
+				},
+				{
+					"backtrace" : 12,
+					"define" : "MTS_ENABLE_CUDA=1"
+				},
+				{
+					"backtrace" : 13,
+					"define" : "MTS_ENABLE_EMBREE=1"
+				},
+				{
+					"backtrace" : 14,
+					"define" : "MTS_ENABLE_PROFILER=1"
+				},
+				{
+					"backtrace" : 19,
+					"define" : "MTS_HASH=\"\""
+				},
+				{
+					"backtrace" : 10,
+					"define" : "MTS_HAS_LIBPNG"
+				},
+				{
+					"backtrace" : 15,
+					"define" : "__LINUX__"
+				},
+				{
+					"define" : "mitsuba_core_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 16,
+					"path" : "/home/leonard/mitsuba2/include"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/home/leonard/mitsuba2/ext/tinyformat"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/include"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/ext/enoki-jit/include"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/ext/enoki-jit/ext/enoki-thread/include"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/include"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "/home/leonard/mitsuba2/ext/embree/include"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/home/leonard/mitsuba2/ext/pugixml/src"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/home/leonard/mitsuba2/ext/asmjit/src"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/Imath"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/Iex"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/Half"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/OpenEXR/IlmImf"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext/openexr/OpenEXR/config"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext/openexr/IlmBase/config"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/IexMath"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/IlmThread"
+				},
+				{
+					"backtrace" : 18,
+					"isSystem" : true,
+					"path" : "/home/leonard/anaconda3/include"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				72
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 4,
+			"id" : "pugixml::@a9f99adfd9f636cea434"
+		},
+		{
+			"backtrace" : 6,
+			"id" : "enoki-jit::@9d7c19d58c244eb3ce5f"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "enoki-thread::@2c06ba5b2e7ff2a6d2b1"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "enoki-autodiff::@afbd21b38d5b5e162180"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "Half::@4a7ae0dea943a56d8a66"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "Iex::@6fd788319ac26029346c"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "IexMath::@fc750b9da3a58bd2fac8"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "Imath::@0291210b44218159d33e"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "IlmThread::@278aebe4a71d44f9a80e"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "IlmImf::@f32ba8242b8a9b800c71"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "asmjit::@e695f9df9e4caa51c123"
+		}
+	],
+	"id" : "mitsuba-core::@9d97644c8f6463bf4b5c",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 3,
+				"path" : "."
+			},
+			{
+				"backtrace" : 3,
+				"path" : "."
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "/usr/local"
+		}
+	},
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-Wl,-rpath,/home/leonard/anaconda3/lib:/home/leonard/mitsuba2/cmake-build-debug-remote-gpu:",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "/home/leonard/anaconda3/lib/libpng.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "/home/leonard/anaconda3/lib/libz.so",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../../libpugixml.so",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../../libasmjit-mitsuba.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "/home/leonard/anaconda3/lib/libpng.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "/home/leonard/anaconda3/lib/libz.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "/home/leonard/anaconda3/lib/libjpeg.so",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../../libIlmImf.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ldl",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-Wl,--no-undefined",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 5,
+				"fragment" : "../../libenoki-autodiff.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lpthread",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lrt",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../libImath.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../libHalf.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../libIexMath.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../libIlmThread.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../libIex.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-pthread",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "/home/leonard/anaconda3/lib/libz.so",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "../../libenoki-jit.so",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../../libenoki-thread.so",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX",
+		"lto" : true
+	},
+	"name" : "mitsuba-core",
+	"nameOnDisk" : "libmitsuba-core.so",
+	"paths" : 
+	{
+		"build" : "src/libcore",
+		"source" : "src/libcore"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				11,
+				13,
+				15,
+				16,
+				18,
+				19,
+				21,
+				22,
+				23,
+				25,
+				27,
+				29,
+				31,
+				33,
+				36,
+				38,
+				40,
+				42,
+				44,
+				46,
+				48,
+				50,
+				52,
+				54,
+				55,
+				56,
+				58,
+				60,
+				61,
+				63,
+				65,
+				67,
+				68,
+				70,
+				71,
+				73,
+				74,
+				75,
+				77,
+				79,
+				80
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				10,
+				12,
+				14,
+				17,
+				20,
+				24,
+				26,
+				28,
+				30,
+				32,
+				34,
+				35,
+				37,
+				39,
+				41,
+				43,
+				45,
+				47,
+				49,
+				51,
+				53,
+				57,
+				59,
+				62,
+				64,
+				66,
+				69,
+				72,
+				76,
+				78,
+				81
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/mitsuba.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/atomic.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/frame.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/fwd.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/hash.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/math.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/jit.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/simd.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/platform.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/variant.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/string.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/string.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/appender.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/appender.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/argparser.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/argparser.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/bbox.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/bitmap.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/bitmap.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/bsphere.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/class.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/class.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/distr_1d.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/distr_2d.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/dstream.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/dstream.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/filesystem.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/filesystem.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/formatter.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/formatter.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/fresolver.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/fresolver.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/fstream.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/fstream.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/jit.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/logger.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/logger.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/mmap.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/mmap.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/tensor.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/tensor.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/mstream.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/mstream.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/object.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/object.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/plugin.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/plugin.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/profiler.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/profiler.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/progress.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/progress.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/properties.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/properties.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/qmc.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/qmc.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/random.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/ray.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/rfilter.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/rfilter.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/spectrum.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/spectrum.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/spline.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/stream.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/stream.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/struct.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/struct.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/thread.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/thread.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/timer.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/transform.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/transform.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/traits.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "src/libcore/util.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/util.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/vector.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/warp.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/xml.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/xml.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/zstream.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/zstream.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/core/quad.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/dither-matrix256.cpp",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}

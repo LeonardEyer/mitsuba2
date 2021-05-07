@@ -1,0 +1,96 @@
+{
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target",
+			"add_dependencies"
+		],
+		"files" : 
+		[
+			"ext/openexr/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 34,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 48,
+				"parent" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "Half::@bc73201a0ff31525839c"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "Iex::@2d5ce12303fd5a715ea3"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "Imath::@cff27ddb2a1d5995498d"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "IlmThread::@ad0fbd93a99e11f50aa5"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "dependencies"
+	},
+	"id" : "CopyIlmBaseLibs::@c9b89c753bf581715845",
+	"name" : "CopyIlmBaseLibs",
+	"paths" : 
+	{
+		"build" : "ext_build/openexr",
+		"source" : "ext/openexr"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/ext_build/openexr/CMakeFiles/CopyIlmBaseLibs",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/ext_build/openexr/CMakeFiles/CopyIlmBaseLibs.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

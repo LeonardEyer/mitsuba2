@@ -1,0 +1,260 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "src/integrators/depth.so"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"add_plugin",
+			"target_link_libraries",
+			"add_subdirectory",
+			"add_compile_options",
+			"add_definitions",
+			"include_directories",
+			"include"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt",
+			"src/integrators/CMakeLists.txt",
+			"src/cmake/libpython.cmake",
+			"src/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 3,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 527,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 531,
+				"parent" : 1
+			},
+			{
+				"file" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 234,
+				"parent" : 4
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 279,
+				"parent" : 4
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 280,
+				"parent" : 4
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 551,
+				"parent" : 4
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 485,
+				"parent" : 4
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 265,
+				"parent" : 4
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 489,
+				"parent" : 4
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 477,
+				"parent" : 4
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 230,
+				"parent" : 4
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 237,
+				"parent" : 4
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 7,
+				"file" : 3,
+				"line" : 4,
+				"parent" : 15
+			},
+			{
+				"file" : 2,
+				"parent" : 16
+			},
+			{
+				"command" : 6,
+				"file" : 2,
+				"line" : 1,
+				"parent" : 17
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 3,
+			"id" : "enoki-cuda::@de387dfee7c9b2f30af3"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "enoki-autodiff::@de387dfee7c9b2f30af3"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "tbb::@3dd1ab55f51ddf8a6aef"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "mitsuba-core::@9d97644c8f6463bf4b5c"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "mitsuba-render::@c7253971a9139727f5ae"
+		},
+		{
+			"id" : "depth-obj::@cc645d70eca185fd34e2"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "plugins/integrators/depth"
+	},
+	"id" : "depth::@cc645d70eca185fd34e2",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-march=native",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-Wl,-rpath,\"\\$$ORIGIN\"",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "../librender/libmitsuba-render.so",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "../libcore/libmitsuba-core.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-Wl,-rpath-link=/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/tbb",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-Wl,-rpath-link=/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/pugixml",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-Wl,-rpath-link=/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/asmjit",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../ext_build/enoki/libenoki-autodiff.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../ext_build/enoki/libenoki-cuda.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lcuda",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "../../ext_build/tbb/libtbb.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lpthread",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ldl",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-Wl,-rpath-link,/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/pugixml:/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/openexr/IlmBase/Half:/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/openexr/IlmBase/Imath:/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/openexr/IlmBase/IlmThread:/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/openexr/IlmBase/Iex:/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/openexr/OpenEXR/IlmImf:/home/leonard/anaconda3/lib:/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/asmjit",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "depth",
+	"nameOnDisk" : "depth.so",
+	"paths" : 
+	{
+		"build" : "src/integrators",
+		"source" : "src/integrators"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Object Libraries",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/integrators/CMakeFiles/depth-obj.dir/depth.cpp.o",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}

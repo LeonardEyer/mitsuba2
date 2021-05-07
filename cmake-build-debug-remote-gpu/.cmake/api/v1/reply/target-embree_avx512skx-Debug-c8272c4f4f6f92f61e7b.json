@@ -1,0 +1,672 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "ext/embree/libembree_avx512skx.a"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"ADD_LIBRARY",
+			"TARGET_LINK_LIBRARIES",
+			"ADD_DEFINITIONS"
+		],
+		"files" : 
+		[
+			"ext/embree/kernels/CMakeLists.txt",
+			"ext/embree/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 301,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 302,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 388,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 398,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 418,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 370,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 379,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 170,
+				"parent" : 3
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "  -Wno-unused-variable -Wall -Wformat -Wformat-security -Wno-class-memaccess -fno-strict-overflow -fno-delete-null-pointer-checks -fwrapv -fPIE -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -D_FORTIFY_SOURCE=2  -g -DDEBUG -DTBB_USE_DEBUG -O3  "
+				},
+				{
+					"fragment" : "-mavx512f -mavx512dq -mavx512cd -mavx512bw -mavx512vl -mf16c -mavx2 -mfma -mlzcnt -mbmi -mbmi2 -mprefer-vector-width=256"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 4,
+					"define" : "EMBREE_TARGET_AVX"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "EMBREE_TARGET_AVX2"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "EMBREE_TARGET_AVX512SKX"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "EMBREE_TARGET_SSE2"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "EMBREE_TARGET_SSE42"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "TASKING_INTERNAL"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "tasking::@4c427a0f85423ee8c3e5"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "kernels"
+	},
+	"id" : "embree_avx512skx::@2cb1f9781e56fdf70b7c",
+	"name" : "embree_avx512skx",
+	"nameOnDisk" : "libembree_avx512skx.a",
+	"paths" : 
+	{
+		"build" : "ext/embree/kernels",
+		"source" : "ext/embree/kernels"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files\\geometry",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				3,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30
+			]
+		},
+		{
+			"name" : "Source Files\\common",
+			"sourceIndexes" : 
+			[
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				37,
+				38,
+				39,
+				40,
+				41,
+				42,
+				43,
+				44,
+				45,
+				46,
+				47,
+				48,
+				49,
+				50,
+				51,
+				52,
+				53,
+				54,
+				55,
+				56,
+				57,
+				58,
+				59,
+				60,
+				61
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/geometry/instance_intersector.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/geometry/curve_intersector_virtual.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/geometry/curve_intersector_virtual2.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector1_bvh4.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/common/scene_user_geometry.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/common/scene_instance.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/common/scene_triangle_mesh.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/common/scene_quad_mesh.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/common/scene_curves.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/common/scene_line_segments.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/common/scene_grid_mesh.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/common/scene_points.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_collider.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_refit.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_builder.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_builder_hair.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_builder_hair_mb.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_builder_sah.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_builder_sah_spatial.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_builder_sah_mb.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_builder_twolevel.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector1_bvh8.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_hybrid4_bvh4.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_stream_bvh4.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_stream_filters.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_hybrid8_bvh4.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_hybrid4_bvh8.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_hybrid8_bvh8.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_stream_bvh8.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_hybrid16_bvh8.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_hybrid16_bvh4.cpp.avx512skx.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/geometry/instance_intersector.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/geometry/curve_intersector_virtual.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/geometry/curve_intersector_virtual2.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector1_bvh4.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/common/scene_user_geometry.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/common/scene_instance.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/common/scene_triangle_mesh.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/common/scene_quad_mesh.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/common/scene_curves.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/common/scene_line_segments.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/common/scene_grid_mesh.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/common/scene_points.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_collider.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_refit.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_builder.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_builder_hair.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_builder_hair_mb.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_builder_sah.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_builder_sah_spatial.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_builder_sah_mb.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_builder_twolevel.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector1_bvh8.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_hybrid4_bvh4.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_stream_bvh4.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_stream_filters.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_hybrid8_bvh4.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_hybrid4_bvh8.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_hybrid8_bvh8.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_stream_bvh8.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_hybrid16_bvh8.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_hybrid16_bvh4.cpp.avx512skx.cpp.rule",
+			"sourceGroupIndex" : 3
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

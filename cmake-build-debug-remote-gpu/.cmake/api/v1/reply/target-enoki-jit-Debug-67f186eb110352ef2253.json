@@ -1,0 +1,578 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "libenoki-jit.so"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"install",
+			"target_link_libraries",
+			"target_compile_options",
+			"target_compile_definitions",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"ext/enoki/ext/enoki-jit/CMakeLists.txt",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 49,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 644,
+				"parent" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 106,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 99,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 105,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 109,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 117,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 125,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 91,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 84,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -march=native -g -fPIC  "
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wall"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wextra"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-march=native"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 6,
+					"define" : "ENOKI_JIT_BUILD=1"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "ENOKI_JIT_DYNAMIC_CUDA=1"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "ENOKI_JIT_DYNAMIC_LLVM=1"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "ENOKI_JIT_ENABLE_OPTIX=1"
+				},
+				{
+					"backtrace" : 10,
+					"define" : "LZ4LIB_VISIBILITY="
+				},
+				{
+					"define" : "enoki_jit_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 11,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/ext/enoki-jit/include"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/ext/enoki-jit/ext/enoki-thread/include"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/ext/enoki-jit/ext/robin_map/include"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/ext/enoki-jit/ext/lz4"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				10,
+				12,
+				14,
+				16,
+				18,
+				20,
+				22,
+				24,
+				26,
+				27,
+				28,
+				30
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -fPIC  "
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wall"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wextra"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-march=native"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 6,
+					"define" : "ENOKI_JIT_BUILD=1"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "ENOKI_JIT_DYNAMIC_CUDA=1"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "ENOKI_JIT_DYNAMIC_LLVM=1"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "ENOKI_JIT_ENABLE_OPTIX=1"
+				},
+				{
+					"backtrace" : 10,
+					"define" : "LZ4LIB_VISIBILITY="
+				},
+				{
+					"define" : "enoki_jit_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 11,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/ext/enoki-jit/include"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/ext/enoki-jit/ext/enoki-thread/include"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/ext/enoki-jit/ext/robin_map/include"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/ext/enoki-jit/ext/lz4"
+				}
+			],
+			"language" : "C",
+			"sourceIndexes" : 
+			[
+				32,
+				35,
+				37
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 4,
+			"id" : "enoki-thread::@2c06ba5b2e7ff2a6d2b1"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "enoki"
+	},
+	"id" : "enoki-jit::@9d7c19d58c244eb3ce5f",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 3,
+				"path" : "."
+			},
+			{
+				"backtrace" : 3,
+				"path" : "."
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "/usr/local"
+		}
+	},
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-Wl,-rpath,/home/leonard/mitsuba2/cmake-build-debug-remote-gpu:",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../../../../libenoki-thread.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ldl",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lpthread",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "enoki-jit",
+	"nameOnDisk" : "libenoki-jit.so",
+	"paths" : 
+	{
+		"build" : "ext/enoki/ext/enoki-jit",
+		"source" : "ext/enoki/ext/enoki-jit"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				11,
+				13,
+				15,
+				17,
+				19,
+				21,
+				23,
+				25,
+				29,
+				31,
+				33,
+				34,
+				36
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				10,
+				12,
+				14,
+				16,
+				18,
+				20,
+				22,
+				24,
+				26,
+				27,
+				28,
+				30,
+				32,
+				35,
+				37
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/include/enoki-jit/jit.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/include/enoki-jit/traits.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/include/enoki-jit/cuda.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/include/enoki-jit/llvm.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/src/common.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/src/internal.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/src/alloc.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/src/hash.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/src/profiler.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/src/log.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/enoki/ext/enoki-jit/src/log.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/src/var.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/enoki/ext/enoki-jit/src/var.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/src/eval.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/enoki/ext/enoki-jit/src/eval.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/src/malloc.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/enoki/ext/enoki-jit/src/malloc.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/src/registry.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/enoki/ext/enoki-jit/src/registry.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/src/util.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/enoki/ext/enoki-jit/src/util.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/src/cuda_api.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/enoki/ext/enoki-jit/src/cuda_api.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/src/llvm_api.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/enoki/ext/enoki-jit/src/llvm_api.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/src/io.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/enoki/ext/enoki-jit/src/io.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/enoki/ext/enoki-jit/src/init.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/enoki/ext/enoki-jit/src/api.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/src/optix_api.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/enoki/ext/enoki-jit/src/optix_api.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/ext/lz4/lz4.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/ext/lz4/lz4.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/ext/lz4/xxhash.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/ext/lz4/xxh3.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/ext/lz4/xxhash.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/kernels/kernels.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "ext/enoki/ext/enoki-jit/kernels/kernels.c",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}

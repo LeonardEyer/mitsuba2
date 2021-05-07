@@ -1,0 +1,531 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "src/libcore/libmitsuba-core.dylib"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"target_link_libraries",
+			"TARGET_LINK_LIBRARIES",
+			"add_dependencies",
+			"add_subdirectory",
+			"add_compile_options",
+			"add_definitions",
+			"include_directories",
+			"include"
+		],
+		"files" : 
+		[
+			"src/libcore/CMakeLists.txt",
+			"ext/openexr/OpenEXR/IlmImf/CMakeLists.txt",
+			"CMakeLists.txt",
+			"src/cmake/libpython.cmake",
+			"src/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 75,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 80,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 97,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 148,
+				"parent" : 4
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 129,
+				"parent" : 0
+			},
+			{
+				"file" : 2
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 234,
+				"parent" : 7
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 279,
+				"parent" : 7
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 280,
+				"parent" : 7
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 381,
+				"parent" : 7
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 551,
+				"parent" : 7
+			},
+			{
+				"command" : 6,
+				"file" : 2,
+				"line" : 485,
+				"parent" : 7
+			},
+			{
+				"command" : 6,
+				"file" : 2,
+				"line" : 489,
+				"parent" : 7
+			},
+			{
+				"command" : 6,
+				"file" : 2,
+				"line" : 475,
+				"parent" : 7
+			},
+			{
+				"command" : 7,
+				"file" : 2,
+				"line" : 237,
+				"parent" : 7
+			},
+			{
+				"file" : 4
+			},
+			{
+				"command" : 8,
+				"file" : 4,
+				"line" : 4,
+				"parent" : 17
+			},
+			{
+				"file" : 3,
+				"parent" : 18
+			},
+			{
+				"command" : 7,
+				"file" : 3,
+				"line" : 1,
+				"parent" : 19
+			},
+			{
+				"command" : 7,
+				"file" : 0,
+				"line" : 1,
+				"parent" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "pugixml::@1513f232e2be2c4ffccf"
+		},
+		{
+			"backtrace" : 6,
+			"id" : "png16::@9b31c5fa84b661f22f8c"
+		},
+		{
+			"backtrace" : 6,
+			"id" : "jpeg::@2706447866d78f66e700"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "Half::@bc73201a0ff31525839c"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "Iex::@2d5ce12303fd5a715ea3"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "Imath::@cff27ddb2a1d5995498d"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "IlmThread::@ad0fbd93a99e11f50aa5"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "IlmImf::@c7e2e96394a199d2be4c"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "tbb::@3dd1ab55f51ddf8a6aef"
+		},
+		{
+			"id" : "mitsuba-core-obj::@9d97644c8f6463bf4b5c"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "asmjit::@75f2248e44231e1fe518"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "mitsuba-core"
+	},
+	"id" : "mitsuba-core::@9d97644c8f6463bf4b5c",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-stdlib=libc++ -march=native",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "../../ext_build/libpng/libpng16-mitsuba.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "../../ext_build/tbb/libtbb.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "../../ext_build/pugixml/libpugixml.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "../../ext_build/libpng/libpng16-mitsuba.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "../../ext_build/libjpeg/libjpeg-mitsuba.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "../../ext_build/openexr/OpenEXR/IlmImf/libIlmImf.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "../../ext_build/asmjit/libasmjit.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 5,
+				"fragment" : "../../ext_build/openexr/IlmBase/Half/libHalf.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 5,
+				"fragment" : "../../ext_build/openexr/IlmBase/Imath/libImath.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 5,
+				"fragment" : "../../ext_build/openexr/IlmBase/IlmThread/libIlmThread.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 5,
+				"fragment" : "../../ext_build/openexr/IlmBase/Iex/libIex.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 5,
+				"fragment" : "/usr/lib/libz.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 5,
+				"fragment" : "-lpthread",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "mitsuba-core",
+	"nameOnDisk" : "libmitsuba-core.dylib",
+	"paths" : 
+	{
+		"build" : "src/libcore",
+		"source" : "src/libcore"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Object Libraries",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31,
+				32
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/string.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/appender.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/argparser.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/bitmap.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/class.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/dstream.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/filesystem.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/formatter.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/fresolver.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/fstream.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/jit.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/logger.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/mmap.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/tensor.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/mstream.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/object.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/plugin.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/profiler.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/progress.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/properties.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/qmc.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/rfilter.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/spectrum.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/stream.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/struct.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/thread.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/tls.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/transform.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/util.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/xml.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/zstream.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/quad.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/src/libcore/CMakeFiles/mitsuba-core-obj.dir/dither-matrix256.cpp.o",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}

@@ -1,0 +1,254 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "src/bsdfs/CMakeFiles/plastic-obj.dir/plastic.cpp.o"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"add_plugin",
+			"add_subdirectory",
+			"add_compile_options",
+			"add_definitions",
+			"include_directories",
+			"include"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt",
+			"src/bsdfs/CMakeLists.txt",
+			"src/cmake/libpython.cmake",
+			"src/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 12,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 526,
+				"parent" : 1
+			},
+			{
+				"file" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 234,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 279,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 280,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 551,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 485,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 265,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 489,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 477,
+				"parent" : 3
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 230,
+				"parent" : 3
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 237,
+				"parent" : 3
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 6,
+				"file" : 3,
+				"line" : 4,
+				"parent" : 14
+			},
+			{
+				"file" : 2,
+				"parent" : 15
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 1,
+				"parent" : 16
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -std=gnu++17 -fdiagnostics-color=always -g -fPIC  "
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-fno-math-errno"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-ffp-contract=fast"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-march=native"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wall"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wextra"
+				},
+				{
+					"backtrace" : 6,
+					"fragment" : "-Wno-unused-local-typedefs"
+				},
+				{
+					"backtrace" : 7,
+					"fragment" : "-Wdouble-promotion"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 8,
+					"define" : "LITTLE_ENDIAN"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "MTS_ENABLE_OPTIX=1"
+				},
+				{
+					"backtrace" : 10,
+					"define" : "MTS_ENABLE_PROFILER"
+				},
+				{
+					"backtrace" : 11,
+					"define" : "__LINUX__"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 12,
+					"path" : "/usr/include/libcxxabi"
+				},
+				{
+					"backtrace" : 13,
+					"path" : "/home/leonard/mitsuba2/include"
+				},
+				{
+					"backtrace" : 13,
+					"path" : "/home/leonard/mitsuba2/ext/tinyformat"
+				},
+				{
+					"backtrace" : 13,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/include"
+				},
+				{
+					"backtrace" : 13,
+					"path" : "/home/leonard/mitsuba2/ext/tbb/include"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "/home/leonard/mitsuba2/ext/pybind11/include"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "/home/leonard/anaconda3/include/python3.8"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"folder" : 
+	{
+		"name" : "plugins/bsdfs/plastic"
+	},
+	"id" : "plastic-obj::@2650a5b78772af2c3c8a",
+	"name" : "plastic-obj",
+	"paths" : 
+	{
+		"build" : "src/bsdfs",
+		"source" : "src/bsdfs"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/bsdfs/plastic.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "OBJECT_LIBRARY"
+}

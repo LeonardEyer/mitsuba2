@@ -1,0 +1,468 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "libImath.so"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"ilmbase_define_library",
+			"install",
+			"target_link_libraries",
+			"target_compile_definitions"
+		],
+		"files" : 
+		[
+			"ext/openexr/IlmBase/config/LibraryDefine.cmake",
+			"ext/openexr/IlmBase/Imath/CMakeLists.txt",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 4,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 32,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 92,
+				"parent" : 1
+			},
+			{
+				"file" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 644,
+				"parent" : 4
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 50,
+				"parent" : 1
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 39,
+				"parent" : 1
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -march=native -Wno-unused-variable -g -fPIC  "
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 7,
+					"define" : "IMATH_EXPORTS"
+				},
+				{
+					"define" : "Imath_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"path" : "/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext/openexr/IlmBase/Imath"
+				},
+				{
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/Imath"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext/openexr/IlmBase/config"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/Half"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/IexMath"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/Iex"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				33,
+				34,
+				35,
+				36,
+				37,
+				38
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 6,
+			"id" : "Half::@4a7ae0dea943a56d8a66"
+		},
+		{
+			"backtrace" : 6,
+			"id" : "Iex::@6fd788319ac26029346c"
+		},
+		{
+			"backtrace" : 6,
+			"id" : "IexMath::@fc750b9da3a58bd2fac8"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "dependencies/openexr"
+	},
+	"id" : "Imath::@0291210b44218159d33e",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 3,
+				"path" : "lib"
+			},
+			{
+				"backtrace" : 3,
+				"path" : "lib"
+			},
+			{
+				"backtrace" : 5,
+				"path" : "."
+			},
+			{
+				"backtrace" : 5,
+				"path" : "."
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "/usr/local"
+		}
+	},
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-Wl,-rpath,/home/leonard/mitsuba2/cmake-build-debug-remote-gpu:",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "../../../../libHalf.so",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "../../../../libIexMath.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../../../libIex.so",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "Imath",
+	"nameOnDisk" : "libImath.so",
+	"paths" : 
+	{
+		"build" : "ext/openexr/IlmBase/Imath",
+		"source" : "ext/openexr/IlmBase/Imath"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31,
+				32
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				33,
+				34,
+				35,
+				36,
+				37,
+				38
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathBoxAlgo.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathBox.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathColorAlgo.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathColor.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathEuler.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathExc.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathExport.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathForward.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathFrame.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathFrustum.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathFrustumTest.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathFun.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathGL.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathGLU.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathHalfLimits.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathInt64.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathInterval.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathLimits.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathLineAlgo.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathLine.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathMath.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathMatrixAlgo.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathMatrix.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathNamespace.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathPlane.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathPlatform.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathQuat.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathRandom.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathRoots.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathShear.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathSphere.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathVecAlgo.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/IlmBase/Imath/ImathVec.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/IlmBase/Imath/ImathRandom.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/IlmBase/Imath/ImathColorAlgo.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/IlmBase/Imath/ImathFun.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/IlmBase/Imath/ImathVec.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/IlmBase/Imath/ImathExc.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/IlmBase/Imath/ImathMatrixAlgo.cpp",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}

@@ -1,0 +1,248 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "bin/IlmImfUtilTest"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"target_link_libraries"
+		],
+		"files" : 
+		[
+			"ext/openexr/OpenEXR/IlmImfUtilTest/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 4,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 10,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -march=native -Wno-unused-variable -g  "
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "-pthread"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"path" : "/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext/openexr/OpenEXR/IlmImfUtilTest"
+				},
+				{
+					"path" : "/home/leonard/mitsuba2/ext/openexr/OpenEXR/IlmImfUtilTest"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/OpenEXR/IlmImfUtil"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext/openexr/OpenEXR/config"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/OpenEXR/IlmImf"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/Iex"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext/openexr/IlmBase/config"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/Half"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/Imath"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/IexMath"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/IlmThread"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/home/leonard/anaconda3/include"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "Half::@4a7ae0dea943a56d8a66"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "Iex::@6fd788319ac26029346c"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "IexMath::@fc750b9da3a58bd2fac8"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "Imath::@0291210b44218159d33e"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "IlmThread::@278aebe4a71d44f9a80e"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "IlmImf::@f32ba8242b8a9b800c71"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "IlmImfUtil::@cdb1cdb6e03fde6ae327"
+		}
+	],
+	"id" : "IlmImfUtilTest::@1a0117cca4032e6854ff",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-march=native -Wno-unused-variable -g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-Wl,-rpath,/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext/openexr/OpenEXR/IlmImfUtil:/home/leonard/mitsuba2/cmake-build-debug-remote-gpu:/home/leonard/anaconda3/lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "../IlmImfUtil/libIlmImfUtil.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../../../libIlmImf.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../../../libImath.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../../../libHalf.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../../../libIexMath.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../../../libIlmThread.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../../../libIex.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-pthread",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "/home/leonard/anaconda3/lib/libz.so",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "IlmImfUtilTest",
+	"nameOnDisk" : "IlmImfUtilTest",
+	"paths" : 
+	{
+		"build" : "ext/openexr/OpenEXR/IlmImfUtilTest",
+		"source" : "ext/openexr/OpenEXR/IlmImfUtilTest"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtilTest/main.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtilTest/testFlatImage.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtilTest/testDeepImage.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtilTest/testIO.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "EXECUTABLE"
+}

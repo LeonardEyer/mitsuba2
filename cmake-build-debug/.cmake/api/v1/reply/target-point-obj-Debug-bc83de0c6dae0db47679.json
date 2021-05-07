@@ -1,0 +1,244 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "src/emitters/CMakeFiles/point-obj.dir/./point.cpp.o"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"add_plugin",
+			"add_subdirectory",
+			"add_compile_options",
+			"add_definitions",
+			"include_directories",
+			"include"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt",
+			"src/emitters/CMakeLists.txt",
+			"src/cmake/libpython.cmake",
+			"src/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 4,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 526,
+				"parent" : 1
+			},
+			{
+				"file" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 234,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 279,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 280,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 381,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 551,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 485,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 489,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 475,
+				"parent" : 3
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 237,
+				"parent" : 3
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 6,
+				"file" : 3,
+				"line" : 4,
+				"parent" : 13
+			},
+			{
+				"file" : 2,
+				"parent" : 14
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 1,
+				"parent" : 15
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -stdlib=libc++ -D_LIBCPP_VERSION -std=gnu++17 -fcolor-diagnostics -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -fPIC  "
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-fno-math-errno"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-ffp-contract=fast"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-march=native"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wall"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wextra"
+				},
+				{
+					"backtrace" : 6,
+					"fragment" : "-Wno-unused-local-typedefs"
+				},
+				{
+					"backtrace" : 7,
+					"fragment" : "-fno-limit-debug-info"
+				},
+				{
+					"backtrace" : 8,
+					"fragment" : "-Wdouble-promotion"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 9,
+					"define" : "LITTLE_ENDIAN"
+				},
+				{
+					"backtrace" : 10,
+					"define" : "MTS_ENABLE_PROFILER"
+				},
+				{
+					"backtrace" : 11,
+					"define" : "__OSX__"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 12,
+					"path" : "/Users/leonardeyer/codetemp/mitsuba2/include"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/Users/leonardeyer/codetemp/mitsuba2/ext/tinyformat"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/Users/leonardeyer/codetemp/mitsuba2/ext/enoki/include"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/Users/leonardeyer/codetemp/mitsuba2/ext/tbb/include"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/Users/leonardeyer/codetemp/mitsuba2/ext/pybind11/include"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/Users/leonardeyer/.pyenv/versions/3.7.5/include/python3.7m"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"folder" : 
+	{
+		"name" : "plugins/emitters/point"
+	},
+	"id" : "point-obj::@40d60837f3021c48fe74",
+	"name" : "point-obj",
+	"paths" : 
+	{
+		"build" : "src/emitters",
+		"source" : "src/emitters"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/emitters/point.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "OBJECT_LIBRARY"
+}

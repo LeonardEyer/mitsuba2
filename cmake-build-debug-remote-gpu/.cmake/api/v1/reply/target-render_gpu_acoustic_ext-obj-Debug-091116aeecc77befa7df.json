@@ -1,0 +1,539 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/main_v.cpp.o"
+		},
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/bsdf_v.cpp.o"
+		},
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/emitter_v.cpp.o"
+		},
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/endpoint_v.cpp.o"
+		},
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/film_v.cpp.o"
+		},
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/fresnel_v.cpp.o"
+		},
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/imageblock_v.cpp.o"
+		},
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/histogram_v.cpp.o"
+		},
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/interaction_v.cpp.o"
+		},
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/integrator_v.cpp.o"
+		},
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/medium_v.cpp.o"
+		},
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/mueller_v.cpp.o"
+		},
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/microfacet_v.cpp.o"
+		},
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/phase_v.cpp.o"
+		},
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/records_v.cpp.o"
+		},
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/sampler_v.cpp.o"
+		},
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/scene_v.cpp.o"
+		},
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/sensor_v.cpp.o"
+		},
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/shape_v.cpp.o"
+		},
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/srgb_v.cpp.o"
+		},
+		{
+			"path" : "src/librender/python/CMakeFiles/render_gpu_acoustic_ext-obj.dir/texture_v.cpp.o"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"add_mitsuba_python_library",
+			"add_subdirectory",
+			"add_compile_options",
+			"add_definitions",
+			"target_compile_definitions",
+			"include_directories",
+			"include"
+		],
+		"files" : 
+		[
+			"src/cmake/libpython.cmake",
+			"src/librender/python/CMakeLists.txt",
+			"CMakeLists.txt",
+			"src/CMakeLists.txt",
+			"src/librender/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 14,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 10,
+				"parent" : 1
+			},
+			{
+				"file" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 234,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 279,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 280,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 551,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 485,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 265,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 489,
+				"parent" : 3
+			},
+			{
+				"command" : 5,
+				"file" : 1,
+				"line" : 38,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 477,
+				"parent" : 3
+			},
+			{
+				"command" : 6,
+				"file" : 2,
+				"line" : 230,
+				"parent" : 3
+			},
+			{
+				"command" : 6,
+				"file" : 2,
+				"line" : 237,
+				"parent" : 3
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 7,
+				"file" : 3,
+				"line" : 4,
+				"parent" : 15
+			},
+			{
+				"file" : 0,
+				"parent" : 16
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 1,
+				"parent" : 17
+			},
+			{
+				"file" : 4
+			},
+			{
+				"command" : 6,
+				"file" : 4,
+				"line" : 29,
+				"parent" : 19
+			},
+			{
+				"command" : 6,
+				"file" : 4,
+				"line" : 32,
+				"parent" : 19
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -std=gnu++17 -fdiagnostics-color=always -g -fPIC  "
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-fno-math-errno"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-ffp-contract=fast"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-march=native"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wall"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wextra"
+				},
+				{
+					"backtrace" : 6,
+					"fragment" : "-Wno-unused-local-typedefs"
+				},
+				{
+					"backtrace" : 7,
+					"fragment" : "-Wdouble-promotion"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 8,
+					"define" : "LITTLE_ENDIAN"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "MTS_ENABLE_OPTIX=1"
+				},
+				{
+					"backtrace" : 10,
+					"define" : "MTS_ENABLE_PROFILER"
+				},
+				{
+					"backtrace" : 11,
+					"define" : "MTS_VARIANT_FLOAT=CUDAArray<float>"
+				},
+				{
+					"backtrace" : 11,
+					"define" : "MTS_VARIANT_NAME=gpu_acoustic"
+				},
+				{
+					"backtrace" : 11,
+					"define" : "MTS_VARIANT_SPECTRUM=Spectrum<CUDAArray<float>, 1>"
+				},
+				{
+					"backtrace" : 11,
+					"define" : "MTS_VARIANT_VECTORIZE=0"
+				},
+				{
+					"backtrace" : 12,
+					"define" : "__LINUX__"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 13,
+					"path" : "/usr/include/libcxxabi"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "/home/leonard/mitsuba2/include"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "/home/leonard/mitsuba2/ext/tinyformat"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/include"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "/home/leonard/mitsuba2/ext/tbb/include"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/home/leonard/mitsuba2/ext/pybind11/include"
+				},
+				{
+					"backtrace" : 18,
+					"path" : "/home/leonard/anaconda3/include/python3.8"
+				},
+				{
+					"backtrace" : 20,
+					"path" : "/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/src/librender"
+				},
+				{
+					"backtrace" : 21,
+					"path" : "/home/leonard/mitsuba2/ext/rgb2spec"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22
+			]
+		}
+	],
+	"folder" : 
+	{
+		"name" : "mitsuba-python"
+	},
+	"id" : "render_gpu_acoustic_ext-obj::@c2115d3ab943d8e59989",
+	"name" : "render_gpu_acoustic_ext-obj",
+	"paths" : 
+	{
+		"build" : "src/librender/python",
+		"source" : "src/librender/python"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"path" : "include/mitsuba/python/python.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "include/mitsuba/python/docstr.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/main_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/bsdf_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/emitter_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/endpoint_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/film_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/fresnel_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/imageblock_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/histogram_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/interaction_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/integrator_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/medium_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/mueller_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/microfacet_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/phase_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/records_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/sampler_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/scene_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/sensor_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/shape_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/srgb_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/python/texture_v.cpp",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "OBJECT_LIBRARY"
+}

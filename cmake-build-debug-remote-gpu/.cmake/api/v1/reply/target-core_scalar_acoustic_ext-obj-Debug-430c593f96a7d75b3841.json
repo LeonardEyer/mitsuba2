@@ -1,0 +1,549 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "src/libcore/python/CMakeFiles/core_scalar_acoustic_ext-obj.dir/main_v.cpp.o"
+		},
+		{
+			"path" : "src/libcore/python/CMakeFiles/core_scalar_acoustic_ext-obj.dir/bbox_v.cpp.o"
+		},
+		{
+			"path" : "src/libcore/python/CMakeFiles/core_scalar_acoustic_ext-obj.dir/bsphere_v.cpp.o"
+		},
+		{
+			"path" : "src/libcore/python/CMakeFiles/core_scalar_acoustic_ext-obj.dir/distr_1d_v.cpp.o"
+		},
+		{
+			"path" : "src/libcore/python/CMakeFiles/core_scalar_acoustic_ext-obj.dir/distr_2d_v.cpp.o"
+		},
+		{
+			"path" : "src/libcore/python/CMakeFiles/core_scalar_acoustic_ext-obj.dir/frame_v.cpp.o"
+		},
+		{
+			"path" : "src/libcore/python/CMakeFiles/core_scalar_acoustic_ext-obj.dir/math_v.cpp.o"
+		},
+		{
+			"path" : "src/libcore/python/CMakeFiles/core_scalar_acoustic_ext-obj.dir/object_v.cpp.o"
+		},
+		{
+			"path" : "src/libcore/python/CMakeFiles/core_scalar_acoustic_ext-obj.dir/qmc_v.cpp.o"
+		},
+		{
+			"path" : "src/libcore/python/CMakeFiles/core_scalar_acoustic_ext-obj.dir/properties_v.cpp.o"
+		},
+		{
+			"path" : "src/libcore/python/CMakeFiles/core_scalar_acoustic_ext-obj.dir/random_v.cpp.o"
+		},
+		{
+			"path" : "src/libcore/python/CMakeFiles/core_scalar_acoustic_ext-obj.dir/ray_v.cpp.o"
+		},
+		{
+			"path" : "src/libcore/python/CMakeFiles/core_scalar_acoustic_ext-obj.dir/rfilter_v.cpp.o"
+		},
+		{
+			"path" : "src/libcore/python/CMakeFiles/core_scalar_acoustic_ext-obj.dir/spectrum_v.cpp.o"
+		},
+		{
+			"path" : "src/libcore/python/CMakeFiles/core_scalar_acoustic_ext-obj.dir/spline_v.cpp.o"
+		},
+		{
+			"path" : "src/libcore/python/CMakeFiles/core_scalar_acoustic_ext-obj.dir/transform_v.cpp.o"
+		},
+		{
+			"path" : "src/libcore/python/CMakeFiles/core_scalar_acoustic_ext-obj.dir/vector_v.cpp.o"
+		},
+		{
+			"path" : "src/libcore/python/CMakeFiles/core_scalar_acoustic_ext-obj.dir/warp_v.cpp.o"
+		},
+		{
+			"path" : "src/libcore/python/CMakeFiles/core_scalar_acoustic_ext-obj.dir/xml_v.cpp.o"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"add_mitsuba_python_library",
+			"add_subdirectory",
+			"add_compile_options",
+			"add_definitions",
+			"target_compile_definitions",
+			"include_directories",
+			"include"
+		],
+		"files" : 
+		[
+			"src/cmake/libpython.cmake",
+			"src/libcore/python/CMakeLists.txt",
+			"CMakeLists.txt",
+			"src/CMakeLists.txt",
+			"src/libcore/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 21,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 10,
+				"parent" : 1
+			},
+			{
+				"file" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 234,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 279,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 280,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 551,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 5,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 485,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 265,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 489,
+				"parent" : 3
+			},
+			{
+				"command" : 5,
+				"file" : 1,
+				"line" : 43,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 477,
+				"parent" : 3
+			},
+			{
+				"command" : 6,
+				"file" : 2,
+				"line" : 230,
+				"parent" : 3
+			},
+			{
+				"command" : 6,
+				"file" : 2,
+				"line" : 237,
+				"parent" : 3
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 7,
+				"file" : 3,
+				"line" : 4,
+				"parent" : 16
+			},
+			{
+				"file" : 0,
+				"parent" : 17
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 1,
+				"parent" : 18
+			},
+			{
+				"file" : 4
+			},
+			{
+				"command" : 6,
+				"file" : 4,
+				"line" : 1,
+				"parent" : 20
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -std=gnu++17 -fdiagnostics-color=always -g -fPIC  "
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-fno-math-errno"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-ffp-contract=fast"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-march=native"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wall"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wextra"
+				},
+				{
+					"backtrace" : 6,
+					"fragment" : "-Wno-unused-local-typedefs"
+				},
+				{
+					"backtrace" : 7,
+					"fragment" : "-Wdouble-promotion"
+				},
+				{
+					"backtrace" : 8,
+					"fragment" : "-fvisibility=hidden"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 9,
+					"define" : "LITTLE_ENDIAN"
+				},
+				{
+					"backtrace" : 10,
+					"define" : "MTS_ENABLE_OPTIX=1"
+				},
+				{
+					"backtrace" : 11,
+					"define" : "MTS_ENABLE_PROFILER"
+				},
+				{
+					"backtrace" : 12,
+					"define" : "MTS_VARIANT_FLOAT=float"
+				},
+				{
+					"backtrace" : 12,
+					"define" : "MTS_VARIANT_NAME=scalar_acoustic"
+				},
+				{
+					"backtrace" : 12,
+					"define" : "MTS_VARIANT_SPECTRUM=Spectrum<float, 1>"
+				},
+				{
+					"backtrace" : 12,
+					"define" : "MTS_VARIANT_VECTORIZE=0"
+				},
+				{
+					"backtrace" : 13,
+					"define" : "__LINUX__"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 14,
+					"path" : "/usr/include/libcxxabi"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "/home/leonard/mitsuba2/include"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "/home/leonard/mitsuba2/ext/tinyformat"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/include"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "/home/leonard/mitsuba2/ext/tbb/include"
+				},
+				{
+					"backtrace" : 19,
+					"path" : "/home/leonard/mitsuba2/ext/pybind11/include"
+				},
+				{
+					"backtrace" : 19,
+					"path" : "/home/leonard/anaconda3/include/python3.8"
+				},
+				{
+					"backtrace" : 21,
+					"path" : "/home/leonard/anaconda3/include"
+				},
+				{
+					"backtrace" : 21,
+					"path" : "/home/leonard/mitsuba2/ext/pugixml/src"
+				},
+				{
+					"backtrace" : 21,
+					"path" : "/home/leonard/mitsuba2/ext/asmjit/src"
+				},
+				{
+					"backtrace" : 21,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/Imath"
+				},
+				{
+					"backtrace" : 21,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/Iex"
+				},
+				{
+					"backtrace" : 21,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/Half"
+				},
+				{
+					"backtrace" : 21,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/OpenEXR/IlmImf"
+				},
+				{
+					"backtrace" : 21,
+					"path" : "/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/openexr/OpenEXR/config"
+				},
+				{
+					"backtrace" : 21,
+					"path" : "/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/openexr/IlmBase/config"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20
+			]
+		}
+	],
+	"folder" : 
+	{
+		"name" : "mitsuba-python"
+	},
+	"id" : "core_scalar_acoustic_ext-obj::@72c85af991e62108fa72",
+	"name" : "core_scalar_acoustic_ext-obj",
+	"paths" : 
+	{
+		"build" : "src/libcore/python",
+		"source" : "src/libcore/python"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"path" : "include/mitsuba/python/python.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "include/mitsuba/python/docstr.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/python/main_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/python/bbox_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/python/bsphere_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/python/distr_1d_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/python/distr_2d_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/python/frame_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/python/math_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/python/object_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/python/qmc_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/python/properties_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/python/random_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/python/ray_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/python/rfilter_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/python/spectrum_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/python/spline_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/python/transform_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/python/vector_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/python/warp_v.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/libcore/python/xml_v.cpp",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "OBJECT_LIBRARY"
+}

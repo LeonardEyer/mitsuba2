@@ -1,0 +1,464 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/libIlmImfUtil.so"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"openexr_define_library",
+			"install",
+			"target_link_libraries",
+			"target_compile_definitions"
+		],
+		"files" : 
+		[
+			"ext/openexr/OpenEXR/config/LibraryDefine.cmake",
+			"ext/openexr/OpenEXR/IlmImfUtil/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 4,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 30,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 85,
+				"parent" : 1
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 48,
+				"parent" : 1
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 37,
+				"parent" : 1
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -march=native -Wno-unused-variable -g -fPIC  "
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-pthread"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 5,
+					"define" : "ILMIMFUTIL_EXPORTS"
+				},
+				{
+					"define" : "IlmImfUtil_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"path" : "/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext/openexr/OpenEXR/IlmImfUtil"
+				},
+				{
+					"path" : "/home/leonard/mitsuba2/ext/openexr/OpenEXR/IlmImfUtil"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext/openexr/OpenEXR/config"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/OpenEXR/IlmImf"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/Iex"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext/openexr/IlmBase/config"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/Half"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/Imath"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/IexMath"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/leonard/mitsuba2/ext/openexr/IlmBase/IlmThread"
+				},
+				{
+					"backtrace" : 4,
+					"isSystem" : true,
+					"path" : "/home/leonard/anaconda3/include"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 4,
+			"id" : "Half::@4a7ae0dea943a56d8a66"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "Iex::@6fd788319ac26029346c"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "IexMath::@fc750b9da3a58bd2fac8"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "Imath::@0291210b44218159d33e"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "IlmThread::@278aebe4a71d44f9a80e"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "IlmImf::@f32ba8242b8a9b800c71"
+		}
+	],
+	"id" : "IlmImfUtil::@cdb1cdb6e03fde6ae327",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 3,
+				"path" : "lib"
+			},
+			{
+				"backtrace" : 3,
+				"path" : "lib"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "/usr/local"
+		}
+	},
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-Wl,-rpath,/home/leonard/mitsuba2/cmake-build-debug-remote-gpu:/home/leonard/anaconda3/lib:",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../../../../libIlmImf.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../../../libImath.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../../../libHalf.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../../../libIexMath.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../../../libIlmThread.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../../../libIex.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-pthread",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "/home/leonard/anaconda3/lib/libz.so",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "IlmImfUtil",
+	"nameOnDisk" : "libIlmImfUtil.so",
+	"paths" : 
+	{
+		"build" : "ext/openexr/OpenEXR/IlmImfUtil",
+		"source" : "ext/openexr/OpenEXR/IlmImfUtil"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfImageChannel.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfFlatImageChannel.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfDeepImageChannel.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfSampleCountChannel.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfImageLevel.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfFlatImageLevel.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfDeepImageLevel.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfImage.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfFlatImage.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfDeepImage.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfImageIO.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfFlatImageIO.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfDeepImageIO.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfImageDataWindow.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfImageChannelRenaming.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfUtilExport.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfImageChannel.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfFlatImageChannel.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfDeepImageChannel.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfSampleCountChannel.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfImageLevel.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfFlatImageLevel.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfDeepImageLevel.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfImage.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfFlatImage.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfDeepImage.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfImageIO.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfFlatImageIO.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfDeepImageIO.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/OpenEXR/IlmImfUtil/ImfImageDataWindow.cpp",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}

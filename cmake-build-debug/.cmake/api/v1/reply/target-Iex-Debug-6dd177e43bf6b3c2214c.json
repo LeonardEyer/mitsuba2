@@ -1,0 +1,231 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "ext_build/openexr/IlmBase/Iex/libIex.dylib"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"ADD_LIBRARY",
+			"INSTALL",
+			"add_compile_options",
+			"enoki_set_compile_flags",
+			"enoki_set_native_flags",
+			"ADD_DEFINITIONS",
+			"INCLUDE_DIRECTORIES"
+		],
+		"files" : 
+		[
+			"ext/openexr/IlmBase/Iex/CMakeLists.txt",
+			"ext/enoki/CMakeLists.txt",
+			"ext/CMakeLists.txt",
+			"ext/openexr/IlmBase/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 7,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 13,
+				"parent" : 0
+			},
+			{
+				"file" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 78,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 185,
+				"parent" : 4
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 189,
+				"parent" : 4
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 79,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 160,
+				"parent" : 7
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 4,
+				"parent" : 0
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 6,
+				"file" : 3,
+				"line" : 47,
+				"parent" : 10
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -stdlib=libc++ -D_LIBCPP_VERSION -Wno-switch -Wno-tautological-compare -Wno-deprecated-register -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -fPIC   -pthread"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-fno-math-errno"
+				},
+				{
+					"backtrace" : 6,
+					"fragment" : "-ffp-contract=fast"
+				},
+				{
+					"backtrace" : 8,
+					"fragment" : "-march=native"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 9,
+					"define" : "IEX_EXPORTS"
+				},
+				{
+					"define" : "Iex_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"path" : "/Users/leonardeyer/codetemp/mitsuba2/cmake-build-debug/ext_build/openexr/IlmBase/Iex"
+				},
+				{
+					"path" : "/Users/leonardeyer/codetemp/mitsuba2/ext/openexr/IlmBase/Iex"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "/Users/leonardeyer/codetemp/mitsuba2/ext/openexr/IlmBase/IexMath"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "/Users/leonardeyer/codetemp/mitsuba2/ext/openexr/IlmBase/Imath"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "/Users/leonardeyer/codetemp/mitsuba2/ext/openexr/IlmBase/Half"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "/Users/leonardeyer/codetemp/mitsuba2/cmake-build-debug/ext_build/openexr/IlmBase/config"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "/Users/leonardeyer/codetemp/mitsuba2/ext/openexr/IlmBase/IlmThread"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0,
+				1
+			]
+		}
+	],
+	"folder" : 
+	{
+		"name" : "dependencies"
+	},
+	"id" : "Iex::@2d5ce12303fd5a715ea3",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 2,
+				"path" : "lib"
+			},
+			{
+				"backtrace" : 2,
+				"path" : "lib"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "/usr/local"
+		}
+	},
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-stdlib=libc++ -march=native",
+				"role" : "flags"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "Iex",
+	"nameOnDisk" : "libIex.dylib",
+	"paths" : 
+	{
+		"build" : "ext_build/openexr/IlmBase/Iex",
+		"source" : "ext/openexr/IlmBase/Iex"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/IlmBase/Iex/IexBaseExc.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/openexr/IlmBase/Iex/IexThrowErrnoExc.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}

@@ -6,6 +6,7 @@
 #include <mitsuba/render/integrator.h>
 #include <mitsuba/render/records.h>
 #include <random>
+#include <map>
 
 // #define MTS_DEBUG_ACOUSTIC_PATHS "/tmp/ptracer.obj"
 #if defined(MTS_DEBUG_ACOUSTIC_PATHS)
@@ -21,18 +22,23 @@ NAMESPACE_BEGIN(mitsuba)
 template <typename Float, typename Spectrum>
 class AcousticPathIntegrator : public TimeDependentIntegrator<Float, Spectrum> {
 public:
-    MTS_IMPORT_BASE(TimeDependentIntegrator, m_stop,
+    MTS_IMPORT_BASE(TimeDependentIntegrator, m_stop, m_max_time,
                     m_max_depth, m_wavelength_bins, m_time_step_count)
     MTS_IMPORT_TYPES(Scene, Sensor, Sampler, Medium, Emitter, EmitterPtr, BSDF,
                      BSDFPtr, Histogram)
 
-    AcousticPathIntegrator(const Properties &props) : Base(props) {}
+    AcousticPathIntegrator(const Properties &props) : Base(props) {
+
+        /*for (size_t i = 0; i < m_wavelength_bins.size(); ++i) {
+            m_band_id_map[m_wavelength_bins.at(i)] = i;
+        }*/
+    }
 
     std::pair<Spectrum, Mask> trace_acoustic_ray(const Scene *scene, Sampler *sampler,
                                      const Ray3f &ray_,
+                                     const UInt32 band_id,
                                      Histogram * hist,
-                                     const Medium * /* medium */,
-                                     Float * /* aovs */,
+                                                 const UInt32 band_id,
                                      Mask active) const override {
         MTS_MASKED_FUNCTION(ProfilerPhase::SamplingIntegratorSample, active);
 
@@ -42,7 +48,7 @@ public:
         f << "o path" << path_counter++ << std::endl;
 #endif
 
-        RayDifferential3f ray = ray_;
+        Ray3f ray = ray_;
 
         Float time = ray.time;
 
@@ -90,7 +96,15 @@ public:
                 //throughput[active] *= emission_weight * emitter->eval(si, active);
                 // Logging the result
 
-                hist->put(time, ray.wavelengths, throughput, hit_emitter);
+                const ScalarFloat discretizer = (m_max_time / hist->size().y());
+
+                UInt32 time_idx = time / discretizer;
+
+                Float wav = ray.wavelengths[0];
+
+                hist->put({ bin_idx, band_id }, throughput, hit_emitter);
+
+                //hist->put(time, ray.wavelengths, throughput, hit_emitter);
 
                 throughput[hit_emitter] = 0;
             }
@@ -192,7 +206,27 @@ public:
         return select(pdf_a > 0.f, pdf_a / (pdf_a + pdf_b), 0.f);
     }
 
+    /*UInt32 get_bins(Float wavs) const {
+
+        if constexpr (is_scalar_v<Float>) {
+            auto it = m_band_id_map.find(ScalarFloat(wavs));
+            if (it != m_band_id_map.end())
+                return it->second;
+        } else {
+            UInt32 bins;
+            for (size_t i = 0; i < wavs.size(); ++i) {
+                auto it = m_band_id_map.find(wavs[i]);
+                if (it != m_band_id_map.end())
+                    bins[i] = it->second;
+            }
+            return bins;
+        }
+        return -1;
+    }*/
+
     MTS_DECLARE_CLASS()
+
+    std::map<ScalarFloat, ScalarUInt32> m_band_id_map;
 };
 
 MTS_IMPLEMENT_CLASS_VARIANT(AcousticPathIntegrator, TimeDependentIntegrator)

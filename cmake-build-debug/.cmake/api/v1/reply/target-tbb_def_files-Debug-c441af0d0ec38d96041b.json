@@ -1,0 +1,88 @@
+{
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target"
+		],
+		"files" : 
+		[
+			"ext/tbb/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 238,
+				"parent" : 0
+			}
+		]
+	},
+	"folder" : 
+	{
+		"name" : "dependencies"
+	},
+	"id" : "tbb_def_files::@3dd1ab55f51ddf8a6aef",
+	"name" : "tbb_def_files",
+	"paths" : 
+	{
+		"build" : "ext_build/tbb",
+		"source" : "ext/tbb"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				2,
+				3
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/ext_build/tbb/CMakeFiles/tbb_def_files",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/ext_build/tbb/CMakeFiles/tbb_def_files.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"path" : "ext/tbb/src/tbb/mac64-tbb-export.def",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 0,
+			"path" : "ext/tbb/src/tbbmalloc/mac64-tbbmalloc-export.def",
+			"sourceGroupIndex" : 2
+		}
+	],
+	"type" : "UTILITY"
+}

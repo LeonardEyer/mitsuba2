@@ -1,0 +1,95 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "ext/rgb2spec/rgb2spec_opt"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable"
+		],
+		"files" : 
+		[
+			"ext/rgb2spec/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 34,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -march=native -Wno-unused-variable -Wno-inconsistent-missing-override -Wno-undefined-inline -std=c++11 -g -fPIE  "
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"folder" : 
+	{
+		"name" : "dependencies/rgb2spec"
+	},
+	"id" : "rgb2spec_opt::@e469e67664a75ea66964",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-march=native -Wno-unused-variable -Wno-inconsistent-missing-override -Wno-undefined-inline -std=c++11 -g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-rdynamic",
+				"role" : "flags"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "rgb2spec_opt",
+	"nameOnDisk" : "rgb2spec_opt",
+	"paths" : 
+	{
+		"build" : "ext/rgb2spec",
+		"source" : "ext/rgb2spec"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/rgb2spec/rgb2spec_opt.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "EXECUTABLE"
+}

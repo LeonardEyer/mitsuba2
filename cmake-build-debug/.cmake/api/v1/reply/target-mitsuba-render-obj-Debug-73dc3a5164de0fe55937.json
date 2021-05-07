@@ -1,0 +1,658 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./bsdf.cpp.o"
+		},
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./emitter.cpp.o"
+		},
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./endpoint.cpp.o"
+		},
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./film.cpp.o"
+		},
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./imageblock.cpp.o"
+		},
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./histogram.cpp.o"
+		},
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./integrator.cpp.o"
+		},
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./kdtree.cpp.o"
+		},
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./medium.cpp.o"
+		},
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./mesh.cpp.o"
+		},
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./microfacet.cpp.o"
+		},
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./phase.cpp.o"
+		},
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./sampler.cpp.o"
+		},
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./scene.cpp.o"
+		},
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./sensor.cpp.o"
+		},
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./shape.cpp.o"
+		},
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./shapegroup.cpp.o"
+		},
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./texture.cpp.o"
+		},
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./spiral.cpp.o"
+		},
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./srgb.cpp.o"
+		},
+		{
+			"path" : "src/librender/CMakeFiles/mitsuba-render-obj.dir/./optix_api.cpp.o"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"add_subdirectory",
+			"add_compile_options",
+			"add_definitions",
+			"target_compile_definitions",
+			"include_directories",
+			"include"
+		],
+		"files" : 
+		[
+			"src/librender/CMakeLists.txt",
+			"CMakeLists.txt",
+			"src/cmake/libpython.cmake",
+			"src/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 36,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 234,
+				"parent" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 279,
+				"parent" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 280,
+				"parent" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 381,
+				"parent" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 551,
+				"parent" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 485,
+				"parent" : 2
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 74,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 489,
+				"parent" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 475,
+				"parent" : 2
+			},
+			{
+				"command" : 5,
+				"file" : 1,
+				"line" : 237,
+				"parent" : 2
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 6,
+				"file" : 3,
+				"line" : 4,
+				"parent" : 13
+			},
+			{
+				"file" : 2,
+				"parent" : 14
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 1,
+				"parent" : 15
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 32,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -stdlib=libc++ -D_LIBCPP_VERSION -std=gnu++17 -fcolor-diagnostics -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -fPIC  "
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-fno-math-errno"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-ffp-contract=fast"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-march=native"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-Wall"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-Wextra"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-Wno-unused-local-typedefs"
+				},
+				{
+					"backtrace" : 6,
+					"fragment" : "-fno-limit-debug-info"
+				},
+				{
+					"backtrace" : 7,
+					"fragment" : "-Wdouble-promotion"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 8,
+					"define" : "LITTLE_ENDIAN"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "MTS_BUILD_MODULE=MTS_MODULE_RENDER"
+				},
+				{
+					"backtrace" : 10,
+					"define" : "MTS_ENABLE_PROFILER"
+				},
+				{
+					"backtrace" : 11,
+					"define" : "__OSX__"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 12,
+					"path" : "/Users/leonardeyer/codetemp/mitsuba2/include"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/Users/leonardeyer/codetemp/mitsuba2/ext/tinyformat"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/Users/leonardeyer/codetemp/mitsuba2/ext/enoki/include"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/Users/leonardeyer/codetemp/mitsuba2/ext/tbb/include"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/Users/leonardeyer/codetemp/mitsuba2/ext/pybind11/include"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/Users/leonardeyer/.pyenv/versions/3.7.5/include/python3.7m"
+				},
+				{
+					"backtrace" : 17,
+					"path" : "/Users/leonardeyer/codetemp/mitsuba2/ext/rgb2spec"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				5,
+				7,
+				9,
+				11,
+				14,
+				16,
+				18,
+				21,
+				23,
+				25,
+				27,
+				29,
+				31,
+				33,
+				35,
+				37,
+				39,
+				41,
+				43,
+				45,
+				48
+			]
+		}
+	],
+	"folder" : 
+	{
+		"name" : "mitsuba-render"
+	},
+	"id" : "mitsuba-render-obj::@c7253971a9139727f5ae",
+	"name" : "mitsuba-render-obj",
+	"paths" : 
+	{
+		"build" : "src/librender",
+		"source" : "src/librender"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				6,
+				8,
+				10,
+				12,
+				13,
+				15,
+				17,
+				19,
+				20,
+				22,
+				24,
+				26,
+				28,
+				30,
+				32,
+				34,
+				36,
+				38,
+				40,
+				42,
+				44,
+				46,
+				47,
+				49
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				5,
+				7,
+				9,
+				11,
+				14,
+				16,
+				18,
+				21,
+				23,
+				25,
+				27,
+				29,
+				31,
+				33,
+				35,
+				37,
+				39,
+				41,
+				43,
+				45,
+				48
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/fwd.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/ior.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/microfacet.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/records.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/volume_texture.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/bsdf.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/bsdf.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/emitter.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/emitter.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/endpoint.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/endpoint.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/film.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/film.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/fresnel.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/imageblock.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/imageblock.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/histogram.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/histogram.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/integrator.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/integrator.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/interaction.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/kdtree.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/kdtree.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/medium.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/medium.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/mesh.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/mesh.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/microfacet.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/mueller.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/phase.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/phase.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/sampler.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/sampler.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/scene.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/scene.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/sensor.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/sensor.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/shape.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/shape.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/shapegroup.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/shapegroup.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/texture.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/texture.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/spiral.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/spiral.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/srgb.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/srgb.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/optix/common.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/librender/optix_api.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/mitsuba/render/optix_api.h",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "OBJECT_LIBRARY"
+}

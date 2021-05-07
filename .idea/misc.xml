@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
+  <component name="CidrRootsConfiguration">
+    <sourceRoots>
+      <file path="$PROJECT_DIR$/src" />
+    </sourceRoots>
+    <excludeRoots>
+      <file path="$PROJECT_DIR$/docs" />
+      <file path="$PROJECT_DIR$/ext" />
+    </excludeRoots>
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Remote Python 3.8.5 (sftp://leonard@orange.cg.tu-berlin.de:22/home/leonard/anaconda3/bin/python3)" project-jdk-type="Python SDK" />
+</project>

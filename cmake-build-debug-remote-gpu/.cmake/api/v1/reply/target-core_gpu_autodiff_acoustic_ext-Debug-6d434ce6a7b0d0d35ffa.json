@@ -1,0 +1,412 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "src/libcore/python/core_gpu_autodiff_acoustic_ext.cpython-38-x86_64-linux-gnu.so"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"add_mitsuba_python_library",
+			"target_link_libraries",
+			"add_subdirectory",
+			"add_compile_options",
+			"add_definitions",
+			"include_directories",
+			"include"
+		],
+		"files" : 
+		[
+			"src/cmake/libpython.cmake",
+			"src/libcore/python/CMakeLists.txt",
+			"CMakeLists.txt",
+			"src/CMakeLists.txt",
+			"src/libcore/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 21,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 19,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 50,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 53,
+				"parent" : 0
+			},
+			{
+				"file" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 234,
+				"parent" : 5
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 279,
+				"parent" : 5
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 280,
+				"parent" : 5
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 551,
+				"parent" : 5
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 5,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 485,
+				"parent" : 5
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 265,
+				"parent" : 5
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 489,
+				"parent" : 5
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 477,
+				"parent" : 5
+			},
+			{
+				"command" : 6,
+				"file" : 2,
+				"line" : 230,
+				"parent" : 5
+			},
+			{
+				"command" : 6,
+				"file" : 2,
+				"line" : 237,
+				"parent" : 5
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 7,
+				"file" : 3,
+				"line" : 4,
+				"parent" : 17
+			},
+			{
+				"file" : 0,
+				"parent" : 18
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 1,
+				"parent" : 19
+			},
+			{
+				"file" : 4
+			},
+			{
+				"command" : 6,
+				"file" : 4,
+				"line" : 1,
+				"parent" : 21
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 3,
+			"id" : "enoki-cuda::@de387dfee7c9b2f30af3"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "enoki-autodiff::@de387dfee7c9b2f30af3"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "tbb::@3dd1ab55f51ddf8a6aef"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "asmjit::@75f2248e44231e1fe518"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "mitsuba-core::@9d97644c8f6463bf4b5c"
+		},
+		{
+			"id" : "core_gpu_autodiff_acoustic_ext-obj::@72c85af991e62108fa72"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "mitsuba-python"
+	},
+	"id" : "core_gpu_autodiff_acoustic_ext::@72c85af991e62108fa72",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-march=native",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-Wl,-rpath,\"\\$$ORIGIN/../..\"",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "../libmitsuba-core.so",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "../../../ext_build/tbb/libtbb.so",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../../../ext_build/asmjit/libasmjit.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ldl",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lrt",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-Wl,-rpath-link=/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/tbb",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-Wl,-rpath-link=/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/pugixml",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-Wl,-rpath-link=/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/asmjit",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../../ext_build/enoki/libenoki-autodiff.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../../ext_build/enoki/libenoki-cuda.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lcuda",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lpthread",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-Wl,-rpath-link,/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/pugixml:/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/openexr/OpenEXR/IlmImf:/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/openexr/IlmBase/Half:/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/openexr/IlmBase/Imath:/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/openexr/IlmBase/IlmThread:/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/openexr/IlmBase/Iex:/home/leonard/anaconda3/lib",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "core_gpu_autodiff_acoustic_ext",
+	"nameOnDisk" : "core_gpu_autodiff_acoustic_ext.cpython-38-x86_64-linux-gnu.so",
+	"paths" : 
+	{
+		"build" : "src/libcore/python",
+		"source" : "src/libcore/python"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Object Libraries",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/libcore/python/CMakeFiles/core_gpu_autodiff_acoustic_ext-obj.dir/main_v.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/libcore/python/CMakeFiles/core_gpu_autodiff_acoustic_ext-obj.dir/bbox_v.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/libcore/python/CMakeFiles/core_gpu_autodiff_acoustic_ext-obj.dir/bsphere_v.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/libcore/python/CMakeFiles/core_gpu_autodiff_acoustic_ext-obj.dir/distr_1d_v.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/libcore/python/CMakeFiles/core_gpu_autodiff_acoustic_ext-obj.dir/distr_2d_v.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/libcore/python/CMakeFiles/core_gpu_autodiff_acoustic_ext-obj.dir/frame_v.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/libcore/python/CMakeFiles/core_gpu_autodiff_acoustic_ext-obj.dir/math_v.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/libcore/python/CMakeFiles/core_gpu_autodiff_acoustic_ext-obj.dir/object_v.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/libcore/python/CMakeFiles/core_gpu_autodiff_acoustic_ext-obj.dir/qmc_v.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/libcore/python/CMakeFiles/core_gpu_autodiff_acoustic_ext-obj.dir/properties_v.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/libcore/python/CMakeFiles/core_gpu_autodiff_acoustic_ext-obj.dir/random_v.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/libcore/python/CMakeFiles/core_gpu_autodiff_acoustic_ext-obj.dir/ray_v.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/libcore/python/CMakeFiles/core_gpu_autodiff_acoustic_ext-obj.dir/rfilter_v.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/libcore/python/CMakeFiles/core_gpu_autodiff_acoustic_ext-obj.dir/spectrum_v.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/libcore/python/CMakeFiles/core_gpu_autodiff_acoustic_ext-obj.dir/spline_v.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/libcore/python/CMakeFiles/core_gpu_autodiff_acoustic_ext-obj.dir/transform_v.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/libcore/python/CMakeFiles/core_gpu_autodiff_acoustic_ext-obj.dir/vector_v.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/libcore/python/CMakeFiles/core_gpu_autodiff_acoustic_ext-obj.dir/warp_v.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/libcore/python/CMakeFiles/core_gpu_autodiff_acoustic_ext-obj.dir/xml_v.cpp.o",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}

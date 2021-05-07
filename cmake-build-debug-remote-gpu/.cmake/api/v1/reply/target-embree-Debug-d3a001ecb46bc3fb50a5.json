@@ -1,0 +1,801 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "libembree3.so"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"ADD_LIBRARY",
+			"install",
+			"TARGET_LINK_LIBRARIES",
+			"SET_TARGET_PROPERTIES",
+			"ADD_DEFINITIONS",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"ext/embree/kernels/CMakeLists.txt",
+			"CMakeLists.txt",
+			"ext/embree/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 224,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 644,
+				"parent" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 313,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 226,
+				"parent" : 0
+			},
+			{
+				"file" : 2
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 388,
+				"parent" : 6
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 398,
+				"parent" : 6
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 418,
+				"parent" : 6
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 370,
+				"parent" : 6
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 379,
+				"parent" : 6
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 170,
+				"parent" : 6
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 315,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "  -Wno-unused-variable -Wall -Wformat -Wformat-security -Wno-class-memaccess -fno-strict-overflow -fno-delete-null-pointer-checks -fwrapv -fPIE -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -D_FORTIFY_SOURCE=2  -g -DDEBUG -DTBB_USE_DEBUG -O3 -fPIC  "
+				},
+				{
+					"fragment" : "-msse2"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 5,
+					"define" : "EMBREE_LOWEST_ISA"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "EMBREE_TARGET_AVX"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "EMBREE_TARGET_AVX2"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "EMBREE_TARGET_AVX512SKX"
+				},
+				{
+					"backtrace" : 10,
+					"define" : "EMBREE_TARGET_SSE2"
+				},
+				{
+					"backtrace" : 11,
+					"define" : "EMBREE_TARGET_SSE42"
+				},
+				{
+					"backtrace" : 12,
+					"define" : "TASKING_INTERNAL"
+				},
+				{
+					"define" : "embree_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 13,
+					"path" : "/home/leonard/mitsuba2/ext/embree/kernels/../include"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				37,
+				38,
+				39,
+				40,
+				41,
+				42,
+				43,
+				44,
+				45,
+				46
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 4,
+			"id" : "sys::@99b126e922565c2303d5"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "math::@4daf5a19d193e7508d07"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "simd::@c589fa56afaa8da08086"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "lexers::@977d70221a29360af9cb"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "tasking::@4c427a0f85423ee8c3e5"
+		},
+		{
+			"id" : "algorithms::@adb856161d2a7904d182"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "embree_sse42::@2cb1f9781e56fdf70b7c"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "embree_avx::@2cb1f9781e56fdf70b7c"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "embree_avx2::@2cb1f9781e56fdf70b7c"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "embree_avx512skx::@2cb1f9781e56fdf70b7c"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "dependencies/embree"
+	},
+	"id" : "embree::@2cb1f9781e56fdf70b7c",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 3,
+				"path" : "."
+			},
+			{
+				"backtrace" : 3,
+				"path" : "."
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "/usr/local"
+		}
+	},
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-Wl,--no-undefined -z noexecstack -z relro -z now  -Wl,--version-script=/home/leonard/mitsuba2/ext/embree/kernels/export.linux.map",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-Wl,-rpath,:::::::",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../libembree_sse42.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../libembree_avx.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../libembree_avx2.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../libembree_avx512skx.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../libsys.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../libmath.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../libsimd.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../liblexers.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../libtasking.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../libsys.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-pthread",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ldl",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../libmath.a",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "embree",
+	"nameOnDisk" : "libembree3.so",
+	"paths" : 
+	{
+		"build" : "ext/embree/kernels",
+		"source" : "ext/embree/kernels"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "Source Files\\common",
+			"sourceIndexes" : 
+			[
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				20,
+				21,
+				22,
+				28,
+				29,
+				30,
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				37,
+				38,
+				39,
+				40,
+				41,
+				42,
+				43,
+				44,
+				45,
+				46
+			]
+		},
+		{
+			"name" : "Source Files\\geometry",
+			"sourceIndexes" : 
+			[
+				23,
+				24,
+				25,
+				26
+			]
+		},
+		{
+			"name" : "Source Files\\builders",
+			"sourceIndexes" : 
+			[
+				27
+			]
+		},
+		{
+			"name" : "Object Libraries",
+			"sourceIndexes" : 
+			[
+				47,
+				48,
+				49,
+				50,
+				51,
+				52,
+				53,
+				54,
+				55,
+				56
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "ext/embree/kernels/embree.rc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/common/device.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/common/stat.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/common/acceln.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/common/accelset.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/common/state.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/common/rtcore.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/common/rtcore_builder.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/common/scene.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/common/alloc.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/common/geometry.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/common/scene_user_geometry.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/common/scene_instance.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/common/scene_triangle_mesh.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/common/scene_quad_mesh.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/common/scene_curves.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/common/scene_line_segments.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/common/scene_grid_mesh.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/common/scene_points.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/common/motion_derivative.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/subdiv/bezier_curve.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/subdiv/bspline_curve.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/subdiv/catmullrom_curve.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/geometry/primitive4.cpp",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/geometry/instance_intersector.cpp",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/geometry/curve_intersector_virtual.cpp",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/geometry/curve_intersector_virtual2.cpp",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/builders/primrefgen.cpp",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/bvh/bvh.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/bvh/bvh_statistics.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/bvh/bvh4_factory.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/bvh/bvh8_factory.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/bvh/bvh_collider.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/bvh/bvh_rotate.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/bvh/bvh_refit.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/bvh/bvh_builder.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/bvh/bvh_builder_hair.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/bvh/bvh_builder_hair_mb.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/bvh/bvh_builder_morton.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/bvh/bvh_builder_sah.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/bvh/bvh_builder_sah_spatial.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/bvh/bvh_builder_sah_mb.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/bvh/bvh_builder_twolevel.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/bvh/bvh_intersector1_bvh4.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/bvh/bvh_intersector_hybrid4_bvh4.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/bvh/bvh_intersector_stream_bvh4.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/embree/kernels/bvh/bvh_intersector_stream_filters.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/common/algorithms/CMakeFiles/algorithms.dir/parallel_for.cpp.o",
+			"sourceGroupIndex" : 5
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/common/algorithms/CMakeFiles/algorithms.dir/parallel_reduce.cpp.o",
+			"sourceGroupIndex" : 5
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/common/algorithms/CMakeFiles/algorithms.dir/parallel_prefix_sum.cpp.o",
+			"sourceGroupIndex" : 5
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/common/algorithms/CMakeFiles/algorithms.dir/parallel_for_for.cpp.o",
+			"sourceGroupIndex" : 5
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/common/algorithms/CMakeFiles/algorithms.dir/parallel_for_for_prefix_sum.cpp.o",
+			"sourceGroupIndex" : 5
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/common/algorithms/CMakeFiles/algorithms.dir/parallel_partition.cpp.o",
+			"sourceGroupIndex" : 5
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/common/algorithms/CMakeFiles/algorithms.dir/parallel_sort.cpp.o",
+			"sourceGroupIndex" : 5
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/common/algorithms/CMakeFiles/algorithms.dir/parallel_set.cpp.o",
+			"sourceGroupIndex" : 5
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/common/algorithms/CMakeFiles/algorithms.dir/parallel_map.cpp.o",
+			"sourceGroupIndex" : 5
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/common/algorithms/CMakeFiles/algorithms.dir/parallel_filter.cpp.o",
+			"sourceGroupIndex" : 5
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}

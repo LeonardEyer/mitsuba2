@@ -1,0 +1,341 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "plugins/instance.so"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"add_plugin",
+			"install",
+			"target_link_libraries",
+			"add_compile_options",
+			"add_definitions",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt",
+			"src/shapes/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 14,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 488,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 496,
+				"parent" : 1
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 489,
+				"parent" : 1
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 18,
+				"parent" : 0
+			},
+			{
+				"file" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 504,
+				"parent" : 6
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 529,
+				"parent" : 6
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 458,
+				"parent" : 6
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 368,
+				"parent" : 6
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 357,
+				"parent" : 6
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 373,
+				"parent" : 6
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 462,
+				"parent" : 6
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 450,
+				"parent" : 6
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 348,
+				"parent" : 6
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 372,
+				"parent" : 6
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -march=native -fdiagnostics-color=always -g -fPIC   -fno-math-errno -ffp-contract=fast -fno-trapping-math"
+				},
+				{
+					"backtrace" : 7,
+					"fragment" : "-Wdouble-promotion"
+				},
+				{
+					"backtrace" : 8,
+					"fragment" : "-Wall"
+				},
+				{
+					"backtrace" : 8,
+					"fragment" : "-Wextra"
+				},
+				{
+					"backtrace" : 8,
+					"fragment" : "-Wno-unused-local-typedefs"
+				},
+				{
+					"fragment" : "-std=gnu++17"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 9,
+					"define" : "LITTLE_ENDIAN"
+				},
+				{
+					"backtrace" : 10,
+					"define" : "MTS_ENABLE_AUTODIFF=1"
+				},
+				{
+					"backtrace" : 11,
+					"define" : "MTS_ENABLE_CUDA=1"
+				},
+				{
+					"backtrace" : 12,
+					"define" : "MTS_ENABLE_EMBREE=1"
+				},
+				{
+					"backtrace" : 13,
+					"define" : "MTS_ENABLE_PROFILER=1"
+				},
+				{
+					"backtrace" : 14,
+					"define" : "__LINUX__"
+				},
+				{
+					"define" : "instance_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 15,
+					"path" : "/home/leonard/mitsuba2/include"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "/home/leonard/mitsuba2/ext/tinyformat"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/include"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/ext/enoki-jit/include"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/ext/enoki-jit/ext/enoki-thread/include"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/include"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "/home/leonard/mitsuba2/ext/embree/include"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/home/leonard/mitsuba2/ext/embree/kernels/../include"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 4,
+			"id" : "enoki-jit::@9d7c19d58c244eb3ce5f"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "enoki-autodiff::@afbd21b38d5b5e162180"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "embree::@2cb1f9781e56fdf70b7c"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "mitsuba-core::@9d97644c8f6463bf4b5c"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "mitsuba-render::@c7253971a9139727f5ae"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "plugins/shapes/instance"
+	},
+	"id" : "instance::@945e9b55088988197252",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 3,
+				"path" : "plugins"
+			},
+			{
+				"backtrace" : 3,
+				"path" : "plugins"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "/usr/local"
+		}
+	},
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-Wl,-rpath,/home/leonard/mitsuba2/cmake-build-debug-remote-gpu:",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../../libmitsuba-render.so",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 5,
+				"fragment" : "../../libembree3.so",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../../libmitsuba-core.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../libenoki-autodiff.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../libenoki-jit.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-Wl,-rpath-link,/home/leonard/mitsuba2/cmake-build-debug-remote-gpu",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "instance",
+	"nameOnDisk" : "instance.so",
+	"paths" : 
+	{
+		"build" : "src/shapes",
+		"source" : "src/shapes"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/shapes/instance.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}

@@ -1,0 +1,282 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "ext/embree/libembree_sse42.a"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"ADD_LIBRARY",
+			"TARGET_LINK_LIBRARIES",
+			"ADD_DEFINITIONS"
+		],
+		"files" : 
+		[
+			"ext/embree/kernels/CMakeLists.txt",
+			"ext/embree/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 245,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 246,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 388,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 398,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 418,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 370,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 379,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 170,
+				"parent" : 3
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "  -Wno-unused-variable -Wall -Wformat -Wformat-security -Wno-class-memaccess -fno-strict-overflow -fno-delete-null-pointer-checks -fwrapv -fPIE -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -D_FORTIFY_SOURCE=2  -g -DDEBUG -DTBB_USE_DEBUG -O3  "
+				},
+				{
+					"fragment" : "-msse4.2"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 4,
+					"define" : "EMBREE_TARGET_AVX"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "EMBREE_TARGET_AVX2"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "EMBREE_TARGET_AVX512SKX"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "EMBREE_TARGET_SSE2"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "EMBREE_TARGET_SSE42"
+				},
+				{
+					"backtrace" : 9,
+					"define" : "TASKING_INTERNAL"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "tasking::@4c427a0f85423ee8c3e5"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "kernels"
+	},
+	"id" : "embree_sse42::@2cb1f9781e56fdf70b7c",
+	"name" : "embree_sse42",
+	"nameOnDisk" : "libembree_sse42.a",
+	"paths" : 
+	{
+		"build" : "ext/embree/kernels",
+		"source" : "ext/embree/kernels"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files\\geometry",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				3,
+				4,
+				5,
+				6
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/geometry/instance_intersector.cpp.sse42.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/geometry/curve_intersector_virtual.cpp.sse42.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/geometry/curve_intersector_virtual2.cpp.sse42.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector1_bvh4.cpp.sse42.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_hybrid4_bvh4.cpp.sse42.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_stream_bvh4.cpp.sse42.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_stream_filters.cpp.sse42.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/geometry/instance_intersector.cpp.sse42.cpp.rule",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/geometry/curve_intersector_virtual.cpp.sse42.cpp.rule",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/geometry/curve_intersector_virtual2.cpp.sse42.cpp.rule",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector1_bvh4.cpp.sse42.cpp.rule",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_hybrid4_bvh4.cpp.sse42.cpp.rule",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_stream_bvh4.cpp.sse42.cpp.rule",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/ext/embree/kernels/bvh/bvh_intersector_stream_filters.cpp.sse42.cpp.rule",
+			"sourceGroupIndex" : 2
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

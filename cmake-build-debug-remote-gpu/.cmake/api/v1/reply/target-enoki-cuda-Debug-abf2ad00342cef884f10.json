@@ -1,0 +1,199 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "ext_build/enoki/libenoki-cuda.so"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"add_definitions",
+			"target_compile_definitions",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"ext/enoki/CMakeLists.txt",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 306,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 327,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 298,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 29,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 312,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 230,
+				"parent" : 6
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 219,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -gencode arch=compute_50,code=compute_50 -cudart shared -Xcompiler -fvisibility=hidden -g -Xcompiler=-fPIC  "
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 2,
+					"define" : "ENOKI_AUTODIFF=1"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "ENOKI_BUILD=1"
+				},
+				{
+					"backtrace" : 4,
+					"define" : "ENOKI_CUDA=1"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "ENOKI_CUDA_COMPUTE_CAPABILITY=50"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "THRUST_IGNORE_CUB_VERSION_CHECK"
+				},
+				{
+					"define" : "enoki_cuda_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 7,
+					"path" : "/usr/include/libcxxabi"
+				},
+				{
+					"backtrace" : 8,
+					"path" : "/home/leonard/mitsuba2/ext/enoki/include"
+				}
+			],
+			"language" : "CUDA",
+			"sourceIndexes" : 
+			[
+				1,
+				2,
+				3
+			]
+		}
+	],
+	"id" : "enoki-cuda::@de387dfee7c9b2f30af3",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-march=native",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-lcuda",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CUDA"
+	},
+	"name" : "enoki-cuda",
+	"nameOnDisk" : "libenoki-cuda.so",
+	"paths" : 
+	{
+		"build" : "ext_build/enoki",
+		"source" : "ext/enoki"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				1,
+				2,
+				3
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "ext/enoki/src/cuda/common.cuh",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/enoki/src/cuda/common.cu",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/enoki/src/cuda/horiz.cu",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ext/enoki/src/cuda/jit.cu",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}

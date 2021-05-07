@@ -1,0 +1,428 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "src/librender/libmitsuba-render.so"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"target_link_libraries",
+			"add_subdirectory",
+			"add_compile_options",
+			"add_definitions",
+			"include_directories",
+			"include"
+		],
+		"files" : 
+		[
+			"src/librender/CMakeLists.txt",
+			"CMakeLists.txt",
+			"src/cmake/libpython.cmake",
+			"src/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 71,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 76,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 85,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 82,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 234,
+				"parent" : 5
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 279,
+				"parent" : 5
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 280,
+				"parent" : 5
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 551,
+				"parent" : 5
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 485,
+				"parent" : 5
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 265,
+				"parent" : 5
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 489,
+				"parent" : 5
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 477,
+				"parent" : 5
+			},
+			{
+				"command" : 5,
+				"file" : 1,
+				"line" : 230,
+				"parent" : 5
+			},
+			{
+				"command" : 5,
+				"file" : 1,
+				"line" : 237,
+				"parent" : 5
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 6,
+				"file" : 3,
+				"line" : 4,
+				"parent" : 16
+			},
+			{
+				"file" : 2,
+				"parent" : 17
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 1,
+				"parent" : 18
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 29,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 32,
+				"parent" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 3,
+			"id" : "enoki-cuda::@de387dfee7c9b2f30af3"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "enoki-autodiff::@de387dfee7c9b2f30af3"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "tbb::@3dd1ab55f51ddf8a6aef"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "rgb2spec::@2b948772d27d82837be8"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "mitsuba-core::@9d97644c8f6463bf4b5c"
+		},
+		{
+			"id" : "mitsuba-render-obj::@c7253971a9139727f5ae"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "mitsuba-render"
+	},
+	"id" : "mitsuba-render::@c7253971a9139727f5ae",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-march=native",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-Wl,-rpath,\"\\$$ORIGIN\"",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "../../ext_build/rgb2spec/librgb2spec.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "../libcore/libmitsuba-core.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lcuda",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-Wl,--no-undefined",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "../../ext_build/tbb/libtbb.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-Wl,-rpath-link=/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/tbb",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-Wl,-rpath-link=/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/pugixml",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-Wl,-rpath-link=/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/asmjit",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../ext_build/enoki/libenoki-autodiff.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "../../ext_build/enoki/libenoki-cuda.so",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lpthread",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ldl",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-Wl,-rpath-link,/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/pugixml:/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/openexr/OpenEXR/IlmImf:/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/openexr/IlmBase/Half:/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/openexr/IlmBase/Imath:/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/openexr/IlmBase/IlmThread:/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/openexr/IlmBase/Iex:/home/leonard/anaconda3/lib:/home/leonard/mitsuba2/cmake-build-debug-remote-gpu/ext_build/asmjit",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "mitsuba-render",
+	"nameOnDisk" : "libmitsuba-render.so",
+	"paths" : 
+	{
+		"build" : "src/librender",
+		"source" : "src/librender"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Object Libraries",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/bsdf.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/emitter.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/endpoint.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/film.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/imageblock.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/histogram.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/integrator.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/kdtree.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/medium.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/mesh.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/microfacet.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/phase.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/sampler.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/scene.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/sensor.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/shape.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/shapegroup.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/texture.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/spiral.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/srgb.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/optix_api.cpp.o",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug-remote-gpu/src/librender/CMakeFiles/mitsuba-render-obj.dir/librender_ptx.cpp.o",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}

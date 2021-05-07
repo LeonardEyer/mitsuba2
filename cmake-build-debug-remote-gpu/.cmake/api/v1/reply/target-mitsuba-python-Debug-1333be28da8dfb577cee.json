@@ -1,0 +1,224 @@
+{
+	"backtrace" : 3,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target",
+			"include",
+			"add_dependencies",
+			"add_mitsuba_python_library"
+		],
+		"files" : 
+		[
+			"src/cmake/libpython.cmake",
+			"src/CMakeLists.txt",
+			"src/libcore/python/CMakeLists.txt",
+			"src/librender/python/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 4,
+				"parent" : 0
+			},
+			{
+				"file" : 0,
+				"parent" : 1
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 6,
+				"parent" : 2
+			},
+			{
+				"file" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 21,
+				"parent" : 4
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 23,
+				"parent" : 5
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 21,
+				"parent" : 4
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 23,
+				"parent" : 7
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 21,
+				"parent" : 4
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 23,
+				"parent" : 9
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 21,
+				"parent" : 4
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 23,
+				"parent" : 11
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 57,
+				"parent" : 4
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 23,
+				"parent" : 13
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 3,
+				"line" : 14,
+				"parent" : 15
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 23,
+				"parent" : 16
+			},
+			{
+				"command" : 3,
+				"file" : 3,
+				"line" : 14,
+				"parent" : 15
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 23,
+				"parent" : 18
+			},
+			{
+				"command" : 3,
+				"file" : 3,
+				"line" : 14,
+				"parent" : 15
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 23,
+				"parent" : 20
+			},
+			{
+				"command" : 3,
+				"file" : 3,
+				"line" : 14,
+				"parent" : 15
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 23,
+				"parent" : 22
+			},
+			{
+				"command" : 3,
+				"file" : 3,
+				"line" : 52,
+				"parent" : 15
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 23,
+				"parent" : 24
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 6,
+			"id" : "core_gpu_acoustic_ext::@72c85af991e62108fa72"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "core_scalar_acoustic_ext::@72c85af991e62108fa72"
+		},
+		{
+			"backtrace" : 10,
+			"id" : "core_scalar_rgb_ext::@72c85af991e62108fa72"
+		},
+		{
+			"backtrace" : 12,
+			"id" : "core_gpu_autodiff_acoustic_ext::@72c85af991e62108fa72"
+		},
+		{
+			"backtrace" : 14,
+			"id" : "core_ext::@72c85af991e62108fa72"
+		},
+		{
+			"backtrace" : 17,
+			"id" : "render_scalar_acoustic_ext::@c2115d3ab943d8e59989"
+		},
+		{
+			"backtrace" : 19,
+			"id" : "render_gpu_acoustic_ext::@c2115d3ab943d8e59989"
+		},
+		{
+			"backtrace" : 21,
+			"id" : "render_scalar_rgb_ext::@c2115d3ab943d8e59989"
+		},
+		{
+			"backtrace" : 23,
+			"id" : "render_gpu_autodiff_acoustic_ext::@c2115d3ab943d8e59989"
+		},
+		{
+			"backtrace" : 25,
+			"id" : "render_ext::@c2115d3ab943d8e59989"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "mitsuba-python"
+	},
+	"id" : "mitsuba-python::@145eef247bfb46b6828c",
+	"name" : "mitsuba-python",
+	"paths" : 
+	{
+		"build" : "src",
+		"source" : "src"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}
