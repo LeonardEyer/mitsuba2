@@ -431,13 +431,12 @@ TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
         ref<ProgressReporter> progress = new ProgressReporter("Rendering");
 
         ref<Sampler> sampler = sensor->sampler();
-        sampler->set_samples_per_wavefront((uint32_t) samples_per_pass);
 
-        ScalarUInt32 wavefront_size = hprod(film_size) * (uint32_t) samples_per_pass;
-        if (sampler->wavefront_size() != wavefront_size)
-            sampler->seed(0, wavefront_size);
+        ScalarUInt32 total_sample_count = hprod(film_size) * (uint32_t) samples_per_pass;
+        if (sampler->wavefront_size() != total_sample_count)
+            sampler->seed(arange<UInt64>(total_sample_count));
 
-        UInt32 idx = arange<UInt32>(wavefront_size);
+        UInt32 idx = arange<UInt32>(total_sample_count);
         if (samples_per_pass != 1)
             idx /= (uint32_t) samples_per_pass;
 
@@ -507,7 +506,6 @@ TimeDependentIntegrator<Float, Spectrum>::render_sample(const Scene *scene,
                                                         const UInt32 band_id,
                                                         Mask active) const {
 
-    //Vector2f position_sample = sampler->next_2d(active);
     Point2f direction_sample = sampler->next_2d(active);
 
     Float wavelength_sample = band_id;
@@ -519,9 +517,6 @@ TimeDependentIntegrator<Float, Spectrum>::render_sample(const Scene *scene,
 
     trace_acoustic_ray(scene, sampler, ray, hist, nullptr, nullptr, active);
 
-    //result.first = ray_weight * result.first;
-
-    //hist->put(ray.time, ray.wavelengths, result.first, result.second);
 }
 
 MTS_VARIANT void TimeDependentIntegrator<Float, Spectrum>::cancel() {

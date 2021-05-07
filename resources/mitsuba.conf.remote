@@ -73,7 +73,8 @@
         "scalar_rgb",
         "scalar_acoustic",
         "gpu_acoustic",
-        "gpu_autodiff_acoustic"
+        "gpu_autodiff_acoustic",
+        "gpu_autodiff_rgb"
     ],
 
     # If mitsuba is launched without any specific mode parameter,

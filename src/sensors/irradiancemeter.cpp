@@ -104,7 +104,6 @@ public:
         oss << "IrradianceMeter[" << std::endl
             //<< "  shape = " << m_shape << "," << std::endl
             << "  film = " << m_film << "," << std::endl
-            << "  srf = " << m_srf << "," << std::endl
             << "]";
         return oss.str();
     }
