@@ -446,7 +446,7 @@ TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
             }
         });
     } else {
-        Log(Info, "Start rendering...");
+        ref<ProgressReporter> progress = new ProgressReporter("Rendering");
 
         ref<Sampler> sampler = sensor->sampler();
         sampler->set_samples_per_wavefront((uint32_t) samples_per_pass);
@@ -468,7 +468,7 @@ TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
 
         for (size_t i = 0; i < n_passes; i++) {
             render_sample(scene, sensor, sampler, hist, band_id);
-            Log(Info, "%f", (i + 1) / (ScalarFloat) n_passes);
+            progress->update( (i + 1) / (ScalarFloat) n_passes);
         }
 
         film->put(hist);

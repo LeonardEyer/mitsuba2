@@ -7,7 +7,7 @@
 #include <mitsuba/render/records.h>
 #include <random>
 
-#define MTS_DEBUG_ACOUSTIC_PATHS "/tmp/ptracer.obj"
+// #define MTS_DEBUG_ACOUSTIC_PATHS "/tmp/ptracer.obj"
 #if defined(MTS_DEBUG_ACOUSTIC_PATHS)
 #include <fstream>
 namespace {
@@ -169,9 +169,6 @@ public:
 
             si = std::move(si_bsdf);
         }
-#if defined(MTS_DEBUG_ACOUSTIC_PATHS)
-
-#endif
 
         return { throughput, valid_ray };
     }
