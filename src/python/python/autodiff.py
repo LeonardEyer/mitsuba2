@@ -28,8 +28,8 @@ def _render_helper_time_dependent(scene, spp=None, sensor_index=0):
         sampler.seed(0, total_sample_count)
 
     pos = ek.arange(UInt32, total_sample_count)
-    pos = pos // (total_sample_count // film_size[1])
-    idx = Float(pos % UInt32(film_size[1])) / film_size[1]
+    idx = pos // (total_sample_count // film_size[1])
+    sample = Float(idx % UInt32(film_size[1])) / film_size[1]
 
     hist = Histogram(
         time_step_count=film_size[0],
@@ -40,14 +40,14 @@ def _render_helper_time_dependent(scene, spp=None, sensor_index=0):
 
     rays, weights = sensor.sample_ray(
         time=0,
-        sample1=idx,
+        sample1=sample,
         sample2=[0, 0],
         sample3=sampler.next_2d()
     )
 
-    del pos, idx
+    del pos
 
-    x = integrator.trace_acoustic_ray(scene, sampler, rays, hist)
+    x = integrator.trace_acoustic_ray(scene, sampler, rays, hist, idx)
 
     del x
     del rays, weights

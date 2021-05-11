@@ -116,7 +116,7 @@ def test02_render_specular_multiple_equal(variant_scalar_acoustic):
     from mitsuba.core.xml import load_string, load_dict
     # from enoki import cuda_set_log_level
     # cuda_set_log_level(0)
-    bins = [3, 4, 7]
+    bins = [3, 4]
     absorption = [(3, 0.9), (4, 0.5)]
     max_time = 1
     time_steps = 10 * max_time
