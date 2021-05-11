@@ -348,14 +348,14 @@ MTS_VARIANT TimeDependentIntegrator<Float, Spectrum>::TimeDependentIntegrator(co
 
 MTS_VARIANT TimeDependentIntegrator<Float, Spectrum>::~TimeDependentIntegrator() { }
 
-MTS_VARIANT std::pair<Spectrum, typename TimeDependentIntegrator<Float, Spectrum>::Mask>
+MTS_VARIANT
+std::pair<Spectrum, typename TimeDependentIntegrator<Float, Spectrum>::Mask>
     TimeDependentIntegrator<Float, Spectrum>::trace_acoustic_ray(const Scene *scene,
-                                                               Sampler *sampler,
-                                                               const Ray3f &ray,
-                                                               Histogram *hist,
-                                                               const Medium *medium,
-                                                               Float *aovs,
-                                                               Mask active) const {
+                                                             Sampler *sampler,
+                                                             const Ray3f &ray,
+                                                             Histogram *hist,
+                                                             const UInt32 band_id,
+                                                             Mask active) const {
     NotImplementedError("trace_acoustic_ray");
 }
 
@@ -517,11 +517,8 @@ TimeDependentIntegrator<Float, Spectrum>::render_sample(const Scene *scene,
 
     auto [ray, ray_weight] = sensor->sample_ray(0, wavelength_sample, { 0, 0 }, direction_sample);
 
-    trace_acoustic_ray(scene, sampler, ray, hist, nullptr, nullptr, active);
+    trace_acoustic_ray(scene, sampler, ray, hist, band_id, active);
 
-    //result.first = ray_weight * result.first;
-
-    //hist->put(ray.time, ray.wavelengths, result.first, result.second);
     sampler->advance();
 }
 
