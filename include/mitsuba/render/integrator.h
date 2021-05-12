@@ -251,11 +251,8 @@ public:
                                              const UInt32 band_id,
                                              Mask active = true) const;
 
-    /// Get the maximum time of the integration domain
-    ScalarFloat max_time() const { return m_max_time; }
-
     /// Get the bins for each which we integrate
-    std::vector<ScalarFloat> wavelength_bins() const { return m_wavelength_bins; }
+    DynamicBuffer<Float> wavelength_bins() const { return m_wavelength_bins; }
 
     MTS_DECLARE_CLASS()
 protected:
@@ -278,8 +275,9 @@ protected:
 
 protected:
     float m_max_time;
+    size_t m_wav_bin_count;
     size_t m_time_step_count;
-    std::vector<ScalarFloat> m_wavelength_bins;
+    DynamicBuffer<Float> m_wavelength_bins;
 
     /**
      * \brief Number of samples to compute for each pass over the image blocks.

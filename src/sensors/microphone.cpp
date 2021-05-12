@@ -17,22 +17,6 @@ public:
     MTS_IMPORT_TYPES(Shape, Texture)
 
     Microphone(const Properties &props) : Base(props) {
-        std::vector<std::string> wavelengths_str =
-            string::tokenize(props.string("wavelengths"), " ,");
-
-        // Allocate space
-        m_wavelengths = zero<DynamicBuffer<Float>>(wavelengths_str.size());
-
-        // Copy and convert to wavelengths
-        for (size_t i = 0; i < wavelengths_str.size(); ++i) {
-            try {
-                Float wav = std::stod(wavelengths_str[i]);
-                scatter(m_wavelengths, wav, UInt32(i));
-            } catch (...) {
-                Throw("Could not parse floating point value '%s'",
-                      wavelengths_str[i]);
-            }
-        }
     }
 
     ~Microphone() {}
@@ -53,15 +37,10 @@ public:
         // 2. Sample directional component
         Vector3f direction = warp::square_to_uniform_sphere(sample3);
 
-        // 3. Sample spectrum
-        UInt32 index =
-            enoki::ceil(wavelength_sample * (m_wavelengths.size() - 1));
-        Wavelength wavelengths = gather<Float>(m_wavelengths, index, active);
-
         // All wavelengths are equally weighted
         Spectrum wav_weight = 1.f;
 
-        return { Ray3f(origin, direction, time, wavelengths),
+        return { Ray3f(origin, direction, time, wavelength_sample),
                  unpolarized<Spectrum>(wav_weight) * math::Pi<ScalarFloat> };
     }
 
@@ -71,21 +50,20 @@ public:
     }
 
     void traverse(TraversalCallback *callback) override {
-        callback->put_parameter("wavelengths", m_wavelengths);
         Base::traverse(callback);
     }
 
     std::string to_string() const override {
         std::ostringstream oss;
         oss << "Microphone[" << std::endl
-            << "  wavelengths = " << m_wavelengths << "," << std::endl
+            //<< "  wavelengths = " << m_wavelengths << "," << std::endl
             << "]";
         return oss.str();
     }
 
     MTS_DECLARE_CLASS()
 private:
-    DynamicBuffer<Float> m_wavelengths;
+
 };
 
 MTS_IMPLEMENT_CLASS_VARIANT(Microphone, Sensor)
