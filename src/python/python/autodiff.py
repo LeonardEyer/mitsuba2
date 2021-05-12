@@ -10,12 +10,9 @@ def _render_helper_time_dependent(scene, spp=None, sensor_index=0):
 
     integrator = scene.integrator()
     wav_bins = integrator.wavelength_bins()
-    max_time = integrator.max_time()
 
     sensor = scene.sensors()[sensor_index]
     film = sensor.film()
-
-    film.prepare(wav_bins)
 
     sampler = sensor.sampler()
     film_size = film.size()
@@ -29,13 +26,9 @@ def _render_helper_time_dependent(scene, spp=None, sensor_index=0):
 
     pos = ek.arange(UInt32, total_sample_count)
     idx = pos // (total_sample_count // film_size[1])
-    sample = Float(idx % UInt32(film_size[1])) / film_size[1]
+    sample = ek.gather(wav_bins, idx) #Float(idx % UInt32(film_size[1])) / film_size[1]
 
-    hist = Histogram(
-        time_step_count=film_size[0],
-        time_range=[0, max_time],
-        wavelength_bins=wav_bins
-    )
+    hist = Histogram(film_size[0], film_size[1])
     hist.clear()
 
     rays, weights = sensor.sample_ray(

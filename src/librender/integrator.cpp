@@ -351,14 +351,19 @@ MTS_VARIANT TimeDependentIntegrator<Float, Spectrum>::TimeDependentIntegrator(co
     std::vector<std::string> wavelengths_str =
         string::tokenize(props.string("wavelength_bins"), " ,");
 
-    m_wavelength_bins.reserve(wavelengths_str.size());
+    m_wav_bin_count = wavelengths_str.size();
 
-    for (auto &o: wavelengths_str){
+    // Allocate space
+    m_wavelength_bins = zero<DynamicBuffer<Float>>(wavelengths_str.size());
+
+    // Copy and convert to wavelengths
+    for (size_t i = 0; i < wavelengths_str.size(); ++i) {
         try {
-            ScalarFloat wav = std::stod(o);
-            m_wavelength_bins.push_back(wav);
+            Float wav = std::stod(wavelengths_str[i]);
+            scatter(m_wavelength_bins, wav, UInt32(i));
         } catch (...) {
-            Throw("Could not parse floating point value '%s'", o);
+            Throw("Could not parse floating point value '%s'",
+                  wavelengths_str[i]);
         }
     }
 
@@ -383,9 +388,6 @@ TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
     m_stop = false;
 
     ref<Film> film          = sensor->film();
-
-    // Prepare the film
-    film->prepare(m_wavelength_bins);
 
     auto film_size          = film->size();
     m_time_step_count       = film_size.x();
@@ -424,15 +426,11 @@ TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
 
             size_t band_id = i / n_passes;
 
-            auto single_wav_bin =
-                std::vector<ScalarFloat>(m_wavelength_bins.begin() + band_id,
-                                         m_wavelength_bins.begin() + band_id + 2);
-            ref<Histogram> hist = new Histogram(
-                m_time_step_count, { 0, m_max_time }, single_wav_bin);
+            ref<Histogram> hist = new Histogram(film_size, 1);
 
             scoped_flush_denormals flush_denormals(true);
 
-            hist->set_offset({ band_id, 0 });
+            hist->set_offset({ 0, band_id });
             hist->clear();
 
             render_band(scene, sensor, sampler, hist, samples_per_pass, band_id);
@@ -460,10 +458,10 @@ TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
             idx /= (uint32_t) samples_per_pass;
 
         UInt32 band_id = 0;
-        if (film_size.y() != 1)
-            band_id = idx % film_size.y();
+        if (film_size.x() != 1)
+            band_id = idx % film_size.x();
 
-        ref<Histogram> hist = new Histogram(m_time_step_count, { 0, m_max_time }, m_wavelength_bins);
+        ref<Histogram> hist = new Histogram(film_size, 1);
         hist->clear();
 
         for (size_t i = 0; i < n_passes; i++) {
@@ -528,10 +526,7 @@ TimeDependentIntegrator<Float, Spectrum>::render_sample(const Scene *scene,
     //Vector2f position_sample = sampler->next_2d(active);
     Point2f direction_sample = sampler->next_2d(active);
 
-    Float wavelength_sample = band_id;
-
-    if (sensor->film()->size().y() != 1)
-        wavelength_sample = band_id / (ScalarFloat) sensor->film()->size().y();
+    Float wavelength_sample = gather<Float>(m_wavelength_bins, band_id, active);
 
     auto [ray, ray_weight] = sensor->sample_ray(0, wavelength_sample, { 0, 0 }, direction_sample);
 

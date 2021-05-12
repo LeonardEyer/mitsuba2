@@ -90,10 +90,10 @@ public:
                 //throughput[active] *= emission_weight * emitter->eval(si, active);
                 // Logging the result
 
-                const ScalarFloat discretizer = (m_max_time / hist->size().y());
+                const ScalarFloat discretizer = (m_max_time / hist->size().x());
                 UInt32 time_idx = time / discretizer;
 
-                hist->put({ band_id, time_idx }, throughput, hit_emitter);
+                hist->put({ time_idx, band_id }, throughput, hit_emitter);
                 //hist->put(time, ray.wavelengths, throughput, hit_emitter);
 
                 throughput[hit_emitter] = 0;
