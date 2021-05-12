@@ -19,9 +19,15 @@ public:
     Tape(const Properties &props) : Base(props) {
 
         // Update size
-        m_size = ScalarVector2i(props.int_("time_steps", 1), 1);
+        m_size = ScalarVector2i(
+            props.int_("time_steps", 1),
+            props.int_("wav_bins", 1)
+        );
 
-        m_max_time = props.float_("max_time", 1.f);
+        // Create histogram
+        m_storage = new Histogram(m_size, 1);
+        // prepare it
+        m_storage->clear();
     }
 
     void prepare(const std::vector<std::string> &channels) override {
@@ -31,13 +37,6 @@ public:
 
     void prepare(const std::vector<ScalarFloat> &wavelength_bins) override {
 
-        m_size.y() = wavelength_bins.size() - 1;
-
-        // Create histogram
-        m_storage =
-            new Histogram(m_size.x(), { 0, m_max_time }, wavelength_bins);
-        // prepare it
-        m_storage->clear();
     }
 
     void put(const ImageBlock *block) override {
@@ -90,18 +89,14 @@ public:
     std::string to_string() const override {
         std::ostringstream oss;
         oss << "Tape[" << std::endl
-            << "  size = " << m_size        << "," << std::endl
-            << "  max_time = " << m_max_time   << "," << std::endl
-            << "  wavelength_bins = " << m_wavelength_bins << "," << std::endl
+            << "  size = " << m_size << "," << std::endl
             << "]";
         return oss.str();
     }
 
     MTS_DECLARE_CLASS()
 protected:
-    ScalarFloat m_max_time;
     ref<Histogram> m_storage;
-    std::vector<ScalarFloat> m_wavelength_bins;
 };
 
 MTS_IMPLEMENT_CLASS_VARIANT(Tape, Film)
