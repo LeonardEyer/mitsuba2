@@ -4,11 +4,10 @@ import os
 import enoki as ek
 
 
-def generate_tape(time_steps=1, max_time=1.):
+def generate_tape(time_steps=1):
     return f"""
 <film version="2.0.0" type="tape">
     <integer name="time_steps" value="{time_steps}"/>
-    <float name="max_time" value="{max_time}"/>
     <rfilter type="box"/>
 </film>
 """

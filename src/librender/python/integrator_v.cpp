@@ -170,8 +170,6 @@ MTS_PY_EXPORT(Integrator) {
 
     MTS_PY_CLASS(TimeDependentIntegrator, Integrator)
         .def("trace_acoustic_ray", &TimeDependentIntegrator::trace_acoustic_ray,
-             "scene"_a, "sampler"_a, "ray"_a, "hist"_a, "medium"_a = nullptr,
-             "aovs"_a = nullptr, "active"_a = true)
-        .def_method(TimeDependentIntegrator, max_time)
+             "scene"_a, "sampler"_a, "ray"_a, "hist"_a, "band_id"_a, "active"_a = true)
         .def_method(TimeDependentIntegrator, wavelength_bins);
 }

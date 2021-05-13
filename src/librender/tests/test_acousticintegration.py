@@ -14,7 +14,7 @@ def estimate_max_depth(box_dimensions, max_time, boost=1.):
     return max_depth_estimate
 
 
-def make_shoebox_scene(emitter_pos, sensor_pos, box_dimensions, radius, max_time, time_steps, spp, wavs, scattering=0.0,
+def make_shoebox_scene(emitter_pos, sensor_pos, box_dimensions, radius, time_steps, wav_bins, spp, scattering=0.0,
                        absorption=0.0, hide_sensor=True):
     from mitsuba.core import ScalarTransform4f
 
@@ -62,15 +62,14 @@ def make_shoebox_scene(emitter_pos, sensor_pos, box_dimensions, radius, max_time
         "sensor": {
             "type": "microphone",
             "to_world": transform(translate=sensor_pos),
-            "wavelengths": ','.join(str(x) for x in wavs),
             "sampler": {
                 "type": "independent",
                 "sample_count": spp
             },
             "myfilm": {
                 "type": "tape",
-                "max_time": max_time,
                 "time_steps": time_steps,
+                "wav_bins": wav_bins
             }
         },
         "shoebox": {
@@ -114,10 +113,8 @@ def test01_create(variant_scalar_acoustic):
 
 def test02_render_specular_multiple_equal(variant_scalar_acoustic):
     from mitsuba.core.xml import load_string, load_dict
-    # from enoki import cuda_set_log_level
-    # cuda_set_log_level(0)
-    bins = [3, 4, 7]
-    absorption = [(3, 0.9), (4, 0.5)]
+    bins = [3, 4]
+    absorption = [(3, 0.9), (4, 0.8)]
     max_time = 1
     time_steps = 10 * max_time
 
@@ -125,10 +122,9 @@ def test02_render_specular_multiple_equal(variant_scalar_acoustic):
                                     sensor_pos=[9, 6, 1],
                                     box_dimensions=[25, 12, 7],
                                     radius=1.0,
-                                    max_time=max_time,
                                     time_steps=time_steps,
+                                    wav_bins=len(bins),
                                     spp=1000,
-                                    wavs=bins[:-1],
                                     scattering=0.0,
                                     absorption=absorption)
 
@@ -145,8 +141,8 @@ def test02_render_specular_multiple_equal(variant_scalar_acoustic):
     film = sensor.film()
     raw = film.bitmap(raw=True)
     counts = film.bitmap(raw=False)
-    vals = get_vals(raw, time_steps, len(bins) - 1)
-    vals_count = get_vals(counts, time_steps, len(bins) - 1)
+    vals = get_vals(raw, time_steps, len(bins))
+    vals_count = get_vals(counts, time_steps, len(bins))
 
     sums = np.sum(vals, axis=0)
     total = np.sum(sums)

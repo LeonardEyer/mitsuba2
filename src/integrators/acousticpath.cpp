@@ -6,6 +6,7 @@
 #include <mitsuba/render/integrator.h>
 #include <mitsuba/render/records.h>
 #include <random>
+#include <map>
 
 // #define MTS_DEBUG_ACOUSTIC_PATHS "/tmp/ptracer.obj"
 #if defined(MTS_DEBUG_ACOUSTIC_PATHS)
@@ -21,7 +22,7 @@ NAMESPACE_BEGIN(mitsuba)
 template <typename Float, typename Spectrum>
 class AcousticPathIntegrator : public TimeDependentIntegrator<Float, Spectrum> {
 public:
-    MTS_IMPORT_BASE(TimeDependentIntegrator, m_stop,
+    MTS_IMPORT_BASE(TimeDependentIntegrator, m_stop, m_max_time,
                     m_max_depth, m_wavelength_bins, m_time_step_count)
     MTS_IMPORT_TYPES(Scene, Sensor, Sampler, Medium, Emitter, EmitterPtr, BSDF,
                      BSDFPtr, Histogram)
@@ -31,8 +32,7 @@ public:
     std::pair<Spectrum, Mask> trace_acoustic_ray(const Scene *scene, Sampler *sampler,
                                      const Ray3f &ray_,
                                      Histogram * hist,
-                                     const Medium * /* medium */,
-                                     Float * /* aovs */,
+                                     const UInt32 band_id,
                                      Mask active) const override {
         MTS_MASKED_FUNCTION(ProfilerPhase::SamplingIntegratorSample, active);
 
@@ -42,7 +42,7 @@ public:
         f << "o path" << path_counter++ << std::endl;
 #endif
 
-        RayDifferential3f ray = ray_;
+        Ray3f ray = ray_;
 
         Float time = ray.time;
 
@@ -90,7 +90,11 @@ public:
                 //throughput[active] *= emission_weight * emitter->eval(si, active);
                 // Logging the result
 
-                hist->put(time, ray.wavelengths, throughput, hit_emitter);
+                const ScalarFloat discretizer = (m_max_time / hist->size().x());
+                UInt32 time_idx = time / discretizer;
+
+                hist->put({ time_idx, band_id }, throughput, hit_emitter);
+                //hist->put(time, ray.wavelengths, throughput, hit_emitter);
 
                 throughput[hit_emitter] = 0;
             }

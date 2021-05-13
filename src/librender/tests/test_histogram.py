@@ -12,67 +12,35 @@ np.random.seed(0)
 
 
 def get_vals(hist):
-    return np.array(hist.data(), copy=False).reshape([hist.height(), hist.width()])
+    return np.array(hist.data(), copy=False).reshape([hist.width(), hist.height()])
 
 
-def put_check(hist, time, wav, spec, bins=None):
-    """
-    The expected method we want in c++
-    """
-
-    # Extract necessary variables
-    h_wav_range = hist.wav_range()
-    h_wav_size = h_wav_range[1] - h_wav_range[0]
-
-    h_time_range = hist.time_range()
-    h_time_size = h_time_range[1] - h_time_range[0]
-
-    h_nbins = hist.bin_count()
-    h_ntime = hist.time_step_count()
-
-    if bins is None:
-        # Define the bins and calculate indices
-        bins = [i * (h_wav_size / h_nbins) + h_wav_range[0] for i in range(h_nbins + 1)]
-
-    bin_ids = np.digitize(wav, bins).astype(int)
-
-    time_bins = [i * (h_time_size / h_ntime) + h_time_range[0] for i in range(h_ntime + 1)]
-    time_bin_ids = np.digitize(time, time_bins).astype(int)
-
-    # Accumulate
-    total = np.zeros(shape=(h_ntime, h_nbins))
-    for i, t in enumerate(time):
-        row = bin_ids[i]
-
-        time_idx = time_bin_ids[i]
-
-        # Skip invalid time/bin
-        if np.logical_or(time_idx == 0, time_idx == len(time_bins)).any() \
-                or np.logical_or(row == 0, row == len(bins)).any():
-            continue
-
-            # Safety for mono variant
-        if not isinstance(row, np.ndarray):
-            total[time_idx - 1][row - 1] += spec[i]
-            continue
-        for j, bin_idx in enumerate(row):
-            total[time_idx - 1][bin_idx - 1] += spec[i, j]
-
-    return total
+def put_check(hist, time, wav, spec):
+    from mitsuba.core import Point2f
+    data = np.zeros(shape=hist.size())
+    for i, idx in enumerate(zip(time, wav)):
+        pos = np.array(Point2f(idx)) - np.array(Point2f(hist.offset()))
+        size = np.array(Point2f(hist.size()))
+        if (0 <= pos).all() and (pos < size).all():
+            insert_idx = tuple(pos.flatten().astype(int))
+            data[insert_idx] += spec[i]
+    return data
 
 
-def check_value(hist, time, wav, spec, bins=None, atol=1e-9, verbose=False):
+def check_value(hist, time, wav, spec, atol=1e-9, verbose=False):
     vals = get_vals(hist)
-    check = put_check(hist, time, wav, spec, bins)
+    check = put_check(hist, time, wav, spec)
 
     # Correct structure
     correct = np.allclose(vals, check, atol=atol)
 
-    if verbose or not correct:
+    if not correct:
         print("What we got:\n", vals)
         print("Sum:", np.sum(vals))
         print("What we want:\n", check)
         print("Sum:", np.sum(check))
+    elif verbose:
+        print(vals)
 
     assert correct
 
@@ -91,284 +59,198 @@ def test01_construct(variant_scalar_acoustic):
     from mitsuba.core.xml import load_string
     from mitsuba.render import Histogram
 
-    hist = Histogram(time_step_count=1000, time_range=[3, 15], wavelength_bins=np.linspace(0, 10, 10))
+    hist = Histogram([5, 10])
 
-    assert hist.bin_count() == 9
-    assert hist.time_step_count() == 1000
-    assert hist.wav_range() == [0, 10]
-    assert hist.time_range() == [3, 15]
-    assert hist.width() == 9
-    assert hist.height() == 1000
-    assert hist.size() == [9, 1000]
-    assert np.allclose(hist.wavelength_bins(), np.linspace(0, 10, 10))
+    assert hist.width() == 5
+    assert hist.height() == 10
+    assert hist.size() == [5, 10]
 
-    hist = Histogram(time_step_count=2, time_range=[0, 4], wavelength_bins=np.linspace(12, 300, 45))
+    hist = Histogram(20000, 4)
 
-    assert hist.bin_count() == 44
-    assert hist.time_step_count() == 2
-    assert hist.wav_range() == [12, 300]
-    assert hist.time_range() == [0, 4]
-    assert hist.width() == 44
-    assert hist.height() == 2
-    assert hist.size() == [44, 2]
-    assert np.allclose(hist.wavelength_bins(), np.linspace(12, 300, 45))
-
-    hist = Histogram(time_step_count=2, time_range=[0, 4], wavelength_bins=[100, 200, 300])
-
-    assert hist.wavelength_bins() == [100, 200, 300]
-    assert hist.wav_range() == [100, 300]
-    assert hist.bin_count() == 2
-    assert hist.time_step_count() == 2
-    assert hist.width() == hist.bin_count()
-    assert hist.height() == hist.time_step_count()
-    assert hist.size() == [2, 2]
-
-    # Test invalid construction parameters
-    with pytest.raises(RuntimeError):
-        Histogram(time_step_count=2, time_range=[0, 4], wavelength_bins=[1, 0])
-
-    with pytest.raises(RuntimeError):
-        Histogram(time_step_count=2, time_range=[0, 4], wavelength_bins=[-300, 10])
-
-    with pytest.raises(RuntimeError):
-        Histogram(time_step_count=2, time_range=[6, 4], wavelength_bins=[0, 1])
-
-    with pytest.raises(RuntimeError):
-        Histogram(time_step_count=2, time_range=[-1, 4], wavelength_bins=[0, 1])
+    assert hist.width() == 20000
+    assert hist.height() == 4
+    assert hist.size() == [20000, 4]
 
 
 def test02_put_values_basic(variant_scalar_acoustic):
     from mitsuba.render import Histogram
 
-    hist = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=[1, 2, 3])
-
-    # Some wavelengths are out of bounds
-    wavelength = [0, 1, 2, 3, 1]
-    # Weight evenly
-    spectrum = [1, 1, 1, 1, 10]
-
-    time = [0, 1, 3, 4, 5]
-
     # Setup histogram
+    hist = Histogram([6, 3])
     hist.clear()
 
-    # Insert
-    for i, t in enumerate(time):
-        hist.put(t, wavelength[i], spectrum[i])
+    time_bin = [0, 1, 3, 4, 5]
+    wavelength_bin = [0, 1, 2, 0, 1]
+    spectrum = [1, 1, 1, 1, 1]
 
-    check_value(hist, time, wavelength, spectrum, bins=[1, 2, 3])
+    # Insert
+    for i, pos in enumerate(zip(time_bin, wavelength_bin)):
+        hist.put(pos, spectrum[i])
+
+    check_value(hist, time_bin, wavelength_bin, spectrum)
 
 
 def test03_put_values_basic_masked(variant_scalar_acoustic):
     from mitsuba.render import Histogram
 
-    hist = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=np.linspace(0, 10, 5))
-
-    spectrum = [1] * 5
-    wavelength = [0, 1, 2, 3, 4]
-    mask = [True, False, True, False, True]
-    time = [0, 1, 2, 3, 4]
-
+    # Setup histogram
+    hist = Histogram([6, 3])
     hist.clear()
 
-    for i, t in enumerate(time):
-        hist.put(t, wavelength[i], spectrum[i], mask[i])
+    time_bin = [0, 1, 3, 4, 5]
+    wavelength_bin = [0, 1, 2, 0, 1]
+    spectrum = [1, 1, 1, 1, 1]
+    mask = [True, False, False, True, False]
+
+    for i, pos in enumerate(zip(time_bin, wavelength_bin)):
+        hist.put(pos, spectrum[i], mask[i])
         # Apply mask to the spectrum values
         spectrum[i] *= mask[i]
 
-    check_value(hist, time, wavelength, spectrum)
+    check_value(hist, time_bin, wavelength_bin, spectrum)
 
 
 def test04_put_values_basic_accumulate(variant_scalar_acoustic):
     from mitsuba.render import Histogram
 
-    hist = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=np.linspace(0, 10, 5))
-
-    spectrum = np.random.uniform(size=(20,))
-    wavelength = np.random.uniform(0, 10, size=(20,))
-    time = np.random.uniform(0, 5, size=(20,))
-
+    # Setup histogram
+    hist = Histogram([6, 3])
     hist.clear()
 
-    # Distribute to 5 different time steps
-    for i, t in enumerate(time):
-        hist.put(t, wavelength[i], spectrum[i])
+    spectrum = np.ones(20)
+    wavelength_bin = np.random.randint(0, 3, size=(20,))
+    time_bin = np.random.randint(0, 6, size=(20,))
 
-    check_value(hist, time, wavelength, spectrum)
+    # Distribute to 5 different time steps
+    for i, pos in enumerate(zip(time_bin, wavelength_bin)):
+        hist.put(pos, spectrum[i])
+
+    check_value(hist, time_bin, wavelength_bin, spectrum)
 
 
 def test05_put_packets_basic(variant_packet_acoustic):
     from mitsuba.render import Histogram
+    from enoki.dynamic import Vector2f
 
-    hist = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=np.linspace(0, 10, 5))
-
-    spectrum = np.random.uniform(size=(10, 1))
-    wavelengths = np.random.uniform(0, 10, size=(10, 1))
-    time = np.random.uniform(0, 10, size=(10,))
-
+    hist = Histogram(20, 3)
     hist.clear()
 
-    hist.put(time, wavelengths, spectrum)
+    spectrum = np.ones(shape=(10, 1))
+    wavelength_bin = np.random.randint(0, 3, size=(10, 1))
+    time_bin = np.random.randint(0, 20, size=(10, 1))
 
-    check_value(hist, time, wavelengths, spectrum)
+    pos = np.zeros(shape=(10, 2))
+    pos[:, 0] = time_bin[:, 0]
+    pos[:, 1] = wavelength_bin[:, 0]
+
+    hist.put(pos, spectrum)
+
+    check_value(hist, time_bin, wavelength_bin, spectrum)
 
 
-def test06_put_values_preset_bins(variant_scalar_acoustic):
+def test06_put_histogram_basic(variant_scalar_acoustic):
     from mitsuba.render import Histogram
 
-    hist = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=[0, 5, 10])
-
-    spectrum = np.ones(shape=(5,))
-    wavelength = np.linspace(0, 10, 5).reshape(5, )
-    time = np.arange(4)
-
-    hist.clear()
-
-    for i in time:
-        hist.put(i, wavelength[i], spectrum[i])
-
-    check_value(hist, time, wavelength, spectrum, bins=[0, 5, 10])
-
-
-def test07_put_packet_preset_bins(variant_packet_acoustic):
-    from mitsuba.render import Histogram
-
-    hist = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=[0, 5, 10])
-
-    spectrum = np.ones((10, 1))
-    wavelength = np.random.uniform(0, 10, size=(10, 1))
-    time = np.random.uniform(0, 10, size=(10,))
-
-    hist.clear()
-
-    hist.put(time, wavelength, spectrum)
-
-    check_value(hist, time, wavelength, spectrum, bins=[0, 5, 10])
-
-
-def test08_put_values_invalid_preset_bins(variant_scalar_acoustic):
-    from mitsuba.render import Histogram
-
-    hist = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=[0, 5, 10])
+    hist = Histogram(10, 3)
+    hist2 = Histogram(10, 3)
 
     spectrum = np.ones(shape=(10,))
-    wavelength = np.linspace(0, 20, 10)  # Not within wavelength range
-    time = np.arange(-5, 5)  # Not within time range
-
-    hist.clear()
-
-    for i, t in enumerate(time):
-        enabled = hist.put(t, wavelength[i], spectrum[i])
-
-        if t not in range(5) or np.logical_or(wavelength[i] < 0, wavelength[i] < 10).any():
-            print(t, wavelength[i])
-            assert not enabled
-
-    check_value(hist, time, wavelength, spectrum, bins=[0, 5, 10])
-
-
-def test09_put_histogram_basic(variant_scalar_acoustic):
-    from mitsuba.render import Histogram
-
-    hist = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=[0, 2, 5, 10])
-    hist2 = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=[0, 2, 5, 10])
-
-    spectrum = np.ones(shape=(10,))
-    wavelength = np.random.uniform(0, 10, size=(10,))
-    time = np.arange(10)
+    wavelength_bin = np.random.randint(0, 3, size=(10,))
+    time_bin = np.random.randint(0, 10, size=(10,))
 
     hist.clear()
     hist2.clear()
 
-    for t in time:
-        hist2.put(t, wavelength[t], spectrum[t])
-        hist.put(t, wavelength[t], spectrum[t])
+    for i, pos in enumerate(zip(time_bin, wavelength_bin)):
+        hist2.put(pos, spectrum[i])
+        hist.put(pos, spectrum[i])
 
     hist2.put(hist)
 
-    check_value(hist2, time, wavelength, spectrum * 2, bins=[0, 2, 5, 10])
+    check_value(hist2, time_bin, wavelength_bin, spectrum * 2)
 
 
-def test10_put_histogram_offset(variant_scalar_acoustic):
+def test07_put_histogram_offset(variant_scalar_acoustic):
     from mitsuba.render import Histogram
 
-    hist = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=[0, 2, 5])
-    hist2 = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=[0, 2])
-    hist3 = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=[2, 5])
-
-    # Set the third histogram to have a wavelength bin offset of one
-    hist3.set_offset([1, 0])
-
-    spectrum = [1] * 5
-    wavelength = [0, 1, 2, 3, 4]
-    time = [0, 1, 2, 3, 4]
-
+    hist = Histogram(10, 4)
+    hist2 = Histogram(10, 2)
+    hist3 = Histogram(10, 2)
     hist.clear()
     hist2.clear()
     hist3.clear()
 
-    for t in time:
-        hist2.put(t, wavelength[t], spectrum[t])
-        hist3.put(t, wavelength[t], spectrum[t])
+    # Set the third histogram to have a wavelength bin offset of two
+    hist3.set_offset([0, 2])
+
+    spectrum = [1] * 20
+    wavelength_bin = np.random.randint(0, 4, size=(20, ))
+    time_bin = np.random.randint(0, 10, size=(20, ))
+
+    for i, pos in enumerate(zip(time_bin, wavelength_bin)):
+        hist2.put(pos, spectrum[i])
+        hist3.put(pos, spectrum[i])
 
     hist.put(hist2)
     hist.put(hist3)
 
-    check_value(hist2, time, wavelength, spectrum, bins=[0, 2])
-    check_value(hist3, time, wavelength, spectrum, bins=[2, 5])
-    check_value(hist, time, wavelength, spectrum, bins=[0, 2, 5])
+    #check_value(hist2, time_bin, wavelength_bin, spectrum, verbose=True)
+    #check_value(hist3, time_bin, wavelength_bin, spectrum, verbose=True)
+    check_value(hist, time_bin, wavelength_bin, spectrum)
 
 
-def test11_put_packet_histogram_basic(variant_packet_acoustic):
+def test08_put_packet_histogram_basic(variant_packet_acoustic):
     from mitsuba.render import Histogram
 
-    hist = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=[0, 2, 5, 10])
-    hist2 = Histogram(time_step_count=10, time_range=[0, 10], wavelength_bins=[0, 2, 5, 10])
-
-    spectrum = np.random.uniform(size=(10, 1))
-    wavelength = np.random.uniform(0, 10, size=(10, 1))
-    time = np.arange(10)
+    hist = Histogram(10, 4)
+    hist2 = Histogram(10, 4)
 
     hist.clear()
     hist2.clear()
 
-    hist.put(time, wavelength, spectrum)
+    spectrum = np.ones(shape=(10, 1))
+    wavelength = np.random.randint(0, 4, size=(10, 1))
+    time = np.random.randint(0, 10, size=(10, 1))
+
+    pos = np.zeros(shape=(10, 2))
+    pos[:, 0] = time[:, 0]
+    pos[:, 1] = wavelength[:, 0]
+
+    hist.put(pos, spectrum)
     hist2.put(hist)
 
-    check_value(hist2, time, wavelength, spectrum, bins=[0, 2, 5, 10])
+    check_value(hist2, time, wavelength, spectrum)
 
 
-def test12_basic_counts(variant_scalar_acoustic):
+def test09_basic_counts(variant_scalar_acoustic):
     from mitsuba.render import Histogram
 
-    hist = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=[1, 2, 3])
-
-    wavelength = [0, 1, 2, 2, 1]
-    # Weightings
-    spectrum = [.1, .6, .7, .5, .2]
+    hist = Histogram(5, 3)
 
     time = [0, 1, 2, 2, 3]
+    wavelength = [0, 1, 2, 2, 1]
+    spectrum = [.1, .6, .7, .5, .2]
 
     # Setup histogram
     hist.clear()
 
     # Insert
-    for i, t in enumerate(time):
-        hist.put(t, wavelength[i], spectrum[i])
+    for i, pos in enumerate(zip(time, wavelength)):
+        hist.put(pos, spectrum[i])
 
-    check_value(hist, time, wavelength, spectrum, bins=[1, 2, 3])
+    check_value(hist, time, wavelength, spectrum)
 
-    counts = np.array(hist.counts(), copy=False).reshape([hist.time_step_count(), hist.bin_count()])
-
+    counts = np.array(hist.counts(), copy=False).reshape([hist.width(), hist.height()])
+    print(counts)
     # Double entries
-    assert counts[2][1] == 2
+    assert counts[2][2] == 2
 
 
-def test13_put_hist_counts(variant_scalar_acoustic):
+def test10_put_hist_counts(variant_scalar_acoustic):
     from mitsuba.render import Histogram
 
-    hist = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=[1, 2, 3])
-    hist2 = Histogram(time_step_count=5, time_range=[0, 5], wavelength_bins=[1, 2, 3])
+    hist = Histogram(3, 5)
+    hist2 = Histogram(3, 5)
 
     wavelength = [0, 1, 2, 2, 1]
     # Weightings
@@ -381,36 +263,15 @@ def test13_put_hist_counts(variant_scalar_acoustic):
     hist2.clear()
 
     # Insert
-    for i, t in enumerate(time):
-        hist.put(t, wavelength[i], spectrum[i])
-        hist2.put(t, wavelength[i], spectrum[i])
+    for i, pos in enumerate(zip(time, wavelength)):
+        hist.put(pos, spectrum[i])
+        hist2.put(pos   , spectrum[i])
 
-    check_value(hist, time, wavelength, spectrum, bins=[1, 2, 3])
+    check_value(hist, time, wavelength, spectrum)
 
     hist.put(hist2)
 
-    counts = np.array(hist.counts(), copy=False).reshape([hist.time_step_count(), hist.bin_count()])
+    counts = np.array(hist.counts(), copy=False).reshape([hist.width(), hist.height()])
 
     # Double Double entries
-    assert counts[2][1] == 4
-
-
-def test14_put_discrete(variant_scalar_acoustic):
-    from mitsuba.render import Histogram
-
-    hist = Histogram(time_step_count=5, time_range=[0, 1], wavelength_bins=[1, 2, 3])
-    hist.clear()
-
-    wavelength = np.linspace(1, 3, 5, endpoint=False)
-    time = np.linspace(0, 1, 5, endpoint=False)
-    spectrum = [1] * 5
-
-    wavelength_bin = np.digitize(wavelength, [1, 2, 3]).astype(int) - 1
-    time_bin = np.floor(time * 5).astype(int)
-
-    positions = [[w, t] for (w, t) in zip(wavelength_bin, time_bin)]
-
-    for i in range(5):
-        hist.put(positions[i], spectrum[i])
-
-    check_value(hist, time, wavelength, spectrum, bins=[1, 2, 3])
+    assert counts[2][2] == 4
