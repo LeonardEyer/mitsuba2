@@ -17,22 +17,30 @@ NAMESPACE_BEGIN(mitsuba)
 template <typename Float, typename Spectrum>
 class MTS_EXPORT_RENDER Histogram : public Object {
 public:
-    MTS_IMPORT_TYPES()
+    MTS_IMPORT_TYPES(ReconstructionFilter)
 
-    Histogram(const ScalarVector2u &size, size_t channel_count);
-
-    /**
-     * Construct a new histogram with the specified amount of bins for wavelengths / time
-     * @param n_time_bins
-     * @param n_wavelength_bins
-     */
-    Histogram(const ScalarUInt32 n_time_bins, const ScalarUInt32 n_wavelength_bins);
+     /**
+      * \brief Construct a new histogram with the specified amount of bins for wavelengths / time
+      *
+      * \param size
+      *     number of time bins, number of wavelength bins
+      * \param channel_count
+      *     channel count is currently expected to always be 1
+      * \param filter
+      *     reconstruction filter to be applied along the time axis
+      * \param border
+      *     enable usage of border region for wide reconstruction filter (non box)
+      */
+    Histogram(const ScalarVector2i &size,
+              size_t channel_count,
+              const ReconstructionFilter *filter = nullptr,
+              bool border = true);
 
     /**
      * \brief Insert Wavelength samples at discrete position
      *
      * \param pos
-     *     wavelength bin and time bin
+     *     time bin and wavelength bin
      * \param value
      *     Intensity value for this wavelength and time
      * \param active
@@ -45,8 +53,7 @@ public:
     Mask put(const Point2f &pos, const Float *value, Mask active = true);
 
     /**
-     * For now we simply overwrite the storage
-     * In the future it could be beneficial to be able to merge histograms
+     * Merge two histograms (simply adding all the recorded data and weights)
      */
     void put(const Histogram * hist);
 
@@ -60,6 +67,9 @@ public:
     /// Set the current hist offset.
     void set_offset(const ScalarPoint2i &offset) { m_offset = offset; }
 
+    /// Set the block size. This potentially destroys the hist's content.
+    void set_size(const ScalarVector2i &size);
+
     /// Return the current histogram size
     const ScalarVector2i &size() const { return m_size; }
 
@@ -68,6 +78,12 @@ public:
 
     /// Return the height (wav bins)
     size_t height() const { return m_size.y(); }
+
+    /// Return the number of channels stored by the histogram
+    size_t channel_count() const { return (size_t) m_channel_count; }
+
+    /// Return the border region used by the reconstruction filter
+    int border_size() const { return m_border_size; }
 
     /// Return the current hist offset
     const ScalarPoint2i &offset() const { return m_offset; }
@@ -99,8 +115,11 @@ protected:
     size_t m_channel_count;
     ScalarVector2i m_size;
     ScalarPoint2i m_offset;
+    int m_border_size;
     DynamicBuffer<Float> m_data;
     DynamicBuffer<UInt32> m_counts;
+    const ReconstructionFilter *m_filter;
+    Float *m_weights;
 };
 
 MTS_EXTERN_CLASS_RENDER(Histogram)

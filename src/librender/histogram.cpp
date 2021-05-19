@@ -5,17 +5,53 @@
 NAMESPACE_BEGIN(mitsuba)
 
 MTS_VARIANT
-Histogram<Float, Spectrum>::Histogram(const ScalarVector2u &size, size_t channel_count)
-    : m_channel_count(channel_count), m_size(size), m_offset(0) {
+Histogram<Float, Spectrum>::Histogram(const ScalarVector2i &size,
+                                      size_t channel_count,
+                                      const ReconstructionFilter *filter,
+                                      bool border)
+    : m_channel_count((uint32_t) channel_count), m_size(0), m_offset(0), m_filter(filter), m_weights(nullptr) {
 
-    // Allocate empty buffer
-    m_data = empty<DynamicBuffer<Float>>(hprod(m_size));
-    m_counts = empty<DynamicBuffer<UInt32>>(hprod(m_size));
+    m_border_size = (uint32_t) ((filter != nullptr && border) ? filter->border_size() : 0);
+
+    if (filter) {
+        // Temporary buffers used in put()
+        int filter_size = (int) std::ceil(2 * filter->radius()) + 1;
+        m_weights = new Float[filter_size];
+    }
+
+    set_size(size);
 }
 
-MTS_VARIANT
-Histogram<Float, Spectrum>::Histogram(const ScalarUInt32 n_time_bins, const ScalarUInt32 n_wavelength_bins) :
-    Histogram({n_time_bins, n_wavelength_bins}, 1) { }
+MTS_VARIANT Histogram<Float, Spectrum>::~Histogram() {
+    if (m_weights)
+        delete[] m_weights;
+}
+
+
+MTS_VARIANT void Histogram<Float, Spectrum>::clear() {
+
+    size_t size = m_channel_count * hprod(m_size);// + 2 * m_border_size);
+
+    if constexpr (!is_cuda_array_v<Float>) {
+        memset(m_data.data(), 0, size * sizeof(ScalarFloat));
+        memset(m_counts.data(), 0, size * sizeof(ScalarUInt32));
+    } else {
+        m_data = zero<DynamicBuffer<Float>>(size);
+        m_counts = zero<DynamicBuffer<UInt32>>(size);
+    }
+}
+
+MTS_VARIANT void Histogram<Float, Spectrum>::set_size(const ScalarVector2i &size) {
+    if (size == m_size)
+        return;
+    m_size = size;
+
+    size_t total_size = m_channel_count * hprod(size);// + 2 * m_border_size);
+
+    // Allocate empty buffer
+    m_data = empty<DynamicBuffer<Float>>(hprod(total_size));
+    m_counts = empty<DynamicBuffer<UInt32>>(hprod(total_size));
+}
 
 MTS_VARIANT typename Histogram<Float, Spectrum>::Mask
 Histogram<Float, Spectrum>::put(const Point2f &pos,
@@ -49,8 +85,8 @@ Histogram<Float, Spectrum>::put(const Point2f &pos_, const Float *value,
 MTS_VARIANT void Histogram<Float, Spectrum>::put(const Histogram *hist) {
     ScopedPhase sp(ProfilerPhase::HistogramPut);
 
-    ScalarVector2i source_size = {hist->size().y(),  hist->size().x()},
-    target_size = {size().y(),  size().x()};
+    ScalarVector2i source_size = {hist->size().y(), hist->size().x()},
+        target_size = {size().y(), size().x()};
 
     ScalarPoint2i source_offset = {hist->offset().y(), hist->offset().x()},
         target_offset = {offset().y(), offset().x()};
@@ -78,23 +114,12 @@ MTS_VARIANT void Histogram<Float, Spectrum>::put(const Histogram *hist) {
     }
 }
 
-MTS_VARIANT void Histogram<Float, Spectrum>::clear() {
-    if constexpr (!is_cuda_array_v<Float>) {
-        memset(m_data.data(), 0, hprod(m_size) * sizeof(ScalarFloat));
-        memset(m_counts.data(), 0, hprod(m_size) * sizeof(ScalarUInt32));
-    } else {
-        m_data = zero<DynamicBuffer<Float>>(hprod(m_size));
-        m_counts = zero<DynamicBuffer<UInt32>>(hprod(m_size));
-    }
-}
-
-MTS_VARIANT Histogram<Float, Spectrum>::~Histogram() {}
-
 MTS_VARIANT std::string Histogram<Float, Spectrum>::to_string() const {
     std::ostringstream oss;
     oss << "Histogram[" << std::endl
         << "  bin_count = " << height() << "," << std::endl
         << "  time_step_count = " << width() << "," << std::endl
+        << "  border_size = " << m_border_size
         << "]";
     return oss.str();
 }
