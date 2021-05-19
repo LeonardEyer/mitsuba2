@@ -113,7 +113,7 @@ def test01_create(variant_scalar_acoustic):
 
 def test02_render_specular_multiple_equal(variant_scalar_acoustic):
     from mitsuba.core.xml import load_string, load_dict
-    bins = [3, 4]
+    bins = [3]
     absorption = [(3, 0.9), (4, 0.8)]
     max_time = 1
     time_steps = 10 * max_time

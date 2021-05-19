@@ -2729,30 +2729,20 @@ static const char *__doc_mitsuba_ImageBlock_width = R"doc(Return the bitmap's wi
 
 static const char *__doc_mitsuba_Histogram = R"doc(Construct a new histogram for the logging of wavelengths over time using predefined wavelength bins
 
-Parameter ``time_step_count``:
-    discretize time into this many bins
+Parameter ``size``:
+   number of time bins, number of wavelength bins
 
-Parameter ``time_range``:
-    the time range to be recorded
+Parameter ``channel_count``:
+    channel count is currently expected to always be 1
 
-Parameter ``wavelength_bins``:
-    array of bins we want to log the wavelengths in)doc";
+Parameter ``filter``:
+    reconstruction filter to be applied along the time axis
 
-static const char *__doc_mitsuba_Histogram_put = R"doc(Insert Wavelength samples with corresponding time indices
+Parameter ``border``:
+    enable usage of border region for wide reconstruction filter (non box))doc";
 
-Parameter ``time_step``:
-    Recorded time of this sample
 
-Parameter ``wavelength``:
-    The sampled wavelengths
-
-Parameter ``value``:
-    Intensity value for this wavelength
-
-Returns:
-    ``False`` if the sample was invalid. E.g not in range or NaN.)doc";
-
-static const char *__doc_mitsuba_Histogram_put_2 = R"doc(Insert Wavelength samples at discrete position
+static const char *__doc_mitsuba_Histogram_put = R"doc(Insert Wavelength samples at discrete position
 
 Parameter ``pos``:
     wavelength bin and time bin
@@ -2763,8 +2753,7 @@ Parameter ``value``:
 Returns:
     ``False`` if the sample was invalid. E.g not in range or NaN.)doc";
 
-static const char *__doc_mitsuba_Histogram_put_3 = R"doc(For now we simply overwrite the storage
-In the future it could be beneficial to be able to merge histograms.)doc";
+static const char *__doc_mitsuba_Histogram_put_2 = R"doc(Merge two histograms (simply adding all the recorded data and weights))doc";
 
 static const char *__doc_mitsuba_Histogram_clear = R"doc(Clear everything to zero.)doc";
 
@@ -2789,6 +2778,10 @@ static const char *__doc_mitsuba_Histogram_offset = R"doc(Return the current his
 static const char *__doc_mitsuba_Histogram_size = R"doc(Return the current histogram size)doc";
 
 static const char *__doc_mitsuba_Histogram_width = R"doc(Return the width (wav bins))doc";
+
+static const char *__doc_mitsuba_Histogram_channel_count = R"doc(Return the number of channels stored by the histogram)doc";
+
+static const char *__doc_mitsuba_Histogram_border_size = R"doc(Return the border region used by the reconstruction filter)doc";
 
 static const char *__doc_mitsuba_Histogram_height = R"doc(RReturn the height (time bins))doc";
 
