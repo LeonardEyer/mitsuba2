@@ -14,8 +14,8 @@ def estimate_max_depth(box_dimensions, max_time, boost=1.):
     return max_depth_estimate
 
 
-def make_shoebox_scene(emitter_pos, sensor_pos, box_dimensions, radius, time_steps, wav_bins, spp, scattering=0.0,
-                       absorption=0.0, hide_sensor=True):
+def make_shoebox_scene(emitter_pos, sensor_pos, box_dimensions, radius, time_steps, wav_bins, spp, scattering,
+                       absorption, hide_sensor=True):
     from mitsuba.core import ScalarTransform4f
 
     def transform(scale=None, rotate=None, translate=None):
@@ -69,7 +69,11 @@ def make_shoebox_scene(emitter_pos, sensor_pos, box_dimensions, radius, time_ste
             "myfilm": {
                 "type": "tape",
                 "time_steps": time_steps,
-                "wav_bins": wav_bins
+                "wav_bins": wav_bins,
+                "rfilter": {
+                    "type": "gaussian",
+                    "stddev": 0.5
+                }
             }
         },
         "shoebox": {
@@ -113,9 +117,9 @@ def test01_create(variant_scalar_acoustic):
 
 def test02_render_specular_multiple_equal(variant_scalar_acoustic):
     from mitsuba.core.xml import load_string, load_dict
-    bins = [3]
-    absorption = [(3, 0.9), (4, 0.8)]
-    max_time = 1
+    bins = [1]
+    absorption = [(1, 0.9), (4, 0.8)]
+    max_time = 4
     time_steps = 10 * max_time
 
     scene_dict = make_shoebox_scene(emitter_pos=[20, 7, 2],
@@ -130,7 +134,12 @@ def test02_render_specular_multiple_equal(variant_scalar_acoustic):
 
     scene = load_dict(scene_dict)
 
-    integrator = make_integrator(bins=bins, samples_per_pass=100, max_time=max_time, max_depth=estimate_max_depth([25, 12, 7], max_time, boost=1.5))
+    integrator = make_integrator(
+        bins=bins,
+        samples_per_pass=100,
+        max_time=max_time,
+        max_depth=132#estimate_max_depth([25, 12, 7], max_time, boost=1.5)
+    )
     print(integrator)
 
     sensor = scene.sensors()[0]
@@ -154,8 +163,8 @@ def test02_render_specular_multiple_equal(variant_scalar_acoustic):
 
     assert True
 
-    #plt.plot(vals_count, label='count')
+    plt.plot(vals_count, label='count')
     #plt.plot(vals, label='vals')
-    plt.plot(vals / vals_count, label='normalized')
+    #plt.plot(vals / vals_count, label='normalized')
     plt.legend()
     plt.show()

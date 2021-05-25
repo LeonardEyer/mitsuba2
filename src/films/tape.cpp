@@ -70,10 +70,10 @@ public:
 
         if (raw)
             source = new Bitmap(Bitmap::PixelFormat::Y, struct_type_v<ScalarFloat>,
-                           m_storage->size(), 1, (uint8_t *) m_storage->data().managed().data());
+                           m_storage->size(), m_storage->channel_count(), (uint8_t *) m_storage->data().managed().data());
         else
-            source = new Bitmap(Bitmap::PixelFormat::Y, struct_type_v<ScalarUInt32>,
-                       m_storage->size(), 1, (uint8_t *) m_storage->counts().managed().data());
+            source = new Bitmap(Bitmap::PixelFormat::Y, struct_type_v<ScalarFloat>,
+                       m_storage->size(), m_storage->channel_count(), (uint8_t *) m_storage->counts().managed().data());
 
         return source;
     }
