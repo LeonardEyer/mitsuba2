@@ -39,7 +39,7 @@ public :
         bs.eta = 1.f;
         bs.pdf = 1.f;
 
-        UnpolarizedSpectrum reflectance = m_absorpt->eval(si, active);
+        UnpolarizedSpectrum reflectance = 1.f - m_absorpt->eval(si, active);
 
         return { bs, reflectance & active };
     }
