@@ -38,7 +38,7 @@ def make_shoebox_scene(emitter_pos, sensor_pos, box_dimensions, radius, time_ste
         "bsdf_neutral": {
             "type": "acousticbsdf",
             "scattering": {
-                "type": "acoustic",
+                "type": "spectrum",
                 "value": scattering
             },
             "absorption": {
@@ -119,7 +119,7 @@ def test02_render_specular_multiple_equal(variant_scalar_acoustic):
     from mitsuba.core.xml import load_string, load_dict
     bins = [1]
     absorption = [(1, 0.9), (4, 0.8)]
-    max_time = 4
+    max_time = 1
     time_steps = 10 * max_time
 
     scene_dict = make_shoebox_scene(emitter_pos=[20, 7, 2],
@@ -128,7 +128,7 @@ def test02_render_specular_multiple_equal(variant_scalar_acoustic):
                                     radius=1.0,
                                     time_steps=time_steps,
                                     wav_bins=len(bins),
-                                    spp=1000,
+                                    spp=10,
                                     scattering=0.0,
                                     absorption=absorption)
 

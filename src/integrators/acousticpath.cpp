@@ -8,12 +8,12 @@
 #include <random>
 #include <map>
 
-// #define MTS_DEBUG_ACOUSTIC_PATHS "/tmp/ptracer.obj"
+#define MTS_DEBUG_ACOUSTIC_PATHS "/tmp/ptracer.obj"
 #if defined(MTS_DEBUG_ACOUSTIC_PATHS)
 #include <fstream>
 namespace {
-static size_t export_counter = 0;
-static size_t path_counter = 0;
+size_t export_counter = 0;
+size_t path_counter = 0;
 } // namespace
 #endif
 
@@ -47,7 +47,7 @@ public:
         Float time = ray.time;
 
         // MIS weight for intersected emitters (set by prev. iteration)
-        //Float emission_weight(1.f);
+        Float emission_weight(1.f);
 
         Spectrum throughput(1.f);
 
@@ -86,17 +86,12 @@ public:
 
             // ---------------- Intersection with sensors ----------------
             if (any_or<true>(hit_emitter)) {
-                //result[active] += emission_weight * throughput * emitter->eval(si, active);
-                //throughput[active] *= emission_weight * emitter->eval(si, active);
                 // Logging the result
 
                 const ScalarFloat discretizer = m_max_time;
                 Float time_frac = (time / discretizer) * hist->size().x();
 
-                hist->put({ time_frac, band_id }, throughput, hit_emitter);
-                //hist->put(time, ray.wavelengths, throughput, hit_emitter);
-
-                //throughput[hit_emitter] = 0;
+                hist->put({ time_frac, band_id }, emission_weight * throughput, hit_emitter);
             }
             active &= si.is_valid();
 
@@ -112,7 +107,7 @@ public:
 
             BSDFContext ctx;
             BSDFPtr bsdf = si.bsdf(ray);
-            /*Mask active_e = active && has_flag(bsdf->flags(), BSDFFlags::Smooth);
+            Mask active_e = active && has_flag(bsdf->flags(), BSDFFlags::DiffuseReflection);
 
             if (likely(any_or<true>(active_e))) {
                 auto [ds, emitter_val] = scene->sample_emitter_direction(
@@ -129,15 +124,16 @@ public:
 
                 Float mis = select(ds.delta, 1.f, mis_weight(ds.pdf, bsdf_pdf));
 
-                //result[active_e] += mis * throughput * bsdf_val * emitter_val;
                 Spectrum expected_throughput = throughput;
                 expected_throughput[active_e] *= mis * bsdf_val * emitter_val;
 
                 // Logging the result
-                Float expected_time = (ds.dist / MTS_SOUND_SPEED) + time;
-                hist->put(expected_time, ray.wavelengths, expected_throughput, active_e);
+                const ScalarFloat discretizer = m_max_time;
+                Float time_frac = (time / discretizer) * hist->size().x();
 
-            }*/
+                hist->put({ time_frac, band_id }, expected_throughput, hit_emitter);
+
+            }
 
             // ----------------------- BSDF sampling ----------------------
 
@@ -159,7 +155,7 @@ public:
 
             /* Determine probability of having sampled that same
                direction using emitter sampling. */
-            /*DirectionSample3f ds(si_bsdf, si);
+            DirectionSample3f ds(si_bsdf, si);
             ds.object = emitter;
 
             if (any_or<true>(neq(emitter, nullptr))) {
@@ -169,7 +165,7 @@ public:
                            0.f);
 
                 emission_weight = mis_weight(bs.pdf, emitter_pdf);
-            }*/
+            }
 
             si = std::move(si_bsdf);
         }
