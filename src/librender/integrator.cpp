@@ -426,7 +426,7 @@ TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
 
             size_t band_id = i / n_passes;
 
-            ref<Histogram> hist = new Histogram(film_size, 1);
+            ref<Histogram> hist = new Histogram(film_size, 1, film->reconstruction_filter());
 
             scoped_flush_denormals flush_denormals(true);
 
@@ -454,14 +454,14 @@ TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
             sampler->seed(0, wavefront_size);
 
         UInt32 idx = arange<UInt32>(wavefront_size);
-        if (samples_per_pass != 1)
+        if (samples_per_pass > 1)
             idx /= (uint32_t) samples_per_pass;
 
-        UInt32 band_id = 0;
-        if (film_size.x() != 1)
-            band_id = idx % film_size.x();
+        UInt32 band_id = zero<UInt32>(wavefront_size);
+        if (film_size.y() > 1)
+            band_id = idx % film_size.y();
 
-        ref<Histogram> hist = new Histogram(film_size, 1);
+        ref<Histogram> hist = new Histogram(film_size, 1, film->reconstruction_filter());
         hist->clear();
 
         for (size_t i = 0; i < n_passes; i++) {

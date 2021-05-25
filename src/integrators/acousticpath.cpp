@@ -90,13 +90,13 @@ public:
                 //throughput[active] *= emission_weight * emitter->eval(si, active);
                 // Logging the result
 
-                const ScalarFloat discretizer = (m_max_time / hist->size().x());
-                UInt32 time_idx = time / discretizer;
+                const ScalarFloat discretizer = m_max_time;
+                Float time_frac = (time / discretizer) * hist->size().x();
 
-                hist->put({ time_idx, band_id }, throughput, hit_emitter);
+                hist->put({ time_frac, band_id }, throughput, hit_emitter);
                 //hist->put(time, ray.wavelengths, throughput, hit_emitter);
 
-                throughput[hit_emitter] = 0;
+                //throughput[hit_emitter] = 0;
             }
             active &= si.is_valid();
 
