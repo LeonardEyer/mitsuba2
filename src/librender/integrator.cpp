@@ -435,12 +435,12 @@ TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
             sampler->seed(arange<UInt64>(total_sample_count));
 
         UInt32 idx = arange<UInt32>(total_sample_count);
-        if (samples_per_pass != 1)
+        if (samples_per_pass > 1)
             idx /= (uint32_t) samples_per_pass;
 
-        UInt32 band_id = 0;
-        if (film_size.x() != 1)
-            band_id = idx % film_size.x();
+        UInt32 band_id = zero<UInt32>(total_sample_count);
+        if (film_size.y() > 1)
+            band_id = idx % film_size.y();
 
         ref<Histogram> hist = new Histogram(film_size, 1, film->reconstruction_filter());
         hist->clear();
