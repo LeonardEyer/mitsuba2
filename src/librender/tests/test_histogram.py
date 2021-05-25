@@ -13,7 +13,7 @@ np.random.seed(0)
 
 def get_vals(hist, counts=False):
     data = hist.counts() if counts else hist.data()
-    return np.array(data, copy=False).reshape(hist.size() + [hist.border_size() * 2, 0])[hist.border_size():hist.border_size()+hist.size()[0]]
+    return np.array(data, copy=False).reshape(hist.size() + [hist.border_size() * 2, 0])#[hist.border_size():hist.border_size()+hist.size()[0]]
 
 
 def put_check(hist, time, wav, spec):
@@ -330,18 +330,21 @@ class DummyHistogram:
     def __init__(self, size, rfilter):
         self._size = np.array(size)
         self._border_size = rfilter.border_size() if rfilter is not None else 0
-        self._storage = np.zeros((size[0] + self._border_size * 2) * size[1])
-        self._counts = np.zeros((size[0] + self._border_size * 2) * size[1])
+        self._storage = np.zeros(shape=((size[0] + self._border_size * 2), size[1]))
+        self._counts = np.zeros(shape=((size[0] + self._border_size * 2), size[1]))
         self._rfilter = rfilter
 
-    def put(self, pos_, val):
-        size = self._size + np.array([2 * self._border_size, 0])
-        pos = pos_ - np.array([- self._border_size + .5, 0])
+        self._storage[:self._border_size] = 1
+        self._counts[:self._border_size] = 1
 
-        lo = np.ceil(pos - np.array([self._rfilter.radius(), 0])).astype(int).clip(0)
-        hi = np.floor(pos + np.array([self._rfilter.radius(), 0])).astype(int).clip(0, size - 1)
+    def put(self, pos_, val):
+        size = self._size + np.array([2 * self._border_size, 0.])
+        pos = pos_ - np.array([- self._border_size + .5, 0.])
+
+        lo = np.ceil(pos - np.array([self._rfilter.radius(), 0.])).astype(np.int)#.clip(min=0)
+        hi = np.floor(pos + np.array([self._rfilter.radius(), 0.])).astype(np.int).clip(max=size - 1)
         base = lo - pos
-        n = np.ceil((self._rfilter.radius() - 2. * np.finfo(float).eps) * 2).astype(int)
+        n = np.ceil((self._rfilter.radius() - 2. * np.finfo(float).eps) * 2).astype(np.int)
 
         weights = np.array([self._rfilter.eval_discretized(base[0] + i) for i in range(n)])
 
@@ -349,15 +352,15 @@ class DummyHistogram:
 
         for tr in range(n):
             x = (lo[0] + tr)
+            r_pos = np.array([x, lo[1]])
 
-            if x > hi[0]:
-                return
+            if np.any(r_pos < 0) or np.any(r_pos >= self._storage.shape):
+                continue
 
-            offset = int(x * size[1] + lo[1])
             weight = weights[tr]
 
-            self._storage[offset] += val * weight
-            self._counts[offset] += 1 * weight
+            self._storage[r_pos[0], r_pos[1]] += val * weight
+            self._counts[r_pos[0], r_pos[1]] += 1 * weight
 
     def data(self):
         return self._storage
@@ -389,14 +392,14 @@ def test11_put_with_filter(variant_scalar_acoustic):
         pytest.skip("packet_acoustic mode not enabled")
 
     rfilter = load_string("""<rfilter version="2.0.0" type="gaussian">
-            <float name="stddev" value="5"/>
+            <float name="stddev" value=".5"/>
         </rfilter>""")
 
     rfilter_p = load_string_packet("""<rfilter version="2.0.0" type="gaussian">
-            <float name="stddev" value="5"/>
+            <float name="stddev" value=".5"/>
         </rfilter>""")
 
-    size = [1000, 1]
+    size = [20, 1]
     hist = Histogram(size, 1, filter=rfilter)
     hist.clear()
 
@@ -404,20 +407,15 @@ def test11_put_with_filter(variant_scalar_acoustic):
     hist2.clear()
     hist_ref = DummyHistogram(size, rfilter)
 
-    time_bins = np.linspace(0, 1000, 15000)
-    time_bins += np.random.uniform(-1, 1, 15000) * 3
-    time_bins.clip(0, 1000)
-    wavelength_bins = np.zeros(shape=(15000,))
-    values = np.exp(-np.linspace(0, 2 * np.pi, 15000))
+    time_bins = np.linspace(0, 20, 50)
+    time_bins += np.random.uniform(-1, 1, 50) * 3
+    time_bins.clip(0, 20)
+    wavelength_bins = np.zeros(shape=(50,))
+    values = np.exp(-np.linspace(0, 2 * np.pi, 50))
 
     positions = np.array([[a, b] for a, b in zip(time_bins, wavelength_bins)])
 
     n = time_bins.shape[0]
-
-    radius = int(math.ceil(rfilter.radius()))
-    border = hist.border_size()
-    ref = np.zeros(shape=(hist.height(), hist.width() + 2 * border))
-
     for i in range(n):
         hist.put(positions[i], values[i])
         hist_ref.put(positions[i], values[i])
@@ -433,17 +431,8 @@ def test11_put_with_filter(variant_scalar_acoustic):
     hist_ref_vals = get_vals(hist_ref, counts=False)
     hist_ref_counts = get_vals(hist_ref, counts=True)
 
-    # assert np.allclose(hist_vals, hist_ref_vals, atol=1e-8)
-    # assert np.allclose(hist_counts, hist_ref_counts, atol=1e-6)
-    #
-    # assert np.allclose(hist2_vals, hist_ref_vals, atol=1e-6)
-    # assert np.allclose(hist2_counts, hist_ref_counts, atol=1e-6)
+    assert np.allclose(hist_vals, hist_ref_vals, atol=1e-8)
+    assert np.allclose(hist_counts, hist_ref_counts, atol=1e-6)
 
-    plt.plot(hist_counts - hist_ref_counts, label='counts')
-    plt.plot(hist_vals - hist_ref_vals, label='vals')
-    # plt.plot(hist2_counts, label='counts_p')
-    # plt.plot(hist2_vals, label='vals_p')
-    #plt.plot(hist_ref_counts, label='ref_counts')
-    #plt.plot(hist_ref_vals, label='ref_vals')
-    plt.legend()
-    plt.show()
+    assert np.allclose(hist2_vals, hist_ref_vals, atol=1e-6)
+    assert np.allclose(hist2_counts, hist_ref_counts, atol=1e-6)
