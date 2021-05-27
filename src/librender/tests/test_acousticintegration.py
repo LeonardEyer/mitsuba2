@@ -72,7 +72,7 @@ def make_shoebox_scene(emitter_pos, sensor_pos, box_dimensions, radius, time_ste
                 "wav_bins": wav_bins,
                 "rfilter": {
                     "type": "gaussian",
-                    "stddev": 0.5
+                    "stddev": 1
                 }
             }
         },
@@ -118,8 +118,8 @@ def test01_create(variant_scalar_acoustic):
 def test02_render_specular_multiple_equal(variant_scalar_acoustic):
     from mitsuba.core.xml import load_string, load_dict
     bins = [1]
-    absorption = [(1, 0.9), (4, 0.8)]
-    max_time = 1
+    absorption = .9
+    max_time = 5
     time_steps = 10 * max_time
 
     scene_dict = make_shoebox_scene(emitter_pos=[20, 7, 2],
@@ -128,8 +128,8 @@ def test02_render_specular_multiple_equal(variant_scalar_acoustic):
                                     radius=1.0,
                                     time_steps=time_steps,
                                     wav_bins=len(bins),
-                                    spp=10,
-                                    scattering=0.0,
+                                    spp=10000,
+                                    scattering=.0,
                                     absorption=absorption)
 
     scene = load_dict(scene_dict)
@@ -163,8 +163,8 @@ def test02_render_specular_multiple_equal(variant_scalar_acoustic):
 
     assert True
 
-    plt.plot(vals_count, label='count')
+    #plt.plot(vals_count, label='count')
     #plt.plot(vals, label='vals')
-    #plt.plot(vals / vals_count, label='normalized')
+    plt.plot(vals / vals_count, label='normalized')
     plt.legend()
     plt.show()
