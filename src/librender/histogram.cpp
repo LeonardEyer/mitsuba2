@@ -106,14 +106,14 @@ Histogram<Float, Spectrum>::put(const Point2f &pos_, const Float *value,
             }
         }
 
-//        Float wx(0);
-//        for (uint32_t i = 0; i < n; ++i) {
-//            wx += m_weights[i];
-//        }
-//
-//        Float factor = rcp(wx);
-//        for (uint32_t i = 0; i < n; ++i)
-//            m_weights[i] *= factor;
+        Float wx(0);
+        for (uint32_t i = 0; i < n; ++i) {
+            wx += m_weights[i];
+        }
+
+        Float factor = rcp(wx);
+        for (uint32_t i = 0; i < n; ++i)
+            m_weights[i] *= factor;
 
         ENOKI_NOUNROLL for (uint32_t tr = 0; tr < n; ++tr) {
             UInt32 x = lo.x() + tr;

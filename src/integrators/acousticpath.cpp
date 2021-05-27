@@ -8,7 +8,7 @@
 #include <random>
 #include <map>
 
-#define MTS_DEBUG_ACOUSTIC_PATHS "/tmp/ptracer.obj"
+// #define MTS_DEBUG_ACOUSTIC_PATHS "/tmp/ptracer.obj"
 #if defined(MTS_DEBUG_ACOUSTIC_PATHS)
 #include <fstream>
 namespace {
