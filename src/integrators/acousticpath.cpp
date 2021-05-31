@@ -77,7 +77,7 @@ public:
 #endif
 
            // Update traveled time
-           time += select(si.is_valid(), si.t / MTS_SOUND_SPEED, 0);
+           time += si.t / MTS_SOUND_SPEED;
 
             // medium absorption operator
             //throughput *= enoki::exp( - 0.1151f * alpha * si.t);
@@ -87,11 +87,21 @@ public:
             // ---------------- Intersection with sensors ----------------
             if (any_or<true>(hit_emitter)) {
                 // Logging the result
-
                 const ScalarFloat discretizer = m_max_time;
                 Float time_frac = (time / discretizer) * hist->size().x();
 
                 hist->put({ time_frac, band_id }, emission_weight * throughput, hit_emitter);
+
+                // Trace ray straight through the emitter
+                Ray3f passthru = Ray3f(si.p, ray.d, 0);
+                SurfaceInteraction3f si_passthru = scene->ray_intersect(passthru, hit_emitter);
+                Ray3f new_ray = Ray3f(si_passthru.p, ray.d, 0, ray.wavelengths);
+                SurfaceInteraction3f new_si = scene->ray_intersect(new_ray, hit_emitter);
+
+                // New ray and si for passing thru rays
+                masked(ray, hit_emitter) = new_ray;
+                masked(si, hit_emitter) = new_si;
+
             }
             active &= si.is_valid();
 
@@ -117,21 +127,19 @@ public:
                 // Query the BSDF for that emitter-sampled direction
                 Vector3f wo = si.to_local(ds.d);
                 Spectrum bsdf_val = bsdf->eval(ctx, si, wo, active_e);
-                bsdf_val = si.to_world_mueller(bsdf_val, -wo, si.wi);
 
                 // Determine density of sampling that same direction using BSDF sampling
                 Float bsdf_pdf = bsdf->pdf(ctx, si, wo, active_e);
 
                 Float mis = select(ds.delta, 1.f, mis_weight(ds.pdf, bsdf_pdf));
 
-                Spectrum expected_throughput = throughput;
-                expected_throughput[active_e] *= mis * bsdf_val * emitter_val;
+                Spectrum expected_throughput = throughput * mis * bsdf_val * emitter_val;
 
                 // Logging the result
                 const ScalarFloat discretizer = m_max_time;
                 Float time_frac = (time / discretizer) * hist->size().x();
 
-                hist->put({ time_frac, band_id }, expected_throughput, hit_emitter);
+                hist->put({ time_frac, band_id }, expected_throughput, active_e);
 
             }
 
@@ -140,10 +148,9 @@ public:
             // Sample BSDF * cos(theta)
             auto [bs, bsdf_val] = bsdf->sample(ctx, si, sampler->next_1d(active),
                                                sampler->next_2d(active), active);
-            bsdf_val = si.to_world_mueller(bsdf_val, -bs.wo, si.wi);
 
             throughput = throughput * bsdf_val;
-            active &= any(neq(depolarize(throughput), 0.f));
+            active &= any(neq(throughput, 0.f));
             if (none_or<false>(active))
                 break;
 
