@@ -60,6 +60,7 @@ def make_shoebox_scene(emitter_pos, sensor_pos, box_dimensions, radius, time_ste
             }
         },
         "sensor": {
+            "id": "sensor",
             "type": "microphone",
             "to_world": transform(translate=sensor_pos),
             "sampler": {
@@ -77,6 +78,7 @@ def make_shoebox_scene(emitter_pos, sensor_pos, box_dimensions, radius, time_ste
             }
         },
         "shoebox": {
+            "id": "shoebox",
             "type": "obj",
             "filename": "resources/cuberoom.obj",
             "bsdf": {
@@ -118,7 +120,7 @@ def test01_create(variant_scalar_acoustic):
 def test02_render_specular_multiple_equal(variant_scalar_acoustic):
     from mitsuba.core.xml import load_string, load_dict
     bins = [1]
-    absorption = .9
+    absorption = .1
     max_time = 5
     time_steps = 10 * max_time
 
@@ -128,7 +130,7 @@ def test02_render_specular_multiple_equal(variant_scalar_acoustic):
                                     radius=1.0,
                                     time_steps=time_steps,
                                     wav_bins=len(bins),
-                                    spp=10000,
+                                    spp=100,
                                     scattering=.0,
                                     absorption=absorption)
 
