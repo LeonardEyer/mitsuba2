@@ -12,8 +12,8 @@
 #if defined(MTS_DEBUG_ACOUSTIC_PATHS)
 #include <fstream>
 namespace {
-static size_t export_counter = 0;
-static size_t path_counter = 0;
+size_t export_counter = 0;
+size_t path_counter = 0;
 } // namespace
 #endif
 
@@ -47,7 +47,7 @@ public:
         Float time = ray.time;
 
         // MIS weight for intersected emitters (set by prev. iteration)
-        //Float emission_weight(1.f);
+        Float emission_weight(1.f);
 
         Spectrum throughput(1.f);
 
@@ -77,7 +77,7 @@ public:
 #endif
 
            // Update traveled time
-           time += select(si.is_valid(), si.t / MTS_SOUND_SPEED, 0);
+           time += si.t / MTS_SOUND_SPEED;
 
             // medium absorption operator
             //throughput *= enoki::exp( - 0.1151f * alpha * si.t);
@@ -86,17 +86,22 @@ public:
 
             // ---------------- Intersection with sensors ----------------
             if (any_or<true>(hit_emitter)) {
-                //result[active] += emission_weight * throughput * emitter->eval(si, active);
-                //throughput[active] *= emission_weight * emitter->eval(si, active);
                 // Logging the result
-
                 const ScalarFloat discretizer = m_max_time;
                 Float time_frac = (time / discretizer) * hist->size().x();
 
-                hist->put({ time_frac, band_id }, throughput, hit_emitter);
-                //hist->put(time, ray.wavelengths, throughput, hit_emitter);
+                hist->put({ time_frac, band_id }, emission_weight * throughput, hit_emitter);
 
-                //throughput[hit_emitter] = 0;
+                // Trace ray straight through the emitter
+                Ray3f passthru = Ray3f(si.p, ray.d, 0.f, ray.wavelengths);
+                SurfaceInteraction3f si_passthru = scene->ray_intersect(passthru, hit_emitter);
+                Ray3f new_ray = Ray3f(si_passthru.p, ray.d, 0.f, ray.wavelengths);
+                SurfaceInteraction3f new_si = scene->ray_intersect(new_ray, hit_emitter);
+
+                // New ray and si for passing thru rays
+                masked(ray, hit_emitter) = new_ray;
+                masked(si, hit_emitter) = new_si;
+
             }
             active &= si.is_valid();
 
@@ -112,7 +117,7 @@ public:
 
             BSDFContext ctx;
             BSDFPtr bsdf = si.bsdf(ray);
-            /*Mask active_e = active && has_flag(bsdf->flags(), BSDFFlags::Smooth);
+            Mask active_e = active && has_flag(bsdf->flags(), BSDFFlags::DiffuseReflection);
 
             if (likely(any_or<true>(active_e))) {
                 auto [ds, emitter_val] = scene->sample_emitter_direction(
@@ -122,32 +127,30 @@ public:
                 // Query the BSDF for that emitter-sampled direction
                 Vector3f wo = si.to_local(ds.d);
                 Spectrum bsdf_val = bsdf->eval(ctx, si, wo, active_e);
-                bsdf_val = si.to_world_mueller(bsdf_val, -wo, si.wi);
 
                 // Determine density of sampling that same direction using BSDF sampling
                 Float bsdf_pdf = bsdf->pdf(ctx, si, wo, active_e);
 
                 Float mis = select(ds.delta, 1.f, mis_weight(ds.pdf, bsdf_pdf));
 
-                //result[active_e] += mis * throughput * bsdf_val * emitter_val;
-                Spectrum expected_throughput = throughput;
-                expected_throughput[active_e] *= mis * bsdf_val * emitter_val;
+                Spectrum expected_throughput = throughput * mis * bsdf_val * emitter_val;
 
                 // Logging the result
-                Float expected_time = (ds.dist / MTS_SOUND_SPEED) + time;
-                hist->put(expected_time, ray.wavelengths, expected_throughput, active_e);
+                const ScalarFloat discretizer = m_max_time;
+                Float time_frac = (time / discretizer) * hist->size().x();
 
-            }*/
+                hist->put({ time_frac, band_id }, expected_throughput, active_e);
+
+            }
 
             // ----------------------- BSDF sampling ----------------------
 
             // Sample BSDF * cos(theta)
             auto [bs, bsdf_val] = bsdf->sample(ctx, si, sampler->next_1d(active),
                                                sampler->next_2d(active), active);
-            bsdf_val = si.to_world_mueller(bsdf_val, -bs.wo, si.wi);
 
             throughput = throughput * bsdf_val;
-            active &= any(neq(depolarize(throughput), 0.f));
+            active &= any(neq(throughput, 0.f));
             if (none_or<false>(active))
                 break;
 
@@ -159,7 +162,7 @@ public:
 
             /* Determine probability of having sampled that same
                direction using emitter sampling. */
-            /*DirectionSample3f ds(si_bsdf, si);
+            DirectionSample3f ds(si_bsdf, si);
             ds.object = emitter;
 
             if (any_or<true>(neq(emitter, nullptr))) {
@@ -169,7 +172,7 @@ public:
                            0.f);
 
                 emission_weight = mis_weight(bs.pdf, emitter_pdf);
-            }*/
+            }
 
             si = std::move(si_bsdf);
         }
