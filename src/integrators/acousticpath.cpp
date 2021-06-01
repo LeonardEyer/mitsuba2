@@ -93,9 +93,9 @@ public:
                 hist->put({ time_frac, band_id }, emission_weight * throughput, hit_emitter);
 
                 // Trace ray straight through the emitter
-                Ray3f passthru = Ray3f(si.p, ray.d, 0);
+                Ray3f passthru = Ray3f(si.p, ray.d, 0.f, ray.wavelengths);
                 SurfaceInteraction3f si_passthru = scene->ray_intersect(passthru, hit_emitter);
-                Ray3f new_ray = Ray3f(si_passthru.p, ray.d, 0, ray.wavelengths);
+                Ray3f new_ray = Ray3f(si_passthru.p, ray.d, 0.f, ray.wavelengths);
                 SurfaceInteraction3f new_si = scene->ray_intersect(new_ray, hit_emitter);
 
                 // New ray and si for passing thru rays
