@@ -44,7 +44,7 @@ public:
 
         Ray3f ray = ray_;
 
-        Float time = ray.time;
+        Float distance = 0.f;
 
         // MIS weight for intersected emitters (set by prev. iteration)
         Float emission_weight(1.f);
@@ -76,8 +76,8 @@ public:
             export_counter += i;
 #endif
 
-           // Update traveled time
-           time += si.t / MTS_SOUND_SPEED;
+           // Update traveled distance
+            distance += si.t;
 
             // medium absorption operator
             //throughput *= enoki::exp( - 0.1151f * alpha * si.t);
@@ -87,8 +87,8 @@ public:
             // ---------------- Intersection with sensors ----------------
             if (any_or<true>(hit_emitter)) {
                 // Logging the result
-                const ScalarFloat discretizer = m_max_time;
-                Float time_frac = (time / discretizer) * hist->size().x();
+                const ScalarFloat discretizer = MTS_SOUND_SPEED * m_max_time;
+                Float time_frac = (distance / discretizer) * hist->size().x();
 
                 hist->put({ time_frac, band_id }, emission_weight * throughput, hit_emitter);
 
@@ -134,10 +134,11 @@ public:
                 Float mis = select(ds.delta, 1.f, mis_weight(ds.pdf, bsdf_pdf));
 
                 Spectrum expected_throughput = throughput * mis * bsdf_val * emitter_val;
+                Float expected_distance = distance + ds.dist;
 
                 // Logging the result
-                const ScalarFloat discretizer = m_max_time;
-                Float time_frac = (time / discretizer) * hist->size().x();
+                const ScalarFloat discretizer = MTS_SOUND_SPEED * m_max_time;
+                Float time_frac = (expected_distance / discretizer) * hist->size().x();
 
                 hist->put({ time_frac, band_id }, expected_throughput, active_e);
 

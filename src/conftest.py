@@ -43,7 +43,7 @@ def generate_fixture(variant):
     globals()['variant_' + variant] = fixture
 
 
-for variant in ['scalar_rgb', 'scalar_spectral', 'scalar_acoustic',
+for variant in ['scalar_rgb', 'scalar_spectral', 'scalar_acoustic', 'scalar_acoustic_double',
                 'scalar_mono_polarized', 'packet_rgb',
                 'packet_spectral', 'packet_acoustic', 'gpu_rgb',
                 'gpu_autodiff_rgb', 'gpu_acoustic', 'gpu_autodiff_acoustic', 'gpu_autodiff_spectral']:

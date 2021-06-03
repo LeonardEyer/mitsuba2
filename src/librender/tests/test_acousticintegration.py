@@ -120,9 +120,9 @@ def test01_create(variant_scalar_acoustic):
 def test02_render_specular_multiple_equal(variant_scalar_acoustic):
     from mitsuba.core.xml import load_string, load_dict
     bins = [1]
-    absorption = .1
+    absorption = 0.1
     max_time = 5
-    time_steps = 10 * max_time
+    time_steps = 1#10 * max_time
 
     scene_dict = make_shoebox_scene(emitter_pos=[20, 7, 2],
                                     sensor_pos=[9, 6, 1],
@@ -130,7 +130,7 @@ def test02_render_specular_multiple_equal(variant_scalar_acoustic):
                                     radius=1.0,
                                     time_steps=time_steps,
                                     wav_bins=len(bins),
-                                    spp=100,
+                                    spp=1,
                                     scattering=.0,
                                     absorption=absorption)
 
@@ -140,7 +140,7 @@ def test02_render_specular_multiple_equal(variant_scalar_acoustic):
         bins=bins,
         samples_per_pass=100,
         max_time=max_time,
-        max_depth=132#estimate_max_depth([25, 12, 7], max_time, boost=1.5)
+        max_depth=132
     )
     print(integrator)
 

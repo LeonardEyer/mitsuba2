@@ -36,22 +36,11 @@ MTS_VARIANT void Histogram<Float, Spectrum>::clear() {
     if constexpr (!is_cuda_array_v<Float>) {
         memset(m_data.data(), 0, size * sizeof(ScalarFloat));
         memset(m_counts.data(), 0, size * sizeof(ScalarFloat));
-
-        if (m_border_size == 0) return;
-
-        for (int i = 0; i < m_border_size; ++i) {
-            m_data.data()[i] = 1;
-            m_counts.data()[i] = 1;
-        }
+        
     } else {
         m_data = zero<DynamicBuffer<Float>>(size);
         m_counts = zero<DynamicBuffer<Float>>(size);
 
-        if (m_border_size == 0) return;
-
-        UInt32 idx = arange<UInt32>(m_border_size);
-        scatter_add(m_data, Float(1.), idx);
-        scatter_add(m_counts, Float(1.), idx);
     }
 }
 
