@@ -4,7 +4,6 @@ project(mitsuba)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/resources")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(PYTHON_EXECUTABLE /Users/leonardeyer/.pyenv/shims/python3)
 
 # ---------- Setup mitsuba.conf ----------
 

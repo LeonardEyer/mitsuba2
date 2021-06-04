@@ -397,7 +397,6 @@ TimeDependentIntegrator<Float, Spectrum>::render_sample(const Scene *scene,
     std::pair<Spectrum, Mask> result = sample(scene, sampler, ray, nullptr, nullptr, active);
 
     hist->put(ray.time, ray.wavelengths, result.first, result.second);
-    sampler->advance();
 }
 
 
