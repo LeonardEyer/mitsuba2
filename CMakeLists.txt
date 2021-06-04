@@ -87,7 +87,7 @@ if(MTS_THROW_TRAPS_DEBUGGER)
 endif()
 
 # For developers: ability to disable Link Time Optimization to speed up builds
-option(MTS_ENABLE_LTO "Enable Link Time Optimization (LTO)?" ON)
+option(MTS_ENABLE_LTO "Enable Link Time Optimization (LTO)?" OFF)
 
 if (MTS_ENABLE_OPTIX AND MTS_USE_OPTIX_HEADERS)
   set(MTS_OPTIX_PATH "/opt/optix" CACHE STRING "Path to OptiX installation")
