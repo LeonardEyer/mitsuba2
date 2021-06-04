@@ -408,7 +408,10 @@ Mesh<Float, Spectrum>::fill_surface_interaction(const Ray3f &ray,
     MTS_MASK_ARGUMENT(active);
 
     // Check whether the SurfaceInteraction need to be differentiable w.t.r. m_vertex_positions_buf
-    bool differentiable_pos = is_diff_array_v<Float> && requires_gradient(m_vertex_positions_buf);
+    bool differentiable_pos = false;
+    if constexpr(is_diff_array_v<Float>) {
+        differentiable_pos = requires_gradient(m_vertex_positions_buf);
+    }
 
     Float b1, b2;
     if (!cache || differentiable_pos) {

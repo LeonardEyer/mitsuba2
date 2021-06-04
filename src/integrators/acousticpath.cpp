@@ -44,6 +44,8 @@ public:
 
         Ray3f ray = ray_;
 
+        std::cout << ray << std::endl;
+
         Float distance = 0.f;
 
         // MIS weight for intersected emitters (set by prev. iteration)
@@ -58,6 +60,8 @@ public:
         EmitterPtr emitter      = si.emitter(scene);
 
         for (int depth = 1;; ++depth) {
+
+            //std::cout << si << std::endl;
 
 #if defined(MTS_DEBUG_ACOUSTIC_PATHS)
             size_t i  = 0;

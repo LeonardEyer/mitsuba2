@@ -168,32 +168,32 @@ public:
         }
     }
 
-    Wavelength pdf_spectrum(const SurfaceInteraction3f &si,
-                            Mask active) const override {
-        MTS_MASKED_FUNCTION(ProfilerPhase::TextureEvaluate, active);
+//    Wavelength pdf_spectrum(const SurfaceInteraction3f &si,
+//                            Mask active) const override {
+//        MTS_MASKED_FUNCTION(ProfilerPhase::TextureEvaluate, active);
+//
+//        if constexpr (is_spectral_v<Spectrum>) {
+//            auto active_w = (si.wavelengths >= m_lambda_min) &&
+//                            (si.wavelengths <= m_lambda_max);
+//
+//            NotImplementedError("pdf_spectrum");
+//        } else {
+//            Throw("AudibleSpectrum: only works with spectral rendering");
+//        }
+//    }
 
-        if constexpr (is_spectral_v<Spectrum>) {
-            auto active_w = (si.wavelengths >= m_lambda_min) &&
-                            (si.wavelengths <= m_lambda_max);
-
-            NotImplementedError("pdf_spectrum");
-        } else {
-            Throw("AudibleSpectrum: only works with spectral rendering");
-        }
-    }
-
-    std::pair<Wavelength, UnpolarizedSpectrum>
-    sample_spectrum(const SurfaceInteraction3f & /*si*/,
-                    const Wavelength &sample, Mask active) const override {
-        MTS_MASKED_FUNCTION(ProfilerPhase::TextureSample, active);
-
-        if constexpr (is_spectral_v<Spectrum>) {
-            NotImplementedError("sample_spectrum");
-        } else {
-            ENOKI_MARK_USED(sample);
-            Throw("AudibleSpectrum: only works with spectral rendering");
-        }
-    }
+//    std::pair<Wavelength, UnpolarizedSpectrum>
+//    sample_spectrum(const SurfaceInteraction3f & /*si*/,
+//                    const Wavelength &sample, Mask active) const override {
+//        MTS_MASKED_FUNCTION(ProfilerPhase::TextureSample, active);
+//
+//        if constexpr (is_spectral_v<Spectrum>) {
+//            NotImplementedError("sample_spectrum");
+//        } else {
+//            ENOKI_MARK_USED(sample);
+//            Throw("AudibleSpectrum: only works with spectral rendering");
+//        }
+//    }
 
     ScalarFloat mean() const override { return 1.0; }
 

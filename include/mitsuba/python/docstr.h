@@ -5087,6 +5087,10 @@ enforced accurately.
 Note that accurate timeouts rely on m_render_timer, which needs to be
 reset at the beginning of the rendering phase.)doc";
 
+static const char *__doc_mitsuba_TimeDependentIntegrator = R"doc()doc";
+
+static const char *__doc_mitsuba_TimeDependentIntegrator_wavelength_bins = R"doc()doc";
+
 static const char *__doc_mitsuba_Scene = R"doc()doc";
 
 static const char *__doc_mitsuba_Scene_2 = R"doc()doc";

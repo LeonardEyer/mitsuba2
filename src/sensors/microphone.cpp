@@ -37,11 +37,7 @@ public:
         // 2. Sample directional component
         Vector3f direction = warp::square_to_uniform_sphere(sample3);
 
-        // All wavelengths are equally weighted
-        Spectrum wav_weight = 1.f;
-
-        return { Ray3f(origin, direction, time, wavelength_sample),
-                 unpolarized<Spectrum>(wav_weight) * math::Pi<ScalarFloat> };
+        return { Ray3f(origin, direction, time, wavelength_sample), math::Pi<ScalarFloat> };
     }
 
     ScalarBoundingBox3f bbox() const override {
@@ -56,7 +52,6 @@ public:
     std::string to_string() const override {
         std::ostringstream oss;
         oss << "Microphone[" << std::endl
-            //<< "  wavelengths = " << m_wavelengths << "," << std::endl
             << "]";
         return oss.str();
     }

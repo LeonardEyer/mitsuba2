@@ -63,8 +63,6 @@ MTS_VARIANT void ShapeKDTree<Float, Spectrum>::build() {
 
 MTS_VARIANT void ShapeKDTree<Float, Spectrum>::add_shape(Shape *shape) {
     Assert(!ready());
-    if (!shape->is_visible())
-        return;
     m_primitive_map.push_back(m_primitive_map.back() +
                               shape->primitive_count());
     m_shapes.push_back(shape);

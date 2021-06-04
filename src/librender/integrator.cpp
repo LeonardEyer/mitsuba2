@@ -429,17 +429,18 @@ TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
         ref<ProgressReporter> progress = new ProgressReporter("Rendering");
 
         ref<Sampler> sampler = sensor->sampler();
-        sampler->set_samples_per_wavefront((uint32_t) samples_per_pass);
+        // sampler->set_samples_per_wavefront((uint32_t) samples_per_pass);
 
-        ScalarUInt32 wavefront_size = hprod(film_size) * (uint32_t) samples_per_pass;
-        if (sampler->wavefront_size() != wavefront_size)
-            sampler->seed(0, wavefront_size);
+        ScalarUInt32 total_sample_count = hprod(film_size) * (uint32_t) samples_per_pass;
 
-        UInt32 idx = arange<UInt32>(wavefront_size);
+        if (sampler->wavefront_size() != total_sample_count)
+            sampler->seed(arange<UInt64>(total_sample_count));
+
+        UInt32 idx = arange<UInt32>(total_sample_count);
         if (samples_per_pass > 1)
             idx /= (uint32_t) samples_per_pass;
 
-        UInt32 band_id = zero<UInt32>(wavefront_size);
+        UInt32 band_id = zero<UInt32>(total_sample_count);
         if (film_size.y() > 1)
             band_id = idx % film_size.y();
 
@@ -514,7 +515,7 @@ TimeDependentIntegrator<Float, Spectrum>::render_sample(const Scene *scene,
 
     trace_acoustic_ray(scene, sampler, ray, hist, band_id, active);
 
-    sampler->advance();
+    //sampler->advance();
 }
 
 MTS_VARIANT void TimeDependentIntegrator<Float, Spectrum>::cancel() {

@@ -72,8 +72,8 @@ def make_shoebox_scene(emitter_pos, sensor_pos, box_dimensions, radius, time_ste
                 "time_steps": time_steps,
                 "wav_bins": wav_bins,
                 "rfilter": {
-                    "type": "gaussian",
-                    "stddev": 1
+                    "type": "box",
+                    "radius": .5
                 }
             }
         },
@@ -122,7 +122,7 @@ def test02_render_specular_multiple_equal(variant_scalar_acoustic):
     bins = [1]
     absorption = 0.1
     max_time = 5
-    time_steps = 1#10 * max_time
+    time_steps = 10 * max_time
 
     scene_dict = make_shoebox_scene(emitter_pos=[20, 7, 2],
                                     sensor_pos=[9, 6, 1],
@@ -130,7 +130,7 @@ def test02_render_specular_multiple_equal(variant_scalar_acoustic):
                                     radius=1.0,
                                     time_steps=time_steps,
                                     wav_bins=len(bins),
-                                    spp=1,
+                                    spp=100,
                                     scattering=.0,
                                     absorption=absorption)
 
@@ -138,7 +138,7 @@ def test02_render_specular_multiple_equal(variant_scalar_acoustic):
 
     integrator = make_integrator(
         bins=bins,
-        samples_per_pass=100,
+        samples_per_pass=10,
         max_time=max_time,
         max_depth=132
     )
