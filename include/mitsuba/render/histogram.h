@@ -17,6 +17,7 @@ NAMESPACE_BEGIN(mitsuba)
 template <typename Float, typename Spectrum>
 class MTS_EXPORT_RENDER Histogram : public Object {
 public:
+    MTS_IMPORT_TYPES()
     /**
      * Construct a new histogram for the logging of wavelengths over time
      *
