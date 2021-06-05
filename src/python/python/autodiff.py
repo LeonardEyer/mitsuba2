@@ -107,8 +107,8 @@ def write_bitmap(filename, data, resolution, write_async=True):
     data = data.reshape(resolution[1], resolution[0], -1)
     bitmap = Bitmap(data)
     if filename.endswith('.png') or \
-            filename.endswith('.jpg') or \
-            filename.endswith('.jpeg'):
+       filename.endswith('.jpg') or \
+       filename.endswith('.jpeg'):
         bitmap = bitmap.convert(Bitmap.PixelFormat.RGB,
                                 Struct.Type.UInt8, True)
     quality = 0 if filename.endswith('png') else -1
@@ -179,11 +179,6 @@ def render(scene,
         ``unbiased=True`` as one might want to update the scene in between
         the two renders.
     """
-    from mitsuba.render import TimeDependentIntegrator
-
-    _rh = _render_helper_time_dependent \
-        if isinstance(scene.integrator(), TimeDependentIntegrator) \
-        else _render_helper
     if unbiased:
         if optimizer is None:
             raise Exception('render(): unbiased=True requires that an '
@@ -192,34 +187,20 @@ def render(scene,
             spp = (spp, spp)
 
         with optimizer.disable_gradients():
-<<<<<<< HEAD
             pre_render_callback()
             image = _render_helper(scene, spp=spp[0],
                                    sensor_index=sensor_index)
 
         pre_render_callback()
         image_diff = _render_helper(scene, spp=spp[1],
-=======
-            image = _rh(scene, spp=spp[0],
-                        sensor_index=sensor_index)
-        image_diff = _rh(scene, spp=spp[1],
-<<<<<<< HEAD
->>>>>>> 20e6136d... Prepare for autodiff of acoustic variants
                                     sensor_index=sensor_index)
-=======
-                         sensor_index=sensor_index)
->>>>>>> 0bdc33a3... Add specialized methods for the timeDependent integrator to make use in autodiff
         ek.reattach(image, image_diff)
     else:
         if type(spp) is tuple:
             raise Exception('render(): unbiased=False requires that spp '
                             'is either an integer or None!')
-<<<<<<< HEAD
         pre_render_callback()
         image = _render_helper(scene, spp=spp, sensor_index=sensor_index)
-=======
-        image = _rh(scene, spp=spp, sensor_index=sensor_index)
->>>>>>> 20e6136d... Prepare for autodiff of acoustic variants
 
     return image
 
@@ -228,7 +209,6 @@ class Optimizer:
     """
     Base class of all gradient-based optimizers (currently SGD and Adam)
     """
-
     def __init__(self, params, lr):
         """
         Parameter ``params``:
@@ -334,7 +314,7 @@ class SGD(Optimizer):
 
     def __repr__(self):
         return ('SGD[\n  lr = %.2g,\n  momentum = %.2g\n]') % \
-               (self.lr, self.momentum)
+            (self.lr, self.momentum)
 
 
 class Adam(Optimizer):
@@ -342,7 +322,6 @@ class Adam(Optimizer):
     Implements the Adam optimizer presented in the paper *Adam: A Method for
     Stochastic Optimization* by Kingman and Ba, ICLR 2015.
     """
-
     def __init__(self, params, lr, beta_1=0.9, beta_2=0.999, epsilon=1e-8):
         """
         Parameter ``lr``:
@@ -359,7 +338,7 @@ class Adam(Optimizer):
         super().__init__(params, lr)
 
         assert 0 <= beta_1 < 1 and 0 <= beta_2 < 1 \
-               and lr > 0 and epsilon > 0
+            and lr > 0 and epsilon > 0
 
         self.beta_1 = beta_1
         self.beta_2 = beta_2
@@ -371,8 +350,8 @@ class Adam(Optimizer):
         self.t += 1
 
         from mitsuba.core import Float
-        lr_t = ek.detach(Float(self.lr * ek.sqrt(1 - self.beta_2 ** self.t) /
-                               (1 - self.beta_1 ** self.t), literal=False))
+        lr_t = ek.detach(Float(self.lr * ek.sqrt(1 - self.beta_2**self.t) /
+                               (1 - self.beta_1**self.t), literal=False))
 
         for k, p in self.params.items():
             g_p = ek.gradient(p)
