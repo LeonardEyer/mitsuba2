@@ -72,6 +72,7 @@
         # The "scalar_rgb" variant *must* be included at the moment.
         "scalar_rgb",
         "scalar_acoustic",
+        "gpu_autodiff_rgb",
         "gpu_spectral"
     ],
 
