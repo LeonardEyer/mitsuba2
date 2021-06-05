@@ -23,17 +23,17 @@ public :
 
         // Copy absorption coefficients
         // (conversion is handled in spectra/acoustic.cpp)
-        propsDiffuse.set_object("reflectance", m_absorpt);
+        //propsDiffuse.set_object("reflectance", m_absorpt);
 
         ref<Base> diffuser = pmgr->create_object<Base>(propsDiffuse);
         ref<Base> conductor = pmgr->create_object<Base>(propsConduct);
 
         Properties propsBlend("blendbsdf");
         // Weighting
-        propsBlend.set_object("weight", m_scatter);
-        // Nested bsdfs
-        propsBlend.set_object("0_conductor", conductor);
-        propsBlend.set_object("1_diffuser", diffuser);
+        // propsBlend.set_object("weight", m_scatter);
+        // // Nested bsdfs
+        // propsBlend.set_object("0_conductor", conductor);
+        // propsBlend.set_object("1_diffuser", diffuser);
 
         m_nested_bsdf = pmgr->create_object<Base>(propsBlend);
     }
