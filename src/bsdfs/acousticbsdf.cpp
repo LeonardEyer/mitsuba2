@@ -17,7 +17,7 @@ public :
         m_scatter = props.texture<Texture>("scattering");
         m_absorpt = props.texture<Texture>("absorption");
 
-        m_flags = BSDFFlags::DeltaReflection | BSDFFlags::FrontSide;
+        m_flags = BSDFFlags::DeltaReflection | BSDFFlags::DiffuseReflection | BSDFFlags::FrontSide;
         m_components.push_back(m_flags);
     }
 

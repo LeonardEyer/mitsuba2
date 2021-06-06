@@ -4,6 +4,61 @@ import enoki as ek
 from mitsuba.python.util import is_differentiable
 
 
+def _render_helper_time_dependent(scene, spp=None, sensor_index=0):
+    from mitsuba.core import (Float, UInt32, UInt64, Vector2f)
+    from mitsuba.render import Histogram
+
+    integrator = scene.integrator()
+    wav_bins = integrator.wavelength_bins()
+
+    sensor = scene.sensors()[sensor_index]
+    film = sensor.film()
+
+    sampler = sensor.sampler()
+    film_size = film.size()
+    if spp is None:
+        spp = sampler.sample_count()
+
+    total_sample_count = ek.hprod(film_size) * spp
+
+    if sampler.wavefront_size() != total_sample_count:
+        sampler.seed(ek.arange(UInt64, total_sample_count))
+
+    pos = ek.arange(UInt32, total_sample_count)
+    idx = pos // (total_sample_count // film_size[1])
+    sample = ek.gather(wav_bins, idx) #Float(idx % UInt32(film_size[1])) / film_size[1]
+
+    hist = Histogram(film_size, 1, film.reconstruction_filter())
+    hist.clear()
+
+    rays, weights = sensor.sample_ray(
+        time=0,
+        sample1=sample,
+        sample2=[0, 0],
+        sample3=sampler.next_2d()
+    )
+
+    del pos
+
+    integrator.trace_acoustic_ray(scene, sampler, rays, hist, idx)
+
+    del rays, weights
+
+    data = hist.data()
+    counts = hist.counts()
+
+    i = UInt32.arange(ek.hprod(hist.size()))
+
+    values = ek.gather(data, i)
+    weight = ek.gather(counts, i)
+
+    del i
+
+    energy = values / (Float(weight) + 1e-8)
+    energy /= energy[0]
+
+    return 10 * (ek.log(energy) / ek.log(10))
+
 def _render_helper(scene, spp=None, sensor_index=0):
     """
     Internally used function: render the specified Mitsuba scene and return a
@@ -179,6 +234,13 @@ def render(scene,
         ``unbiased=True`` as one might want to update the scene in between
         the two renders.
     """
+    _rh = _render_helper
+
+    from mitsuba.render import TimeDependentIntegrator
+
+    if isinstance(scene.integrator(), TimeDependentIntegrator):
+        _rh = _render_helper_time_dependent
+
     if unbiased:
         if optimizer is None:
             raise Exception('render(): unbiased=True requires that an '
@@ -188,11 +250,11 @@ def render(scene,
 
         with optimizer.disable_gradients():
             pre_render_callback()
-            image = _render_helper(scene, spp=spp[0],
+            image = _rh(scene, spp=spp[0],
                                    sensor_index=sensor_index)
 
         pre_render_callback()
-        image_diff = _render_helper(scene, spp=spp[1],
+        image_diff = _rh(scene, spp=spp[1],
                                     sensor_index=sensor_index)
         ek.reattach(image, image_diff)
     else:
@@ -200,7 +262,7 @@ def render(scene,
             raise Exception('render(): unbiased=False requires that spp '
                             'is either an integer or None!')
         pre_render_callback()
-        image = _render_helper(scene, spp=spp, sensor_index=sensor_index)
+        image = _rh(scene, spp=spp, sensor_index=sensor_index)
 
     return image
 
