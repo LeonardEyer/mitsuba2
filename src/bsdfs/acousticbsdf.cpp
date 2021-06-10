@@ -31,6 +31,8 @@ public :
         Float cos_theta_i = Frame3f::cos_theta(si.wi);
         active &= cos_theta_i > 0.f;
 
+        //std::cout << "cos_theta_i" << cos_theta_i << std::endl;
+
         Float scatter = clamp(m_scatter->eval_1(si, active), 0.f, 1.f);
 
         Mask m0 = active && sample1 >  scatter,
@@ -40,6 +42,11 @@ public :
         Spectrum result(0.f);
 
         UnpolarizedSpectrum reflectance = 1.f - m_absorpt->eval(si, active);
+
+        //std::cout << "m0" << m0 << std::endl;
+        //std::cout << "m1" << m1 << std::endl;
+        //std::cout << "scatter" << scatter << std::endl;
+        //std::cout << "reflectance" << reflectance << std::endl;
 
         if (any_or<true>(m0)) {
             // Specular component
@@ -60,7 +67,7 @@ public :
             auto bs_diffuse = zero<BSDFSample3f>();
 
             bs_diffuse.wo = warp::square_to_cosine_hemisphere(sample2);
-            bs_diffuse.pdf = warp::square_to_cosine_hemisphere_pdf(bs.wo);
+            bs_diffuse.pdf = warp::square_to_cosine_hemisphere_pdf(bs_diffuse.wo);
             bs_diffuse.eta = 1.f;
             bs_diffuse.sampled_type = +BSDFFlags::DiffuseReflection;
             bs_diffuse.sampled_component = 0;
@@ -89,9 +96,13 @@ public :
         UnpolarizedSpectrum value_specular = reflectance * select(reflect(si.wi) == wo, 1.f, 0.f);
         UnpolarizedSpectrum value_diffuse = reflectance * math::InvPi<Float> * cos_theta_o;
 
+        //std::cout << "scatter" << scatter << std::endl;
+        //std::cout << "(value_specular * (1.f - scatter)) + (value_diffuse * scatter)" << (value_specular * (1.f - scatter)) + (value_diffuse * scatter) << std::endl;
+        //std::cout << "bsdf:count(active)" << count(active) << std::endl;
+        ////std::cout << "reflectance" << reflectance << std::endl;
+
         return select(active,
-                      (value_specular * (1.f - scatter)) +
-                         (value_diffuse * scatter),
+                      (value_specular * (1.f - scatter)) + (value_diffuse * scatter),
                       0.f);
     }
 
