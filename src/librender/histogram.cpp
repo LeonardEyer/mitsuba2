@@ -117,7 +117,7 @@ Histogram<Float, Spectrum>::put(const Point2f &pos_, const Float *value,
 
         ENOKI_NOUNROLL for (uint32_t tr = 0; tr < n; ++tr) {
             UInt32 x = lo.x() + tr;
-            Mask enabled = active && x <= hi.x();
+            Mask enabled = active && x <= hi.x() && pos.y() <= size.y();
 
             UInt32 offset = m_channel_count * (x * size.y() + lo.y());
             Float weight = m_weights[tr];
