@@ -31,7 +31,7 @@ def _render_helper_time_dependent(scene, spp=None, sensor_index=0):
     hist = Histogram(film_size, 1, film.reconstruction_filter())
     hist.clear()
 
-    rays, weights = sensor.sample_ray(
+    rays, weights = sensor.sample_ray_differential(
         time=0,
         sample1=sample,
         sample2=[0, 0],
@@ -54,7 +54,9 @@ def _render_helper_time_dependent(scene, spp=None, sensor_index=0):
 
     del i
 
-    energy = values / (Float(weight) + 1e-8)
+    energy = values / (Float(weight))
+    
+    return energy
     energy /= energy[0]
 
     return 10 * (ek.log(energy) / ek.log(10))

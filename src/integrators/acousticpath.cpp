@@ -30,7 +30,7 @@ public:
     AcousticPathIntegrator(const Properties &props) : Base(props) {}
 
     std::pair<Spectrum, Mask> trace_acoustic_ray(const Scene *scene, Sampler *sampler,
-                                     const Ray3f &ray_,
+                                     const RayDifferential3f &ray_,
                                      Histogram * hist,
                                      const UInt32 band_id,
                                      Mask active) const override {
@@ -91,7 +91,12 @@ public:
                 
                 Float time_frac = (distance / discretizer) * hist->size().x();
 
-                hist->put({ time_frac, band_id }, emission_weight * throughput, hit_emitter);
+                std::cout << "cont(hit_emitter)" << count(hit_emitter) << std::endl;
+                std::cout << "hsum(emitter->eval(si, hit_emitter)[0]): " << hsum(emitter->eval(si, hit_emitter)[0]) << std::endl;
+                //std::cout << "hsum(hit_emitter): " << hsum(Float(hit_emitter)) << std::endl;
+
+                // TODO: include emitter->eval(si, active);?
+                hist->put({ time_frac, band_id }, emission_weight * throughput * emitter->eval(si, hit_emitter), hit_emitter);
 
                 // Trace ray straight through the emitter
                 Ray3f passthru = Ray3f(si.p, ray.d, 0.f, ray.wavelengths);
@@ -139,7 +144,6 @@ public:
 
                 // Logging the result
                 Float time_frac = ((distance + expected_distance) / discretizer) * hist->size().x();
-
                 hist->put({ time_frac, band_id }, expected_throughput, active_e);
 
             }

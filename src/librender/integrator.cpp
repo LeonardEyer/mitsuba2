@@ -357,7 +357,7 @@ MTS_VARIANT
 std::pair<Spectrum, typename TimeDependentIntegrator<Float, Spectrum>::Mask>
     TimeDependentIntegrator<Float, Spectrum>::trace_acoustic_ray(const Scene *scene,
                                                              Sampler *sampler,
-                                                             const Ray3f &ray,
+                                                             const RayDifferential3f &ray,
                                                              Histogram *hist,
                                                              const UInt32 band_id,
                                                              Mask active) const {
@@ -508,7 +508,7 @@ TimeDependentIntegrator<Float, Spectrum>::render_sample(const Scene *scene,
 
     Float wavelength_sample = gather<Float>(m_wavelength_bins, band_id, active);
 
-    auto [ray, ray_weight] = sensor->sample_ray(0, wavelength_sample, { 0, 0 }, direction_sample);
+    auto [ray, ray_weight] = sensor->sample_ray_differential(0, wavelength_sample, { 0, 0 }, direction_sample);
 
     trace_acoustic_ray(scene, sampler, ray, hist, band_id, active);
 
