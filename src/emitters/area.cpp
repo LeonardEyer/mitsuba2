@@ -95,7 +95,7 @@ public:
             si, math::sample_shifted<Wavelength>(wavelength_sample), active);
 
         return std::make_pair(
-            Ray3f(ps.p, Frame3f(ps.n).to_world(local), time, wavelengths),
+            Ray3f(ps.p, si.to_world(local), time, wavelengths),
             unpolarized<Spectrum>(spec_weight) * m_area_times_pi
         );
     }

@@ -21,7 +21,7 @@ public :
         m_components.push_back(m_flags);
     }
 
-    std::pair<BSDFSample3f, Spectrum> sample(const BSDFContext &ctx,
+    std::pair<BSDFSample3f, Spectrum> sample(const BSDFContext &/*ctx*/,
                                              const SurfaceInteraction3f &si,
                                              Float sample1,
                                              const Point2f &sample2,
@@ -80,7 +80,7 @@ public :
         return { bs, result & active };
     }
 
-    Spectrum eval(const BSDFContext &ctx, const SurfaceInteraction3f &si,
+    Spectrum eval(const BSDFContext &/* ctx */, const SurfaceInteraction3f &si,
                   const Vector3f &wo, Mask active) const override {
         MTS_MASKED_FUNCTION(ProfilerPhase::BSDFEvaluate, active);
 
@@ -106,7 +106,7 @@ public :
                       0.f);
     }
 
-    Float pdf(const BSDFContext &ctx, const SurfaceInteraction3f &si,
+    Float pdf(const BSDFContext &/* ctx */, const SurfaceInteraction3f & si,
               const Vector3f &wo, Mask active) const override {
 
         MTS_MASKED_FUNCTION(ProfilerPhase::BSDFEvaluate, active);

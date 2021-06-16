@@ -39,28 +39,22 @@ public:
         //x = abs(x);
         Float res(0);
         res = select(x >= m_blur_size, Float(1), res);
-        res = select(x < m_blur_size, x / m_blur_size, res);
+        res = select(x < m_blur_size, pow(x / m_blur_size, 2), res);
         return res;
     }
 
     Spectrum eval(const SurfaceInteraction3f &si, Mask active) const override {
         MTS_MASKED_FUNCTION(ProfilerPhase::EndpointEvaluate, active);
 
-        //Float r = Float(1) - (pow(si.wi.x(), 2) + pow(si.wi.y(), 2));
-        // std::cout << "r; " << r << std::endl;
-
-        // auto world_si_frame = Frame3f(si.sh_frame.to_world(si.wi));
-        // auto local_p = world_si_frame.to_local(si.n);
-        // Float r2 = Float(1) - (pow(local_p.x(), 2) + pow(local_p.y(), 2));
-        // std::cout << "r2; " << r2 << std::endl;
 
         Float x = Frame3f::cos_theta(si.wi);
-
-
+        x = acos(x) / math::Pi<ScalarFloat>;
+        x = 2.0f * (Float(0.5) - x);
+        x =  smooth_profile(x);
 
         return select(
             Frame3f::cos_theta(si.wi) > 0.f,
-            unpolarized<Spectrum>(m_radiance->eval(si, active)) * smooth_profile(0.5f - (acos(x) / math::Pi<ScalarFloat>)),
+            unpolarized<Spectrum>(m_radiance->eval(si, active)) * x,
             0.f
         );
     }
@@ -82,9 +76,13 @@ public:
         auto [wavelengths, spec_weight] = m_radiance->sample(
             si, math::sample_shifted<Wavelength>(wavelength_sample), active);
 
-        //Float r = Float(1) - (pow(local.x(), 2) + pow(local.y(), 2));
 
-        //spec_weight *= smooth_profile(r);
+        Float x = Frame3f::cos_theta(local);
+        x = acos(x) / math::Pi<ScalarFloat>;
+        x = 2.0f * (Float(0.5) - x);
+        x =  smooth_profile(x);
+
+        spec_weight *= x;
 
         return std::make_pair(
             Ray3f(ps.p, Frame3f(ps.n).to_world(local), time, wavelengths),
@@ -104,8 +102,12 @@ public:
         SurfaceInteraction3f si(ds, it.wavelengths);
         Spectrum spec = m_radiance->eval(si, active) / ds.pdf;
 
-        // Float r = Float(1) - (pow(ds.n.x(), 2) + pow(ds.n.y(), 2));
-        // spec *= smooth_profile(r);
+        Float x = Frame3f::cos_theta(ds.d);
+        x = acos(x) / math::Pi<ScalarFloat>;
+        x = 2.0f * (Float(0.5) - x);
+        x =  smooth_profile(x);
+
+        spec *= x;
 
         ds.object = this;
         return { ds, unpolarized<Spectrum>(spec) & active };

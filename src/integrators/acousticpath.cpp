@@ -1,4 +1,5 @@
 #include <enoki/stl.h>
+#include <iostream>
 #include <mitsuba/core/properties.h>
 #include <mitsuba/core/ray.h>
 #include <mitsuba/render/bsdf.h>
@@ -8,7 +9,7 @@
 #include <random>
 #include <map>
 
-// #define MTS_DEBUG_ACOUSTIC_PATHS "/tmp/ptracer.obj"
+//#define MTS_DEBUG_ACOUSTIC_PATHS "/tmp/ptracer.obj"
 #if defined(MTS_DEBUG_ACOUSTIC_PATHS)
 #include <fstream>
 namespace {
@@ -60,21 +61,54 @@ public:
 
         for (int depth = 1;; ++depth) {
 
+            // ScalarFloat total_rays = count(active) + count(!active);
+
+            // std::cout << "depth: " << depth << std::endl;
+            // std::cout << "avg throughput: " << hsum(throughput[0]) / total_rays << std::endl;
+            // std::cout << "%(any(isnan(ray.d))): " << count(any(isnan(ray.d))) / total_rays << std::endl;
+            // std::cout << "%(active): " << count(active) / total_rays << std::endl;
+            // std::cout << "count(any(isnan(ray.d)) && active): " << count(any(isnan(ray.d)) && active) << std::endl;
+
+            
 #if defined(MTS_DEBUG_ACOUSTIC_PATHS)
-            size_t i  = 0;
 
-            auto origin = ray.o;
-            auto target = si.p;
+            if constexpr (is_cuda_array_v<Float> || is_diff_array_v<Float>) {
 
-            f << "v " << origin.x() << " " << origin.y() << " " << origin.z() << std::endl;
-            f << "v " << target.x() << " " << target.y() << " " << target.z() << std::endl;
-            i += 2;
+                for (size_t n = 0; n < distance.size(); n++) {
+                    size_t i  = 0;
 
-            f << "l";
-            for (size_t j = 1; j <= i; ++j)
-                f << " " << (export_counter + j);
-            f << std::endl;
-            export_counter += i;
+                    auto origin = ray.o;
+                    auto target = si.p;
+
+                    f << "v " << origin.x()[n] << " " << origin.y()[n] << " " << origin.z()[n] << std::endl;
+                    f << "v " << target.x()[n] << " " << target.y()[n] << " " << target.z()[n] << std::endl;
+                    i += 2;
+
+                    f << "l";
+                    for (size_t j = 1; j <= i; ++j)
+                        f << " " << (export_counter + j);
+                    f << std::endl;
+                    export_counter += i;
+                }
+            } else {
+                size_t i  = 0;
+
+                auto origin = ray.o;
+                auto target = si.p;
+
+                f << "v " << origin.x() << " " << origin.y() << " " << origin.z() << std::endl;
+                f << "v " << target.x() << " " << target.y() << " " << target.z() << std::endl;
+                i += 2;
+
+                f << "l";
+                for (size_t j = 1; j <= i; ++j)
+                    f << " " << (export_counter + j);
+                f << std::endl;
+                export_counter += i;
+            }
+            if(count(any(isnan(ray.d))) > 0) {
+                break;
+            }
 #endif
 
            // Update traveled distance
@@ -87,26 +121,28 @@ public:
 
             // ---------------- Intersection with sensors ----------------
             if (any_or<true>(hit_emitter)) {
+
                 // Logging the result
                 
                 Float time_frac = (distance / discretizer) * hist->size().x();
 
-                std::cout << "cont(hit_emitter)" << count(hit_emitter) << std::endl;
-                std::cout << "hsum(emitter->eval(si, hit_emitter)[0]): " << hsum(emitter->eval(si, hit_emitter)[0]) << std::endl;
-                //std::cout << "hsum(hit_emitter): " << hsum(Float(hit_emitter)) << std::endl;
-
                 // TODO: include emitter->eval(si, active);?
                 hist->put({ time_frac, band_id }, emission_weight * throughput * emitter->eval(si, hit_emitter), hit_emitter);
 
-                // Trace ray straight through the emitter
-                Ray3f passthru = Ray3f(si.p, ray.d, 0.f, ray.wavelengths);
-                SurfaceInteraction3f si_passthru = scene->ray_intersect(passthru, hit_emitter);
-                Ray3f new_ray = Ray3f(si_passthru.p, ray.d, 0.f, ray.wavelengths);
-                SurfaceInteraction3f new_si = scene->ray_intersect(new_ray, hit_emitter);
+                // // Trace ray straight through the emitter
+                // Ray3f passthru = Ray3f(si.p, ray.d, 0.f, ray.wavelengths);
+                // SurfaceInteraction3f si_passthru = scene->ray_intersect(passthru, hit_emitter);
+                
+                // Mask hit_emitter_again = neq(si_passthru.emitter(scene), nullptr);
 
-                // New ray and si for passing thru rays
-                masked(ray, hit_emitter) = new_ray;
-                masked(si, hit_emitter) = new_si;
+                // Ray3f new_ray = Ray3f(si_passthru.p, ray.d, 0.f, ray.wavelengths);
+                // SurfaceInteraction3f new_si = scene->ray_intersect(new_ray, hit_emitter_again);
+
+                // // New ray and si for passing thru rays
+                // masked(passthru, hit_emitter_again) = new_ray;
+                // masked(si_passthru, hit_emitter_again) = new_si;
+                // masked(ray, hit_emitter) = passthru;
+                // masked(si, hit_emitter) = si_passthru;
 
             }
             active &= si.is_valid();
