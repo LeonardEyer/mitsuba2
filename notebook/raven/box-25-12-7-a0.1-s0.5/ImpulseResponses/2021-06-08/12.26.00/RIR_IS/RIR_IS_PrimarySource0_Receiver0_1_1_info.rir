@@ -1,0 +1,78 @@
+[Global]
+ProjectName= box-25-12-7-a0.1-s0.520210608T122559
+ProjectPath= D:\Uni\Projects\FabianB\box-25-12-7.rpf
+simulationTime= 1623147960
+simulationDateString= 2021-06-08
+simulationTimeString= 12.26.00
+simulationStep= 0
+simulationIS= 1
+simulationRT= 0
+simulationBinaural= 0
+PerformanceLogged= 0
+AccelerationAlgorithm= BSP
+[Rooms]
+Model= D:\Uni\Projects\FabianB\Shoebox-25-12-7.ac
+UseLevelOfDetail= 0
+LODFrequency= 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+useOnlyOneModelForIS= 0
+Temperature= 20
+Humidity= 50
+Pressure= 101325
+[Portals]
+portalType= 
+portalStatus= 
+[PrimarySource]
+sourceID= 0
+sourceName= source0
+sourceDirectivity= Omnidirectional.daff
+sourceDirectivityDFT= 
+sourcePosition= 20, 7, 2
+sourceViewVector= 1, 0, 0
+sourceUpVector= 0, 0, 1
+[Receiver]
+receiverID= 0
+receiverName= receiver0
+receiverPosition= 9, 6, 1
+receiverViewVector= 1, 0, 0
+receiverUpVector= 0, 0, 1
+[ImageSources]
+ISOrder_PS= 3
+ISOrder_SS= 2
+ISSkipImageSourcesPS= 1
+ISSkipImageSourcesSS= 1
+ISSkipDirectSound= 1
+[RayTracing]
+numberOfParticles_DetectionSphere= 400000
+energyLoss_DetectionSphere= 66
+scatterModel_DetectionSphere= 0
+filterLength_DetectionSphere= 4000
+timeResolution_DetectionSphere= 10
+resolutionAzimuth_DetectionSphere= 10
+resolutionElevation_DetectionSphere= 10
+radius_DetectionSphere= 0.1
+numberOfParticles_Portal= 1000
+energyLoss_Portal= 55
+scatterModel_Portal= 1
+filterLength_Portal= 2000
+timeResolution_Portal= 10
+[Diffraction]
+EdgeDiffractionEnabled= 0
+EdgeDiffractionOrder= 0
+EdgeDiffractionISOrder= 0
+PreEdgeDiffractionISOrder= 0
+DiffractionEdgeNames= 
+DiffractionEdgeStarts= 
+DiffractionEdgeEnds= 
+DiffractionEdgeNorms= 
+DiffractionEdgeThetas= 
+DiffractionEdgeStates= 
+[Filter]
+samplingFrequency= 44100
+filterResolution= 1
+setFixPoissonSequence= 0
+poissonSequenceNumber= 667
+filtersUseDiskInsteadOfRam= 0
+ambisonicsOrder= -1
+numberSpreadedSources= 0
+spreadingAngle= 5
+fftDegreeForWallFilterInterpolation= 8
