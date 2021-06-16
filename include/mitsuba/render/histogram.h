@@ -60,6 +60,8 @@ public:
     /// Clear everything to zero.
     void clear();
 
+    void normalize();
+
     // =============================================================
     //! @{ \name Accesors
     // =============================================================
@@ -95,10 +97,10 @@ public:
     const DynamicBuffer<Float> &data() const { return m_data; }
 
     /// Return the underlying counts for every bin
-    DynamicBuffer<Float> &counts() { return m_counts; }
+    DynamicBuffer<UInt32> &counts() { return m_counts; }
 
     /// Return the underlying counts for every bin (const version)
-    const DynamicBuffer<Float> &counts() const { return m_counts; }
+    const DynamicBuffer<UInt32> &counts() const { return m_counts; }
 
     //! @}
     // =============================================================
@@ -117,7 +119,7 @@ protected:
     ScalarPoint2i m_offset;
     int m_border_size;
     DynamicBuffer<Float> m_data;
-    DynamicBuffer<Float> m_counts;
+    DynamicBuffer<UInt32> m_counts;
     const ReconstructionFilter *m_filter;
     Float *m_weights;
 };

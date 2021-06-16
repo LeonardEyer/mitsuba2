@@ -34,6 +34,8 @@ public:
     /// Merge an histogram into the film.
     virtual void put(const Histogram *hist) = 0;
 
+    virtual ref<Histogram> get_histogram() = 0;
+
     /// Develop the film and write the result to the previously specified filename
     virtual void develop() = 0;
 

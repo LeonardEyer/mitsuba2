@@ -53,6 +53,8 @@ public:
         NotImplementedError("develop");
     }
 
+    ref<Histogram> get_histogram() override { return m_storage; }
+
     ref<Bitmap> bitmap(bool raw = false) override {
 
         if constexpr (is_cuda_array_v<Float>) {

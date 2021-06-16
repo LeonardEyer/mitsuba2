@@ -9,7 +9,7 @@
 #include <random>
 #include <map>
 
-//#define MTS_DEBUG_ACOUSTIC_PATHS "/tmp/ptracer.obj"
+//define MTS_DEBUG_ACOUSTIC_PATHS "/tmp/ptracer.obj"
 #if defined(MTS_DEBUG_ACOUSTIC_PATHS)
 #include <fstream>
 namespace {
@@ -40,7 +40,22 @@ public:
 #if defined(MTS_DEBUG_ACOUSTIC_PATHS)
         auto mode = (export_counter == 0 ? std::ios::out : std::ios::app);
         std::ofstream f(MTS_DEBUG_ACOUSTIC_PATHS, mode);
-        f << "o path" << path_counter++ << std::endl;
+        typedef std::array<float, 3> Point;
+        typedef std::pair<Point, Point> Line;
+        typedef std::vector<Line> Path;
+        
+        std::vector<Path> paths;
+
+        if constexpr (is_cuda_array_v<Float> || is_diff_array_v<Float>) {
+            for (size_t i = 0; i < band_id.size(); i++) {
+                Path p;
+                paths.push_back(p);
+            }
+
+        } else {
+            f << "o path" << path_counter++ << std::endl;
+        }
+        
 #endif
 
         Ray3f ray = ray_;
@@ -51,7 +66,7 @@ public:
         // MIS weight for intersected emitters (set by prev. iteration)
         Float emission_weight(1.f);
 
-        Spectrum throughput(1.f);
+        Spectrum throughput(1000.f);
 
         // ---------------------- First intersection ----------------------
 
@@ -59,36 +74,46 @@ public:
         Mask valid_ray          = si.is_valid();
         EmitterPtr emitter      = si.emitter(scene);
 
+        Mask hit_emitter_before = false;
+
         for (int depth = 1;; ++depth) {
+
+            // std::cout << "depth: " << depth << std::endl;
+            // std::cout << "throughput: " << throughput[0] << std::endl;
+            // std::cout << "emission_weight: " << emission_weight << std::endl;
+            // std::cout << "distance: " << distance << std::endl;
+            // std::cout << "any(isnan(ray.d)): " << any(isnan(ray.d)) << std::endl;
 
             // ScalarFloat total_rays = count(active) + count(!active);
 
             // std::cout << "depth: " << depth << std::endl;
-            // std::cout << "avg throughput: " << hsum(throughput[0]) / total_rays << std::endl;
+            // std::cout << "avg throughput: " << hsum(throughput[0]) / count(active) << std::endl;
             // std::cout << "%(any(isnan(ray.d))): " << count(any(isnan(ray.d))) / total_rays << std::endl;
             // std::cout << "%(active): " << count(active) / total_rays << std::endl;
             // std::cout << "count(any(isnan(ray.d)) && active): " << count(any(isnan(ray.d)) && active) << std::endl;
 
             
 #if defined(MTS_DEBUG_ACOUSTIC_PATHS)
+            // if(count(any(isnan(ray.d))) > 0) {
+            //     break;
+            // }
 
             if constexpr (is_cuda_array_v<Float> || is_diff_array_v<Float>) {
 
-                for (size_t n = 0; n < distance.size(); n++) {
-                    size_t i  = 0;
+                for (size_t n = 0; n < band_id.size(); n++) {
+                    size_t s = n;
 
                     auto origin = ray.o;
                     auto target = si.p;
 
-                    f << "v " << origin.x()[n] << " " << origin.y()[n] << " " << origin.z()[n] << std::endl;
-                    f << "v " << target.x()[n] << " " << target.y()[n] << " " << target.z()[n] << std::endl;
-                    i += 2;
+                    if (origin.x().size() == 1) {
+                        s = 0;
+                    }
 
-                    f << "l";
-                    for (size_t j = 1; j <= i; ++j)
-                        f << " " << (export_counter + j);
-                    f << std::endl;
-                    export_counter += i;
+                    Point a = { origin.x()[s], origin.y()[s], origin.z()[s] };
+                    Point b = { target.x()[s], target.y()[s], target.z()[s] };
+                    Line l = { a, b };
+                    paths.at(n).push_back(l);
                 }
             } else {
                 size_t i  = 0;
@@ -106,43 +131,27 @@ public:
                 f << std::endl;
                 export_counter += i;
             }
-            if(count(any(isnan(ray.d))) > 0) {
-                break;
-            }
 #endif
 
            // Update traveled distance
            distance += si.t;
-
-            // medium absorption operator
-            //throughput *= enoki::exp( - 0.1151f * alpha * si.t);
 
            Mask hit_emitter = neq(emitter, nullptr);
 
             // ---------------- Intersection with sensors ----------------
             if (any_or<true>(hit_emitter)) {
 
+                //std::cout << "count(hit_emitter) = " << count(hit_emitter) << std::endl;
+
                 // Logging the result
-                
                 Float time_frac = (distance / discretizer) * hist->size().x();
 
-                // TODO: include emitter->eval(si, active);?
-                hist->put({ time_frac, band_id }, emission_weight * throughput * emitter->eval(si, hit_emitter), hit_emitter);
+                Mask valid_hit = hit_emitter && !hit_emitter_before;
 
-                // // Trace ray straight through the emitter
-                // Ray3f passthru = Ray3f(si.p, ray.d, 0.f, ray.wavelengths);
-                // SurfaceInteraction3f si_passthru = scene->ray_intersect(passthru, hit_emitter);
-                
-                // Mask hit_emitter_again = neq(si_passthru.emitter(scene), nullptr);
+                //hist->put({ time_frac, band_id }, emission_weight * throughput * emitter->eval(si, hit_emitter), hit_emitter);
+                hist->put({ time_frac, band_id }, throughput, valid_hit);
 
-                // Ray3f new_ray = Ray3f(si_passthru.p, ray.d, 0.f, ray.wavelengths);
-                // SurfaceInteraction3f new_si = scene->ray_intersect(new_ray, hit_emitter_again);
-
-                // // New ray and si for passing thru rays
-                // masked(passthru, hit_emitter_again) = new_ray;
-                // masked(si_passthru, hit_emitter_again) = new_si;
-                // masked(ray, hit_emitter) = passthru;
-                // masked(si, hit_emitter) = si_passthru;
+                hit_emitter_before = hit_emitter;
 
             }
             active &= si.is_valid();
@@ -175,11 +184,16 @@ public:
 
                 Float mis = select(ds.delta, 1.f, mis_weight(ds.pdf, bsdf_pdf));
 
-                Spectrum expected_throughput = throughput * mis * bsdf_val * emitter_val;
-                Float expected_distance = ds.dist;
+                Spectrum expected_throughput = throughput * bsdf_val * mis; // * mis * emitter_val;
+
+                std::cout << "throughput: " << throughput[0] << std::endl;
+                std::cout << "expected_throughput: " << expected_throughput[0] << std::endl;
+                std::cout << "bsdf_val: " << bsdf_val[0] << std::endl;
+                
 
                 // Logging the result
-                Float time_frac = ((distance + expected_distance) / discretizer) * hist->size().x();
+                Float time_frac = ((distance + ds.dist) / discretizer) * hist->size().x();
+                std::cout << "time_frac: " << time_frac << std::endl;
                 hist->put({ time_frac, band_id }, expected_throughput, active_e);
 
             }
@@ -189,6 +203,9 @@ public:
             // Sample BSDF * cos(theta)
             auto [bs, bsdf_val] = bsdf->sample(ctx, si, sampler->next_1d(active),
                                                sampler->next_2d(active), active);
+
+
+            //std::cout << "bsdf_val: " << bsdf_val << std::endl;
 
             throughput = throughput * bsdf_val;
             active &= any(neq(throughput, 0.f));
@@ -201,22 +218,50 @@ public:
 
             emitter = si_bsdf.emitter(scene, active);
 
-            /* Determine probability of having sampled that same
-               direction using emitter sampling. */
-            DirectionSample3f ds(si_bsdf, si);
-            ds.object = emitter;
+            // /* Determine probability of having sampled that same
+            //    direction using emitter sampling. */
+            // DirectionSample3f ds(si_bsdf, si);
+            // ds.object = emitter;
 
-            if (any_or<true>(neq(emitter, nullptr))) {
-                Float emitter_pdf =
-                    select(neq(emitter, nullptr) && !has_flag(bs.sampled_type, BSDFFlags::Delta),
-                           scene->pdf_emitter_direction(si, ds),
-                           0.f);
+            // if (any_or<true>(neq(emitter, nullptr))) {
+            //     Float emitter_pdf =
+            //         select(neq(emitter, nullptr) && !has_flag(bs.sampled_type, BSDFFlags::Delta),
+            //                scene->pdf_emitter_direction(si, ds),
+            //                0.f);
 
-                emission_weight = mis_weight(bs.pdf, emitter_pdf);
-            }
+            //     emission_weight = mis_weight(bs.pdf, emitter_pdf);
+            // }
 
             si = std::move(si_bsdf);
         }
+#if defined(MTS_DEBUG_ACOUSTIC_PATHS)
+            if constexpr (is_cuda_array_v<Float> || is_diff_array_v<Float>) {
+
+                if (count(any(isnan(ray.d)) && active) > 0) {
+                    Mask active_and_nan_d = any(isnan(ray.d) && active);
+                }
+                for (auto p : paths) {
+                    f << "o path" << path_counter++ << std::endl;
+                    size_t d = 0;
+
+                    for (auto l : p) {
+                        size_t i  = 0;
+                        f << "g depth" << d++ << std::endl;
+
+                        f << "v " << l.first[0] << " " << l.first[1] << " " << l.first[2] << std::endl;
+                        f << "v " << l.second[0] << " " << l.second[1] << " " << l.second[2] << std::endl;
+                        i += 2;
+
+                        f << "l";
+                        for (size_t j = 1; j <= i; ++j)
+                            f << " " << (export_counter + j);
+                        f << std::endl;
+                        export_counter += i;
+                    }
+                }
+            }
+#endif
+
 
         return { throughput, valid_ray };
     }

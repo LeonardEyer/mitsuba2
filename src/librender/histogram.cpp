@@ -35,24 +35,36 @@ MTS_VARIANT void Histogram<Float, Spectrum>::clear() {
 
     if constexpr (!is_cuda_array_v<Float>) {
         memset(m_data.data(), 0, size * sizeof(ScalarFloat));
-        memset(m_counts.data(), 0, size * sizeof(ScalarFloat));
+        memset(m_counts.data(), 0, size * sizeof(ScalarUInt32));
 
-        if (m_border_size == 0) return;
+        // if (m_border_size == 0) return;
 
-        for (int i = 0; i < m_border_size; ++i) {
-            m_data.data()[i] = 1;
-            m_counts.data()[i] = 1;
-        }
+        // for (int i = 0; i < m_border_size; ++i) {
+        //     m_data.data()[i] = 1;
+        //     m_counts.data()[i] = 1;
+        // }
     } else {
         m_data = zero<DynamicBuffer<Float>>(size);
-        m_counts = zero<DynamicBuffer<Float>>(size);
+        m_counts = zero<DynamicBuffer<UInt32>>(size);
 
-        if (m_border_size == 0) return;
+        // if (m_border_size == 0) return;
 
-        UInt32 idx = arange<UInt32>(m_border_size);
-        scatter_add(m_data, Float(1.), idx);
-        scatter_add(m_counts, Float(1.), idx);
+        // UInt32 idx = arange<UInt32>(m_border_size);
+        // scatter_add(m_data, Float(1.), idx);
+        // scatter_add(m_counts, Float(1.), idx);
     }
+}
+
+MTS_VARIANT void Histogram<Float, Spectrum>::normalize() {
+
+    size_t size = m_channel_count * hprod(m_size + 2 * ScalarVector2i(m_border_size, 0));
+    auto idx = arange<UInt32>(size);
+
+    auto d = gather<Float>(m_data, idx) / gather<UInt32>(m_counts, idx);
+
+    scatter(m_data, d, idx);
+    scatter(m_counts, UInt32(1), idx);
+
 }
 
 MTS_VARIANT void Histogram<Float, Spectrum>::set_size(const ScalarVector2i &size) {
@@ -64,7 +76,7 @@ MTS_VARIANT void Histogram<Float, Spectrum>::set_size(const ScalarVector2i &size
 
     // Allocate empty buffer
     m_data = empty<DynamicBuffer<Float>>(hprod(total_size));
-    m_counts = empty<DynamicBuffer<Float>>(hprod(total_size));
+    m_counts = empty<DynamicBuffer<UInt32>>(hprod(total_size));
 }
 
 MTS_VARIANT typename Histogram<Float, Spectrum>::Mask
@@ -106,14 +118,14 @@ Histogram<Float, Spectrum>::put(const Point2f &pos_, const Float *value,
             }
         }
 
-        Float wx(0);
-        for (uint32_t i = 0; i < n; ++i) {
-            wx += m_weights[i];
-        }
+        // Float wx(0);
+        // for (uint32_t i = 0; i < n; ++i) {
+        //     wx += m_weights[i];
+        // }
 
-        Float factor = rcp(wx);
-        for (uint32_t i = 0; i < n; ++i)
-            m_weights[i] *= factor;
+        // Float factor = rcp(wx);
+        // for (uint32_t i = 0; i < n; ++i)
+        //     m_weights[i] *= factor;
 
         ENOKI_NOUNROLL for (uint32_t tr = 0; tr < n; ++tr) {
             UInt32 x = lo.x() + tr;
@@ -124,7 +136,7 @@ Histogram<Float, Spectrum>::put(const Point2f &pos_, const Float *value,
 
             ENOKI_NOUNROLL for (uint32_t k = 0; k < m_channel_count; ++k) {
                 scatter_add(m_data, value[k] * weight, offset + k, enabled);
-                scatter_add(m_counts, Float(1) * weight, offset + k, enabled);
+                scatter_add(m_counts, UInt32(1), offset + k, enabled);
             }
         }
     } else {
@@ -135,7 +147,7 @@ Histogram<Float, Spectrum>::put(const Point2f &pos_, const Float *value,
 
         ENOKI_NOUNROLL for (uint32_t k = 0; k < m_channel_count; ++k) {
             scatter_add(m_data, value[k], offset + k, enabled);
-            scatter_add(m_counts, Float(1), offset + k, enabled);
+            scatter_add(m_counts, UInt32(1), offset + k, enabled);
         }
     }
 
@@ -159,7 +171,7 @@ MTS_VARIANT void Histogram<Float, Spectrum>::put(const Histogram *hist) {
             hist->data(), source_size, data(), target_size, ScalarVector2i(0),
             source_offset - target_offset, source_size, m_channel_count);
 
-        accumulate_2d<Float &, const Float &>(
+        accumulate_2d<UInt32 &, const UInt32 &>(
             hist->counts(), source_size, counts(), target_size, ScalarVector2i(0),
             source_offset - target_offset, source_size, m_channel_count);
 

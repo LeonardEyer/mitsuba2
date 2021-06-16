@@ -2303,6 +2303,8 @@ sensor)doc";
 
 static const char *__doc_mitsuba_Film_to_string = R"doc(//! @})doc";
 
+static const char *__doc_mitsuba_Film_get_histogram = R"doc(//! @})doc";
+
 static const char *__doc_mitsuba_FilterBoundaryCondition =
 R"doc(When resampling data to a different resolution using
 Resampler::resample(), this enumeration specifies how lookups

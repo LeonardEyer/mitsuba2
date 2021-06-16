@@ -445,10 +445,17 @@ TimeDependentIntegrator<Float, Spectrum>::render(Scene *scene, Sensor *sensor) {
         ref<Histogram> hist = new Histogram(film_size, 1, film->reconstruction_filter());
         hist->clear();
 
+
         for (size_t i = 0; i < n_passes; i++) {
-            render_sample(scene, sensor, sampler, hist, band_id);
+            ref<Histogram> tmp_hist = new Histogram(film_size, 1, film->reconstruction_filter());
+            tmp_hist->clear();
+            render_sample(scene, sensor, sampler, tmp_hist, band_id);
             progress->update( (i + 1) / (ScalarFloat) n_passes);
+            //tmp_hist->normalize();
+            hist->put(tmp_hist);
         }
+
+        std::cout << "total_sample_count: " << total_sample_count << std::endl;
 
         film->put(hist);
     }

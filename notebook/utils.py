@@ -177,3 +177,16 @@ def plot_bin_hist(values, n_bins):
     
     print(dict(zip(unique_padded, counts_padded)))
     plt.bar(unique_padded, counts_padded)
+    
+
+def db_pd(x):
+    energy = x * 0.
+    # Compute the whole integral
+    total = np.trapz(x, axis=0)**2
+    for i in range(x.shape[0]):
+        energy.iloc[i] = (np.trapz(x[i:], axis=0)**2 / total)
+
+    # in dB
+    energy_db = 10 * np.log10(energy)
+    
+    return energy_db
