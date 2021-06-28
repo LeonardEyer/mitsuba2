@@ -58,12 +58,13 @@ public:
 
     Spectrum eval(const BSDFContext & /*ctx*/, const SurfaceInteraction3f & /*si*/,
                   const Vector3f & /*wo*/, Mask /*active*/) const override {
-        return 1.f;
+
+        return 0.f;
     }
 
     Float pdf(const BSDFContext & /*ctx*/, const SurfaceInteraction3f & /*si*/,
               const Vector3f & /*wo*/, Mask /*active*/) const override {
-        return 1.f;
+        return 0.f;
     }
 
     Spectrum eval_null_transmission(const SurfaceInteraction3f & /*si*/,
