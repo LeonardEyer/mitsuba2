@@ -136,7 +136,7 @@ def test03_sample(variant_scalar_acoustic):
 
                 if is_specular:
                     assert bs_a.wo == bs_b.wo
-                    assert ek.allclose(weight_a, weight_b * (1 - scattering))
+                    assert ek.allclose(weight_a, weight_b)
                 else:
                     assert bs_a.wo == bs_c.wo
-                    assert ek.allclose(weight_a, weight_c * scattering)
+                    assert ek.allclose(weight_a, weight_c)
