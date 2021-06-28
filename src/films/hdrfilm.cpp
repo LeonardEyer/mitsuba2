@@ -255,6 +255,10 @@ public:
         return true;
     }
 
+    ref<Histogram> get_histogram() override { 
+        NotImplementedError("Histogram is only used for tape");
+    }
+
     ref<Bitmap> bitmap(bool raw = false) override {
         if constexpr (is_cuda_array_v<Float>) {
             cuda_eval();
