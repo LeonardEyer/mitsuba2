@@ -66,7 +66,7 @@ public:
         // MIS weight for intersected emitters (set by prev. iteration)
         Float emission_weight(1.f);
 
-        Spectrum throughput(1000.f);
+        Spectrum throughput(1.f);
 
         // ---------------------- First intersection ----------------------
 
@@ -149,7 +149,7 @@ public:
                 Mask valid_hit = hit_emitter && !hit_emitter_before;
 
                 //hist->put({ time_frac, band_id }, emission_weight * throughput * emitter->eval(si, hit_emitter), hit_emitter);
-                hist->put({ time_frac, band_id }, throughput, valid_hit);
+                hist->put({ time_frac, band_id }, emission_weight * throughput, valid_hit);
 
                 hit_emitter_before = hit_emitter;
 
@@ -186,14 +186,14 @@ public:
 
                 Spectrum expected_throughput = throughput * bsdf_val * mis; // * mis * emitter_val;
 
-                std::cout << "throughput: " << throughput[0] << std::endl;
-                std::cout << "expected_throughput: " << expected_throughput[0] << std::endl;
-                std::cout << "bsdf_val: " << bsdf_val[0] << std::endl;
+                // std::cout << "throughput: " << throughput[0] << std::endl;
+                // std::cout << "expected_throughput: " << expected_throughput[0] << std::endl;
+                // std::cout << "bsdf_val: " << bsdf_val[0] << std::endl;
                 
 
                 // Logging the result
                 Float time_frac = ((distance + ds.dist) / discretizer) * hist->size().x();
-                std::cout << "time_frac: " << time_frac << std::endl;
+                // std::cout << "time_frac: " << time_frac << std::endl;
                 hist->put({ time_frac, band_id }, expected_throughput, active_e);
 
             }
@@ -205,7 +205,8 @@ public:
                                                sampler->next_2d(active), active);
 
 
-            //std::cout << "bsdf_val: " << bsdf_val << std::endl;
+            // std::cout << "bsdf_val[0]: " << bsdf_val[0] << std::endl;
+            //std::cout << "avg bsdf_val: " << hsum(bsdf_val[0]) / count(active) << std::endl;
 
             throughput = throughput * bsdf_val;
             active &= any(neq(throughput, 0.f));
@@ -218,19 +219,19 @@ public:
 
             emitter = si_bsdf.emitter(scene, active);
 
-            // /* Determine probability of having sampled that same
-            //    direction using emitter sampling. */
-            // DirectionSample3f ds(si_bsdf, si);
-            // ds.object = emitter;
+            /* Determine probability of having sampled that same
+               direction using emitter sampling. */
+            DirectionSample3f ds(si_bsdf, si);
+            ds.object = emitter;
 
-            // if (any_or<true>(neq(emitter, nullptr))) {
-            //     Float emitter_pdf =
-            //         select(neq(emitter, nullptr) && !has_flag(bs.sampled_type, BSDFFlags::Delta),
-            //                scene->pdf_emitter_direction(si, ds),
-            //                0.f);
+            if (any_or<true>(neq(emitter, nullptr))) {
+                Float emitter_pdf =
+                    select(neq(emitter, nullptr) && !has_flag(bs.sampled_type, BSDFFlags::Delta),
+                           scene->pdf_emitter_direction(si, ds),
+                           0.f);
 
-            //     emission_weight = mis_weight(bs.pdf, emitter_pdf);
-            // }
+                emission_weight = mis_weight(bs.pdf, emitter_pdf);
+            }
 
             si = std::move(si_bsdf);
         }
